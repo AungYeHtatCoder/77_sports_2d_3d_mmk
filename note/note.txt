@@ -1,0 +1,22 @@
+The end dates for each month can vary between 28 and 31 days. Typically, the end dates for each month are as follows:
+
+January: 31
+February: 28 (29 in a leap year)
+March: 31
+April: 30
+May: 31
+June: 30
+July: 31
+August: 31
+September: 30
+October: 31
+November: 30
+December: 31
+Here is a simple way to remember which months have 31 days and which have 30 (apart from February):
+
+All the months with 31 days are: January, March, May, July, August, October, and December.
+All the months with 30 days are: April, June, September, and November.
+February has 28 days, but in a leap year, it has 29 days.
+Leap years are every 4 years (like 2020, 2024, 2028), except for years that are divisible by 100 but not divisible by 400. For example, the year 1900 was not a leap year, but the year 2000 was.
+
+The rhyme "Thirty days hath September, April, June, and November; all the rest have thirty-one, excepting February alone" can help you remember the number of days in each month.

@@ -1,0 +1,74 @@
+ssh root@ (ip)
+sudo apt update 
+// install Nginx
+sudo apt install nginx
+// install mysql
+sudo apt install mysql-server
+sudo apt install php-mbstring php-xml php-bcmath php-curl
+//install composer
+sudo apt install php-cli-unzip
+sudo php /tmp/composer-set.php --install-dir/usr/local/bin --filename=composer
+// install laravel dependecies 
+sudo apt install php-mbstring php-xml php-bcmath
+// create db
+sudo mysql 
+CREATE DATABASE laraveldatabases;
+CREATE USER 'laraveldatabase_user'@%' IDENTIFIED WITH mysql_native_password BY 'password' GRANT ALL ON laraveldatabase.* TO 'laraveldatabase_user'@'%';
+mysql -u laraveldatabase_user -p
+SHOW DATABASES;
+
+// thaikey.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDXsmvmwq4QNv//MOeCcGIEygkN3TkV/YYARbOltbsPV9RYulVoHrTu2/U0nslCTbQ0lzc9Lp6RIh1s/p23wDfwdA4zBvJFWwIuQDdSgvPbuG+kp4sV+bk0ajSx62SUI/P/JGbE1Wi1QPY/a+dtWY6vqydZ6PpmUkPESMSOxxMvRvBIXWsLSj0esW6c8NpTwXfsWX0Z4WHYjvHUYjQjLFYiiVND1Zh++RqI9WNZcdllsor0OesVhNTJVvVh6cD1XmQKOCyEJozmtnaiXZUoeuAFG6tYmeHXMRJwcHLFUuR7xR5CS19LBAyT6VZbPjNY5hr6wW3WJpInJqEZrIZMHPXVIamdELmS6WNJSWbF3w3I6JPCzwFQPfJ+2xkSeqWZzSqQx6qJyxDXY00kDZd+iimq3yw4xjent/S95dK1eMq6N/dbJNJH/RaZhYQM5iOhN1FRaXdALJXhlPiAz0B3HwYnz6hA5i0/dqcAN+Fw+nWyjLtZiAegqIrjzELqseIScFU= linhtetaung@DESKTOP-KPDGMDQ
+
+//
+
+// thaikey
+cat thaikey
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----
+// 
+
+user - amk
+pwd -	amkvip
+
+sudo systemctl restart nginx
+sudo systemctl restart php8.0-fpm
+curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
