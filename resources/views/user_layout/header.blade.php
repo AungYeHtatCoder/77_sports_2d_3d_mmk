@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thailotto123</title>
+    <title>77Sport 2D|3D</title>
     <!-- icon -->
-    <link rel="icon" href="{{ asset('user_app/assets/img/logo.png') }}" />
+    <link rel="icon" href="{{ asset('assets/img/logo1.jpg') }}" />
     <!-- bootstrap link -->
     <link rel="stylesheet" href="{{ asset('user_app/assets/css/bootstrap.min.css') }}" />
     <!-- custom css -->
