@@ -42,7 +42,6 @@ class ThreeDController extends Controller
     Log::info($request->all());
 
     $validated = $request->validate([
-        'currency' => 'mmk',
         'totalAmount' => 'required|numeric|min:1',
         'amounts' => 'required|array',
         'amounts.*.num' => 'required|integer',
@@ -82,7 +81,7 @@ class ThreeDController extends Controller
         foreach ($request->amounts as $item) {
             $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);
             // $sub_amount = $request->currency === 'baht' ? $item['amount'] * $rate : $item['amount'];
-            $sub_amount = in_array($request->currency, ['baht', 'bath']) ? $item['amount'] * $rate : $item['amount'];
+            $sub_amount = $item['amount'];
             
             $three_digit = ThreeDigit::where('three_digit', $num)->firstOrFail();
 
