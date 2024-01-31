@@ -39,19 +39,18 @@ class WalletController extends Controller
     public function deposit(DepositRequest $request)
     {
         $request->validated($request->all());
-        $rate = Currency::latest()->first()->rate;
 
         CashInRequest::create([
             'payment_method' => $request->payment_method,
             'last_6_num' => $request->last_6_num,
             'amount' => $request->amount,
             'phone' => $request->phone,
-            'currency' => $request->currency, 
+            'currency' => "kyat", 
             'user_id' => auth()->user()->id,
         ]);
         TransferLog::create([
             'user_id' => auth()->user()->id,
-            'amount' => $request->currency == "baht" ? $request->amount * $rate : $request->amount,
+            'amount' => $request->amount,
             'type' => 'Deposit',
             'created_by' => null
         ]);
@@ -67,7 +66,7 @@ class WalletController extends Controller
             'amount' => $request->amount,
             'last_6_num' => $request->last_6_num,
             'currency' => $request->currency,
-            'rate' => $rate,
+            'rate' => 1,
         ];
         Mail::to($toMail)->send(new CashRequest($mail));
         return $this->success([
@@ -78,15 +77,6 @@ class WalletController extends Controller
     public function withdraw(WithdrawRequest $request)
     {
         $request->validated($request->all());
-        if($request->currency == "baht"){
-            $rate = Currency::latest()->first()->rate;
-            $balance = auth()->user()->balance / $rate;
-            if($request->amount > $balance){
-                return response()->json([
-                    'message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'
-                ], 401);
-            }
-        }
         if($request->amount > auth()->user()->balance){
             return response()->json([
                 'message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'
@@ -98,24 +88,17 @@ class WalletController extends Controller
             'phone' => $request->phone,
             'name' => $request->name,
             'user_id' => auth()->id(),
-            'currency' => $request->currency,
+            'currency' => "kyat",
         ]);
         TransferLog::create([
             'user_id' => auth()->user()->id,
-            'amount' => $request->currency == "baht" ? $request->amount * $rate : $request->amount,
+            'amount' => $request->amount,
             'type' => 'Withdraw',
             'created_by' => null
         ]);
         $user = User::find(auth()->id());
-        $rate = Currency::latest()->first()->rate;
-
-        if($request->currency == "baht"){
-            $user->balance -= $request->amount * $rate;
-            $user->save();
-        }else{
-            $user->balance -= $request->amount;
-            $user->save();
-        }
+        $user->balance -= $request->amount;
+        $user->save();
 
         $toMail = "mobiledeveloper117@gmail.com";
         $mail = [
@@ -126,8 +109,8 @@ class WalletController extends Controller
             'payment_method'=> $request->payment_method,
             'phone' => $request->phone,
             'amount' => $request->amount,
-            'currency' => $request->currency,
-            'rate' => $rate,
+            'currency' => "kyat",
+            'rate' => 1,
         ];
         Mail::to($toMail)->send(new CashRequest($mail));
         return $this->success([
