@@ -40,11 +40,9 @@ class ThreeDController extends Controller
     public function play(Request $request)
 {
     Log::info($request->all());
-    $rate = Currency::latest()->first()->rate;
-    Log::info('Currency rate: ' . $rate);
 
     $validated = $request->validate([
-        'currency' => 'required|string|in:baht,bath,mmk',
+        'currency' => 'mmk',
         'totalAmount' => 'required|numeric|min:1',
         'amounts' => 'required|array',
         'amounts.*.num' => 'required|integer',
@@ -53,7 +51,7 @@ class ThreeDController extends Controller
 
     // Convert total amount based on currency
 //    $totalAmount = $request->currency === 'baht' ? $request->totalAmount * $rate : $request->totalAmount;
-$totalAmount = in_array($request->currency, ['baht', 'bath']) ? $request->totalAmount * $rate : $request->totalAmount;
+    $totalAmount = $request->totalAmount;
 
     DB::beginTransaction();
 
