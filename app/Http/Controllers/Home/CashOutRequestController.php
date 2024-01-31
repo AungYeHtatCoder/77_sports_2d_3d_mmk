@@ -36,7 +36,6 @@ class CashOutRequestController extends Controller
      */
     public function store(Request $request)
     {
-        $rate = Currency::latest()->first()->rate;
         $request->validate([
             'payment_method' => 'required',
             'amount' => 'required|numeric',
@@ -44,12 +43,7 @@ class CashOutRequestController extends Controller
             'name' => 'required|string',
             'currency' => 'required'
         ]);
-        if($request->currency == "baht"){
-            $balance = auth()->user()->balance / $rate;
-            if($request->amount > $balance){
-                return redirect()->back()->with('error', 'Insufficient balance');
-            }
-        }
+
         if($request->amount > auth()->user()->balance){
             return redirect()->back()->with('error', 'Insufficient balance');
         }
@@ -59,22 +53,17 @@ class CashOutRequestController extends Controller
             'phone' => $request->phone,
             'name' => $request->name,
             'user_id' => auth()->id(),
-            'currency' => $request->currency,
+            'currency' => 'mmk',
         ]);
         TransferLog::create([
             'user_id' => auth()->user()->id,
-            'amount' => $request->currency == "baht" ? $request->amount * $rate : $request->amount,
+            'amount' => $request->amount,
             'type' => 'Withdraw',
             'created_by' => null
         ]);
         $user = User::find(auth()->id());
-        if($request->currency == "baht"){
-            $user->balance -= $request->amount * $rate;
-            $user->save();
-        }else{
-            $user->balance -= $request->amount;
-            $user->save();
-        }
+        $user->balance -= $request->amount;
+        $user->save();
         
         $toMail = "delightdeveloper4@gmail.com";
         
@@ -87,7 +76,7 @@ class CashOutRequestController extends Controller
             'phone' => $request->phone,
             'amount' => $request->amount,
             'currency' => $request->currency,
-            'rate' => $rate,
+            'rate' => 1,
         ];
         // return $message;
         Mail::to($toMail)->send(new CashRequest($mail));
@@ -124,15 +113,9 @@ class CashOutRequestController extends Controller
     public function reject($id)
     {
         $cash = CashOutRequest::find($id);
-        $currency = $cash->currency;
         $amount = $cash->amount;
-        $rate = Currency::latest()->first()->rate;
-        
-        if($currency == 'baht'){
-            User::where('id', $cash->user_id)->increment('balance', $amount * $rate);
-        }else{
-            User::where('id', $cash->user_id)->increment('balance', $amount);
-        }
+
+        User::where('id', $cash->user_id)->increment('balance', $amount);
 
         $cash->status = 2;
         $cash->save();
