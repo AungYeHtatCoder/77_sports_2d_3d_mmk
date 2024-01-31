@@ -55,7 +55,7 @@
         <p>Your request status: <strong>{{ $mail['status'] }}</strong></p>
 
             <p>Username: <span style="color: goldenrod;">{{ $mail['name'] }}</span></p>
-            <p>Balance: <span style="color: goldenrod;">{{ number_format($mail['balance']) }} MMK or {{ number_format($mail['balance']/$mail['rate']) }} Baht</span></p>
+            <p>Balance: <span style="color: goldenrod;">{{ number_format($mail['balance']) }} MMK</span></p>
 
         <table>
             <tr>
