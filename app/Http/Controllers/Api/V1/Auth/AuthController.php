@@ -18,7 +18,8 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $request->validated($request->all());
-        $credentials = $request->only('country_code', 'phone', 'password');
+        $country_code = "+95";
+        $credentials = $request->only($country_code, 'phone', 'password');
         if (Auth::attempt($credentials)) {
             $user = User::where('phone', $request->phone)->first();
             return $this->success([
@@ -44,7 +45,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'country_code' => $request->country_code,
+            'country_code' => "+95",
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
