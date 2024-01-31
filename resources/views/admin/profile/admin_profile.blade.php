@@ -54,17 +54,17 @@
                     <div class="card-body pt-0 p-3 text-center">
                         <h6 class="text-center mb-0">Total Balance</h6>
                         <div class="d-flex justify-content-center">
-                            <img src="{{ asset('assets/img/mmflag.png') }}" width="40px" alt="" class="d-block m-1 border border-3 border-success" id="mmk" style="cursor: pointer;">
-                            <img src="{{ asset('assets/img/thai.webp') }}" width="40px" alt="" class="d-block m-1" id="baht" style="cursor: pointer;">
+                            {{-- <img src="{{ asset('assets/img/mmflag.png') }}" width="40px" alt="" class="d-block m-1 border border-3 border-success" id="mmk" style="cursor: pointer;"> --}}
+                            {{-- <img src="{{ asset('assets/img/thai.webp') }}" width="40px" alt="" class="d-block m-1" id="baht" style="cursor: pointer;"> --}}
                         </div>
                         <!-- <span class="text-xs">Freelance Payment</span> -->
                         <hr class="horizontal dark my-3">
                         <h5 class="mb-0 mmk"> {{ number_format(Auth::user()->balance) }} MMK</h5>
-                        @php
+                        {{-- @php
                             $balance = Auth::user()->balance;
                             $balance_baht = $balance / $currency->rate;
                         @endphp
-                        <h5 class="mb-0 d-none baht"> {{ number_format($balance_baht) }} BAHT</h5>
+                        <h5 class="mb-0 d-none baht"> {{ number_format($balance_baht) }} BAHT</h5> --}}
                     </div>
                 </div>
                 {{-- <div class="card-body">

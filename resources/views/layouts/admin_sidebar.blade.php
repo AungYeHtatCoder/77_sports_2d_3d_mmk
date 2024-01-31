@@ -39,12 +39,6 @@
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link text-white " href="{{ route('admin.currency.index') }}">
-              <span class="sidenav-mini-icon"> <i class="fas fa-dollar"></i> </span>
-              <span class="sidenav-normal  ms-2  ps-1"> Currency </span>
-            </a>
-          </li>
-          <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.games.index') }}">
               <span class="sidenav-mini-icon"> <i class="fa-solid fa-gamepad"></i> </span>
               <span class="sidenav-normal  ms-2  ps-1"> Game Links </span>
@@ -139,17 +133,6 @@
       </a>
     </li>
     @endcan
-    {{-- <li class="nav-item ">
-      <a class="nav-link text-white " data-bs-toggle="collapse" aria-expanded="false" href="#userRequest">
-        <i class="fas fa-envelope"></i>
-        <span class="sidenav-normal  ms-2  ps-1"> User Requests <b class="caret"></b></span>
-      </a>
-      <div class="collapse " id="userRequest">
-        <ul class="nav nav-sm flex-column">
-          
-        </ul>
-      </div>
-    </li> --}}
     <li class="nav-item mt-3">
       <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">Management</h6>
     </li>
