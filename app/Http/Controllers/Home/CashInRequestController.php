@@ -84,14 +84,10 @@ class CashInRequestController extends Controller
     public function accept($id)
     {
         $cash = CashInRequest::find($id);
-        $currency = $cash->currency;
         $amount = $cash->amount;
-        $rate = Currency::latest()->first()->rate;
-        if($currency == 'baht'){
-            User::where('id', $cash->user_id)->increment('balance', $amount * $rate);
-        }else{
-            User::where('id', $cash->user_id)->increment('balance', $amount);
-        }
+
+        User::where('id', $cash->user_id)->increment('balance', $amount);
+
         $cash->status = 1;
         $cash->save();
 
