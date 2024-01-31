@@ -19,10 +19,10 @@ class ProfileController extends Controller
     use HttpResponses;
     public function profile()
     {
-        $rate = Currency::latest()->first()->rate;
+        // $rate = Currency::latest()->first()->rate;
         return $this->success([
             "user" => Auth::user(),
-            "currency_rate" => $rate
+            // "currency_rate" => $rate
         ]);
     }
     public function error($data, $status, $headers = []) {
