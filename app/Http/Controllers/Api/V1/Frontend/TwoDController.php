@@ -63,14 +63,7 @@ class TwoDController extends Controller
     
         // Extract validated data
         $validatedData = $validator->validated();
-
-        // Currency auto exchange
-        if ($request->currency == "baht") {
-            $rate = Currency::latest()->value('rate');
-            $subAmount = array_sum(array_column($request->amounts, 'amount')) * $rate;
-        }else{
-            $subAmount = array_sum(array_column($request->amounts, 'amount'));
-        }
+        $subAmount = array_sum(array_column($request->amounts, 'amount'));
         
         if ($subAmount > $break) {
             return response()->json(['message' => 'Limit ပမာဏထက်ကျော်ထိုးလို့ မရပါ။'], 401);
@@ -78,20 +71,12 @@ class TwoDController extends Controller
 
         // Determine the current session based on time
         $currentSession = date('H') < 12 ? 'morning' : 'evening';
-        // if ($validatedData['totalAmount'] > $break) {
-        //     return response()->json(['message' => 'Total Amount is over limit'], 401);
-        // }
     
         // Start database transaction
         DB::beginTransaction();
     
         try {
-            $rate = Currency::latest()->first()->rate;
-            if($request->currency == 'baht'){
-                $totalAmount = $request->totalAmount * $rate;
-            }else{
-                $totalAmount = $request->totalAmount;
-            }
+            $totalAmount = $request->totalAmount;
             
             $user = Auth::user();
             $user->balance -= $totalAmount;
@@ -120,11 +105,7 @@ class TwoDController extends Controller
                 ->sum('sub_amount');
     
                 // ... Your betting logic here ...
-                if($request->currency == 'baht'){
-                    $sub_amount = $bet['amount'] * $rate;
-                }else{
-                    $sub_amount = $bet['amount'];
-                }
+                $sub_amount = $bet['amount'];
 
                 if ($totalBetAmountForTwoDigit + $sub_amount <= $break) {
                     $pivot = new LotteryTwoDigitPivot([
