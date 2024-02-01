@@ -204,7 +204,7 @@
           </div>
           {{-- 3d income end --}}
           {{-- jackpot start --}}
-          <div class="row mb-3 mt-5">
+          {{-- <div class="row mb-3 mt-5">
             <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
               <div class="card">
                 <div class="card-header p-3 pt-2 bg-transparent">
@@ -257,7 +257,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> --}}
           {{-- jackpot end --}}
           {{-- second row start --}}
           <div class="row mt-5">

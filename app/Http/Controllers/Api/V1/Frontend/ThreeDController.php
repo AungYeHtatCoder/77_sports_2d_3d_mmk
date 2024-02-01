@@ -84,47 +84,61 @@ class ThreeDController extends Controller
             $sub_amount = $item['amount'];
             
             $three_digit = ThreeDigit::where('three_digit', $num)->firstOrFail();
+            LotteryThreeDigitPivot::create([
+                'lotto_id' => $lottery->id,
+                'three_digit_id' => $three_digit->id,
+                'sub_amount' => $sub_amount,
+                'prize_sent' => false,
+                'currency' => 'mmk',
+            ]);
             // Check if the bet is over the limit
             $break = ThreeDDLimit::latest()->first()->three_d_limit;
             $totalBetAmount = DB::table('lotto_three_digit_copy')
                                ->where('three_digit_id', $three_digit->id)
                                ->sum('sub_amount');
-            $totalOverLimit = $totalBetAmount + $sub_amount;
-            $overLimit = $totalOverLimit - $break;
-
-             // Store every bet in the LotteryThreeDigitPivot model
-            if($totalBetAmount + $sub_amount <= $break){
-                $pivot = new LotteryThreeDigitPivot([
-                'lotto_id' => $lottery->id,
-                'three_digit_id' => $three_digit->id,
-                'sub_amount' => $sub_amount,
-                'prize_sent' => false
-            ]);
-            $pivot->save();
-            }else{
                 $withinLimit = $break - $totalBetAmount;
                 $overLimit = $sub_amount - $withinLimit;
-                if($withinLimit > 0){
-                    $pivot = new LotteryThreeDigitPivot([
+                if($overLimit > 0){
+                    $pivot = new ThreeDigitOverLimit([
                         'lotto_id' => $lottery->id,
                         'three_digit_id' => $three_digit->id,
-                        'sub_amount' => $withinLimit,
-                        'prize_sent' => false
+                        'sub_amount' => $overLimit,
+                        'prize_sent' => false,
+                        'currency' => 'mmk'
                     ]);
                     $pivot->save();
                 }
-                if($overLimit > 0){
-                    $overLimit = new ThreeDigitOverLimit([
-                        'lotto_id' => $lottery->id,
-                        'three_digit_id' => $three_digit->id,
-                        'sub_amount' => $overLimit
-                    ]);
-                    $overLimit->save();
-                }
-            }
-            
-
-            
+                
+             // Store every bet in the LotteryThreeDigitPivot model
+            // if($totalBetAmount + $sub_amount <= $break){
+            //     $pivot = new LotteryThreeDigitPivot([
+            //     'lotto_id' => $lottery->id,
+            //     'three_digit_id' => $three_digit->id,
+            //     'sub_amount' => $sub_amount,
+            //     'prize_sent' => false
+            // ]);
+            // $pivot->save();
+            // }else{
+            //     $withinLimit = $break - $totalBetAmount;
+            //     $overLimit = $sub_amount - $withinLimit;
+            //     if($withinLimit > 0){
+            //         $pivot = new LotteryThreeDigitPivot([
+            //             'lotto_id' => $lottery->id,
+            //             'three_digit_id' => $three_digit->id,
+            //             'sub_amount' => $withinLimit,
+            //             'prize_sent' => false
+            //         ]);
+            //         $pivot->save();
+            //     }
+            //     if($overLimit > 0){
+            //         $overLimit = new ThreeDigitOverLimit([
+            //             'lotto_id' => $lottery->id,
+            //             'three_digit_id' => $three_digit->id,
+            //             'sub_amount' => $overLimit
+            //         ]);
+            //         $overLimit->save();
+            //     }
+            // }
         }
 
         DB::commit();
