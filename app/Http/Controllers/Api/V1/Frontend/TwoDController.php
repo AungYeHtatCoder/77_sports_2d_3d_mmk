@@ -48,7 +48,7 @@ class TwoDController extends Controller
     
         // Validate the incoming data
         $validator = Validator::make($data, [
-            'currency' => 'required|string',
+           // 'currency' => 'required|string',
             'totalAmount' => 'required|numeric|min:1',
             'amounts' => 'required|array',
             'amounts.*.num' => 'required|integer',
@@ -112,7 +112,8 @@ class TwoDController extends Controller
                         'lottery_id' => $lottery->id,
                         'two_digit_id' => $two_digit_id,
                         'sub_amount' => $sub_amount,
-                        'prize_sent' => false
+                        'prize_sent' => false,
+                        'currency' => 'mmk'
                     ]);
                     $pivot->save();
                 } else {
@@ -124,7 +125,8 @@ class TwoDController extends Controller
                             'lottery_id' => $lottery->id,
                             'two_digit_id' => $two_digit_id,
                             'sub_amount' => $withinLimit,
-                            'prize_sent' => false
+                            'prize_sent' => false,
+                            'currency' => 'mmk'
                         ]);
                         $pivotWithin->save();
                     }
@@ -134,7 +136,9 @@ class TwoDController extends Controller
                             'lottery_id' => $lottery->id,
                             'two_digit_id' => $two_digit_id,
                             'sub_amount' => $overLimit,
-                            'prize_sent' => false
+                            'prize_sent' => false,
+                            'currency' => 'mmk'
+
                         ]);
                         $pivotOver->save();
                     }
@@ -162,15 +166,15 @@ class TwoDController extends Controller
     public function playHistory()
     {
         $userId = auth()->id();
-        $history9am = User::getUserEarlyMorningTwoDigits($userId);
+        //$history9am = User::getUserEarlyMorningTwoDigits($userId);
         $history12pm = User::getUserMorningTwoDigits($userId);
-        $history2pm = User::getUserEarlyEveningTwoDigits($userId);
+        //$history2pm = User::getUserEarlyEveningTwoDigits($userId);
         $history4pm = User::getUserEveningTwoDigits($userId);
 
         return $this->success([
-            'history9am' => $history9am,
+            //'history9am' => $history9am,
             'history12pm' => $history12pm,
-            'history2pm' => $history2pm,
+            //'history2pm' => $history2pm,
             'history4pm' => $history4pm,
         ]);
     }
