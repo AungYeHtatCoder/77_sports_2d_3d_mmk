@@ -77,6 +77,8 @@ class ThreeDController extends Controller
             'total_amount' => $totalAmount,
             'user_id' => $user->id,
         ]);
+
+        $overLimitAmounts = [];
         foreach ($request->amounts as $item) {
             $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);
             $sub_amount = $item['amount'];
@@ -86,21 +88,59 @@ class ThreeDController extends Controller
             $totalBetAmount = DB::table('lotto_three_digit_copy')
                                ->where('three_digit_id', $three_digit->id)
                                ->sum('sub_amount');
-            $check_limit = $totalBetAmount + $sub_amount;
-            if($check_limit > $break){
-                return $this->success([
-                    'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
-                ]);
-            }else{
+            if ($totalBetAmount + $sub_amount <= $break) {
                 $pivot = new LotteryThreeDigitPivot([
                     'lotto_id' => $lottery->id,
                     'three_digit_id' => $three_digit->id,
                     'sub_amount' => $sub_amount,
                     'prize_sent' => false,
-                    'currency' => 'mmk',
+                    'currency' => 'mmk'
                 ]);
                 $pivot->save();
+            } else {
+                $withinLimit = $break - $totalBetAmount;
+                $overLimit = $sub_amount - $withinLimit;
+
+                if ($withinLimit > 0) {
+                    $pivotWithin = new LotteryThreeDigitPivot([
+                        'lotto_id' => $lottery->id,
+                        'three_digit_id' => $three_digit->id,
+                        'sub_amount' => $withinLimit,
+                        'prize_sent' => false,
+                        'currency' => 'mmk'
+                    ]);
+                    $pivotWithin->save();
+                     $overLimitAmounts[] = [
+            'num' => $num,
+            'amount' => $overLimit,
+        ];
+                }
+                
+            //     $check_limit = $totalBetAmount + $sub_amount;
+            // if($check_limit > $break){
+            //     return response()->json([
+            //         'amount.*.num' => $three_digit->three_digit,
+            //         'amounts.*.amount' => $sub_amount,
+            //         'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+
+            //     ]);
+            // }
             }
+            // $check_limit = $totalBetAmount + $sub_amount;
+            // if($check_limit > $break){
+            //     return $this->success([
+            //         'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+            //     ]);
+            // }else{
+            //     $pivot = new LotteryThreeDigitPivot([
+            //         'lotto_id' => $lottery->id,
+            //         'three_digit_id' => $three_digit->id,
+            //         'sub_amount' => $sub_amount,
+            //         'prize_sent' => false,
+            //         'currency' => 'mmk',
+            //     ]);
+            //     $pivot->save();
+            // }
             
             // $withinLimit = $break - $totalBetAmount;
             // if($totalBetAmount + $sub_amount > $break) {
@@ -135,6 +175,12 @@ class ThreeDController extends Controller
             //     $pivot->save();
             // }
         }
+        if(!empty($overLimitAmounts)){
+                    return response()->json([
+                        'overLimitAmounts' => $overLimitAmounts,
+                        'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+                    ]);
+                }
         // foreach ($request->amounts as $item) {
         //     $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);
         //     $sub_amount = $item['amount'];
