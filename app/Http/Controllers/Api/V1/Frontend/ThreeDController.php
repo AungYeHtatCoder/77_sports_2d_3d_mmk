@@ -114,6 +114,41 @@ class ThreeDController extends Controller
         }
         // foreach ($request->amounts as $item) {
         //     $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);
+        //     $sub_amount = $item['amount'];
+            
+        //     $three_digit = ThreeDigit::where('three_digit', $num)->firstOrFail();
+        //     LotteryThreeDigitPivot::create([
+        //         'lotto_id' => $lottery->id,
+        //         'three_digit_id' => $three_digit->id,
+        //         'sub_amount' => $sub_amount,
+        //         'prize_sent' => false,
+        //         'currency' => 'mmk',
+        //     ]);
+
+        //     $break = ThreeDDLimit::latest()->first()->three_d_limit;
+        //     $totalBetAmount = DB::table('lotto_three_digit_copy')
+        //                        ->where('three_digit_id', $three_digit->id)
+        //                        ->sum('sub_amount');
+
+        //     $withinLimit = $break - $totalBetAmount;
+        //     $overLimit = 0;
+        //     if($withinLimit < $sub_amount){
+        //         $overLimit = $sub_amount - $withinLimit;
+        //     }
+
+        //     if($overLimit > 0){
+        //         $pivot = new ThreeDigitOverLimit([
+        //             'lotto_id' => $lottery->id,
+        //             'three_digit_id' => $three_digit->id,
+        //             'sub_amount' => $overLimit,
+        //             'prize_sent' => false,
+        //             'currency' => 'mmk'
+        //         ]);
+        //         $pivot->save();
+        //     }
+        // }
+        // foreach ($request->amounts as $item) {
+        //     $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);
         //     // $sub_amount = $request->currency === 'baht' ? $item['amount'] * $rate : $item['amount'];
         //     $sub_amount = $item['amount'];
             
