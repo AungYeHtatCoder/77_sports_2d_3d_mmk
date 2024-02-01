@@ -179,7 +179,7 @@ class ThreeDController extends Controller
                     return response()->json([
                         'overLimitAmounts' => $overLimitAmounts,
                         'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
-                    ]);
+                    ], 401);
                 }
         // foreach ($request->amounts as $item) {
         //     $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);

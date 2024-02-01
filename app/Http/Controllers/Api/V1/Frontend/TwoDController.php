@@ -108,9 +108,9 @@ class TwoDController extends Controller
                 $sub_amount = $bet['amount'];
                 $check_limit = $totalBetAmountForTwoDigit + $sub_amount;
             if($check_limit > $break){
-                return $this->success([
+                return response()->json([
                     'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
-                ]);
+                ], 401);
             }else{
                  $pivot = new LotteryTwoDigitPivot([
                         'lottery_id' => $lottery->id,
