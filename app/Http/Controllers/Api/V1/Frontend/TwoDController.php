@@ -99,16 +99,20 @@ class TwoDController extends Controller
             // Iterate through each bet and process it
             foreach ($validatedData['amounts'] as $bet) {
                 $two_digit_id = $bet['num'] === 0 ? 100 : $bet['num']; // Assuming '00' corresponds to 100
-
+                $break = TwoDLimit::latest()->first()->two_d_limit;
                 $totalBetAmountForTwoDigit = DB::table('lottery_two_digit_copy')
                 ->where('two_digit_id', $two_digit_id)
                 ->sum('sub_amount');
     
                 // ... Your betting logic here ...
                 $sub_amount = $bet['amount'];
-
-                if ($totalBetAmountForTwoDigit + $sub_amount <= $break) {
-                    $pivot = new LotteryTwoDigitPivot([
+                $check_limit = $totalBetAmountForTwoDigit + $sub_amount;
+            if($check_limit > $break){
+                return $this->success([
+                    'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+                ]);
+            }else{
+                 $pivot = new LotteryTwoDigitPivot([
                         'lottery_id' => $lottery->id,
                         'two_digit_id' => $two_digit_id,
                         'sub_amount' => $sub_amount,
@@ -116,33 +120,44 @@ class TwoDController extends Controller
                         'currency' => 'mmk'
                     ]);
                     $pivot->save();
-                } else {
-                    $withinLimit = $break - $totalBetAmountForTwoDigit;
-                    $overLimit = $sub_amount - $withinLimit;
+            }
 
-                    if ($withinLimit > 0) {
-                        $pivotWithin = new LotteryTwoDigitPivot([
-                            'lottery_id' => $lottery->id,
-                            'two_digit_id' => $two_digit_id,
-                            'sub_amount' => $withinLimit,
-                            'prize_sent' => false,
-                            'currency' => 'mmk'
-                        ]);
-                        $pivotWithin->save();
-                    }
+                // if ($totalBetAmountForTwoDigit + $sub_amount <= $break) {
+                //     $pivot = new LotteryTwoDigitPivot([
+                //         'lottery_id' => $lottery->id,
+                //         'two_digit_id' => $two_digit_id,
+                //         'sub_amount' => $sub_amount,
+                //         'prize_sent' => false,
+                //         'currency' => 'mmk'
+                //     ]);
+                //     $pivot->save();
+                // } else {
+                //     $withinLimit = $break - $totalBetAmountForTwoDigit;
+                //     $overLimit = $sub_amount - $withinLimit;
 
-                    if ($overLimit > 0) {
-                        $pivotOver = new LotteryTwoDigitOverLimit([
-                            'lottery_id' => $lottery->id,
-                            'two_digit_id' => $two_digit_id,
-                            'sub_amount' => $overLimit,
-                            'prize_sent' => false,
-                            'currency' => 'mmk'
+                //     if ($withinLimit > 0) {
+                //         $pivotWithin = new LotteryTwoDigitPivot([
+                //             'lottery_id' => $lottery->id,
+                //             'two_digit_id' => $two_digit_id,
+                //             'sub_amount' => $withinLimit,
+                //             'prize_sent' => false,
+                //             'currency' => 'mmk'
+                //         ]);
+                //         $pivotWithin->save();
+                //     }
 
-                        ]);
-                        $pivotOver->save();
-                    }
-                }
+                //     if ($overLimit > 0) {
+                //         $pivotOver = new LotteryTwoDigitOverLimit([
+                //             'lottery_id' => $lottery->id,
+                //             'two_digit_id' => $two_digit_id,
+                //             'sub_amount' => $overLimit,
+                //             'prize_sent' => false,
+                //             'currency' => 'mmk'
+
+                //         ]);
+                //         $pivotOver->save();
+                //     }
+                // }
             }
     
             // Commit the transaction
