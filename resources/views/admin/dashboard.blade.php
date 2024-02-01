@@ -394,22 +394,22 @@
               </div>
             </div>
             {{-- jackpot reset --}}
-            <div class="col-lg-6 col-md-6 col-sm-6 mb-2 mt-3">
+            {{-- <div class="col-lg-6 col-md-6 col-sm-6 mb-2 mt-3">
               <div class="card p-3">
-                {{-- 3d reset --}}
+                
                 <div class="d-flex mt-n2">
                             <div class="avatar avatar-xl bg-warning border-radius-xl p-2 mt-n4">
                               <i class="fas fa-rotate fa-2x"></i>
-                                {{-- <img src="{{ asset('admin_app/assets/img/small-logos/logo-slack.svg') }}" alt="slack_logo"> --}}
+                                <img src="{{ asset('admin_app/assets/img/small-logos/logo-slack.svg') }}" alt="slack_logo">
                             </div>
                             <div class="ms-3 my-auto">
                                 <h6 class="mb-0"> အောက်နှစ်လုံး Reset</h6>
                                 <div class="avatar-group" style="margin-top: 40px;">
-                                    {{-- <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
+                                    <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip"
                                         data-original-title="Jessica Rowland">
                                         <img alt="Image placeholder" src="{{ asset('admin_app/assets/img/team-3.jpg') }}"
                                             class="">
-                                    </a> --}}
+                                    </a>
                                  <form action="{{ route('admin.JackpotReset') }}" method="POST">
                                       @csrf
                                       <button class="btn btn-primary" type="submit">အောက်နှစ်လုံး Reset</button>
@@ -423,16 +423,16 @@
                   <p class="mb-0"><span class="text-success text-sm font-weight-bolder">အောက်နှစ်လုံး ထွက်ပြီး </span>၁၀ နာရီအတွင်း လုပ်ဆောင်ပေးရပါမည်။</p>
                 </div>
               </div>
-            </div>
+            </div> --}}
             {{-- jackpot end --}}
             {{-- jackpot over  --}}
-            <div class="col-lg-6 col-md-6 col-sm-6 mb-2 mt-3">
+            {{-- <div class="col-lg-6 col-md-6 col-sm-6 mb-2 mt-3">
               <div class="card p-3">
-                {{-- 3d reset --}}
+               
                 <div class="d-flex mt-n2">
                             <div class="avatar avatar-xl bg-warning border-radius-xl p-2 mt-n4">
                               <i class="fas fa-rotate fa-2x"></i>
-                                {{-- <img src="{{ asset('admin_app/assets/img/small-logos/logo-slack.svg') }}" alt="slack_logo"> --}}
+                                <img src="{{ asset('admin_app/assets/img/small-logos/logo-slack.svg') }}" alt="slack_logo">
                             </div>
                             <div class="ms-3 my-auto">
                                 <h6 class="mb-0"> အောက်နှစ်လုံး Reset</h6>
@@ -450,8 +450,8 @@
                   <p class="mb-0"><span class="text-success text-sm font-weight-bolder">အောက်နှစ်လုံး ထွက်ပြီး </span>၁၀ နာရီအတွင်း လုပ်ဆောင်ပေးရပါမည်။</p>
                 </div>
               </div>
-            </div>
-            {{-- jackpot over --}}
+            </div> --}}
+            
           </div>
           {{-- second row end --}}
           {{-- pie chart start --}}
