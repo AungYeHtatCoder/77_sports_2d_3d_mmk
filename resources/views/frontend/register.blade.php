@@ -4,7 +4,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar&family=Poppins&display=swap');
     .header{
-        color: var(--Font-Heading, #232323);
+        color: #fff;
         font-family: Poppins;
         font-size: 30px;
         font-style: normal;
@@ -18,12 +18,12 @@
         /* min-height: 100vh; */
         margin: auto;
         border-radius: 59px 59px 0px 0px;
-        background: linear-gradient(90deg, #C6ECEA 0%, #2BC0E4 330.33%);
+        background: linear-gradient(90deg, #9B5DE5 0%, #7158E2 100%);
         backdrop-filter: blur(40px);
         padding: 41px 37px 0 37px;
     }
     .sub-header{
-        color: var(--Font-Body, #5A5A5A);
+        color: #fff;
         font-family: Poppins;
         font-size: 14.33px;
         font-style: normal;
@@ -35,14 +35,15 @@
         padding: 16px 24px;
     }
     .btn-login{
-        background: var(--Primary-Linear-01, linear-gradient(93deg, #55AAB0 -9.97%, #12486B 110.58%));
+        background: linear-gradient(90deg, #9B5DE5 0%, #7158E2 100%);
         font-size: 18px;
+        border: 1px solid #fff;
     }
     .login{
         margin: 48px 0 40px 0;
     }
     .form-label{
-        color: #A4A4A4;
+        color: #ffffff;
     }
     @media (max-width: 414px) {
         .frame{
@@ -56,7 +57,7 @@
 <div class="frame fixed-bottom">
     <div class="login-card">
         <h5 class="text-center header mb-0 pb-0">Welcome Here!</h5>
-        <span class="d-block text-center sub-header">Please visit to thailotto123!</span>
+        <span class="d-block text-center sub-header"></span>
         <form action="{{ route('register') }}" method="post">
             @csrf
             <div class="mb-3">
@@ -72,16 +73,14 @@
                 @enderror
             </div>
             {{-- currency selection --}}
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label for="" class="form-label">Currency</label>
                 <select name="user_currency" id="currency" class="form-control form-select border border-1 border-secondary input-width">
-                    {{-- choose default --}}
                     @foreach ($currencies as $currency)
                         <option value="{{ $currency->name }}">{{ $currency->name }}</option>
                     @endforeach
                 </select>
-               
-            </div>
+            </div> --}}
             <div class="mb-3">
                  @error('user_currency')
                 <span class="text-danger">* {{ message }}</span>
@@ -138,7 +137,7 @@
             <div class="login">
                 <button class="btn btn-login w-100 text-white text-center">အကောင့်ဖွင့်မည်</button>
             </div>
-            <span class="text-center text-dark d-block mb-5">အကောင့်ရှိပြီးပြီလား <a href="{{ url('/login') }}" class="text-decoration-underline text-dark">အကောင့်ဝင်ပါ</a></span>
+            <span class="text-center d-block mb-5">အကောင့်ရှိပြီးပြီလား <a href="{{ url('/login') }}" class="text-decoration-underline">အကောင့်ဝင်ပါ</a></span>
         </form>
     </div>
 </div>

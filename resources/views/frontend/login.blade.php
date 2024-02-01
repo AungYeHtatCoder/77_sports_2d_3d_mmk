@@ -4,7 +4,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar&family=Poppins&display=swap');
     .header{
-        color: var(--Font-Heading, #232323);
+        color: #fff;
         font-family: Poppins;
         font-size: 30px;
         font-style: normal;
@@ -18,12 +18,13 @@
         /* min-height: 100vh; */
         margin: auto;
         border-radius: 59px 59px 0px 0px;
-        background: linear-gradient(90deg, #C6ECEA 0%, #2BC0E4 330.33%);
+        background: linear-gradient(90deg, #9B5DE5 0%, #7158E2 100%);
         backdrop-filter: blur(40px);
         padding: 41px 37px 0 37px;
+        color: #fff;
     }
     .sub-header{
-        color: var(--Font-Body, #5A5A5A);
+        color: #fff;
         font-family: Poppins;
         font-size: 14.33px;
         font-style: normal;
@@ -35,14 +36,15 @@
         padding: 16px 24px;
     }
     .btn-login{
-        background: var(--Primary-Linear-01, linear-gradient(93deg, #55AAB0 -9.97%, #12486B 110.58%));
+        background: linear-gradient(90deg, #9B5DE5 0%, #7158E2 100%);
         font-size: 18px;
+        border: 1px solid #fff;
     }
     .login{
         margin: 48px 0 40px 0;
     }
     .form-label{
-        color: #A4A4A4;
+        color: #fff;
     }
     @media (max-width: 414px) {
         .frame{
@@ -105,12 +107,12 @@
                     <span class="text-danger">*{{ $message }}</span>
                 @enderror
             </div>
-            <small class="text-end text-dark d-block">လျှိ၀ှက်နံပါတ် မမှတ်မိဘူးလား ? <a href="" class="text-decoration-underline text-dark">ဒီမှာနှိပ်ပါ</a></small>
+            <small class="text-end d-block">လျှိ၀ှက်နံပါတ် မမှတ်မိဘူးလား ? <a href="" class="text-decoration-underline">ဒီမှာနှိပ်ပါ</a></small>
 
             <div class="login">
                 <button class="btn btn-login w-100 text-white text-center">အကောင့်၀င်မည်</button>
             </div>
-            <span class="text-center text-dark d-block mb-5">အကောင့်အသစ်ဖွင့်ရန် <a href="{{ url('/register') }}" class="text-decoration-underline text-dark">ဒီမှာနှိပ်ပါ</a></span>
+            <span class="text-center d-block mb-5">အကောင့်အသစ်ဖွင့်ရန် <a href="{{ url('/register') }}" class="text-decoration-underline">ဒီမှာနှိပ်ပါ</a></span>
         </form>
     </div>
 </div>
