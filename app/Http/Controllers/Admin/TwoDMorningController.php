@@ -43,7 +43,7 @@ class TwoDMorningController extends Controller
     $lotteries = Lottery::whereHas('lotteryMatch')->whereHas('twoDigitsMorning')->get();
 
     $prize_no_morning = TwodWiner::whereDate('created_at', Carbon::today())
-                                  ->whereBetween('created_at', [Carbon::now()->startOfDay()->addHours(6), Carbon::now()->startOfDay()->addHours(10)])
+                                  ->whereBetween('created_at', [Carbon::now()->startOfDay()->addHours(5), Carbon::now()->startOfDay()->addHours(12)])
                                   ->orderBy('id', 'desc')
                                   ->first();
 
@@ -134,7 +134,7 @@ public function TwoDMorningWinner()
     $lotteries = Lottery::with('twoDigitsMorning')->get();
 
     $prize_no_morning = TwodWiner::whereDate('created_at', Carbon::today())
-                                 ->whereBetween('created_at', [Carbon::now()->startOfDay()->addHours(6), Carbon::now()->startOfDay()->addHours(12)])
+                                 ->whereBetween('created_at', [Carbon::now()->startOfDay()->addHours(5), Carbon::now()->startOfDay()->addHours(13)])
                                  ->orderBy('id', 'desc')
                                  ->first();
 
