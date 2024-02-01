@@ -62,12 +62,12 @@
               <span class="sidenav-normal  ms-2  ps-1"> ဘဏ်အကောင့်များ </span>
             </a>
           </li>
-           <li class="nav-item ">
+           {{-- <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.commissions.index') }}">
               <span class="sidenav-mini-icon"> <i class="fas fa-coins"></i> </span>
               <span class="sidenav-normal  ms-2  ps-1"> Commission Create </span>
             </a>
-          </li>
+          </li> --}}
 
           @endcan
         </ul>
@@ -112,7 +112,7 @@
       <a class="nav-link text-white " href="{{ url('/admin/two-d-commission') }}">
         <i class="fas fa-coins"></i>
         <span class="sidenav-normal  ms-2  ps-1"> 
-          2D Commission
+          2D ကောင်မရှင်းသတ်မှတ်ရန်
         </span>
       </a>
     </li>
@@ -120,7 +120,7 @@
       <a class="nav-link text-white " href="{{ url('/admin/three-d-commission') }}">
         <i class="fas fa-coins"></i>
         <span class="sidenav-normal  ms-2  ps-1"> 
-          3D Commission
+          3D ကောင်မရှင်းသတ်မှတ်ရန်
         </span>
       </a>
     </li>
@@ -134,12 +134,12 @@
     </li> --}}
     @endcan
     <li class="nav-item mt-3">
-      <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">Management</h6>
+      <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">အကောင့်စီမံရန်</h6>
     </li>
     <li class="nav-item ">
       <a class="nav-link text-white " data-bs-toggle="collapse" aria-expanded="false" href="#profileExample">
         <i class="fas fa-user-gear"></i>
-        <span class="sidenav-normal  ms-2  ps-1"> ထိုးသားများအကောင့်ဖွင့်ပေးရန်း <b class="caret"></b></span>
+        <span class="sidenav-normal  ms-2  ps-1">အကောင့်ဖွင့်ပေးရန်း <b class="caret"></b></span>
       </a>
       <div class="collapse " id="profileExample">
         <ul class="nav nav-sm flex-column">
@@ -163,7 +163,7 @@
           <li class="nav-item">
             <a class="nav-link text-white " href="{{ route('admin.users.index')}}">
               <span class="sidenav-mini-icon"> U </span>
-              <span class="sidenav-normal  ms-2  ps-1"> ထိုးသားများအကောင့်ဖွင့်ပေးရန်း </span>
+              <span class="sidenav-normal  ms-2  ps-1">အကောင့်ဖွင့်ပေးရန်း </span>
             </a>
           </li>
           @endcan
@@ -199,7 +199,7 @@
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.winnerHistoryForAdminSession')}}">
               <span class="sidenav-mini-icon"> 2D </span>
-              <span class="sidenav-normal  ms-2  ps-1"> Session အလိုက်ပေါက်သူများစာရင်း </span>
+              <span class="sidenav-normal  ms-2  ps-1"> Session အလိုက်ပေါက်စာရင်း </span>
             </a>
           </li>
           @endcan
@@ -254,8 +254,8 @@
           @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.morningWinner') }}">
-              <span class="sidenav-mini-icon"> MW </span>
-              <span class="sidenav-normal  ms-2  ps-1"> 2D (12:) ပေါက်သူများ </span>
+              <span class="sidenav-mini-icon"> 2D </span>
+              <span class="sidenav-normal  ms-2  ps-1">  (12:) ပေါက်သူများ </span>
             </a>
           </li>
           @endcan
@@ -318,7 +318,7 @@
           @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.SessionResetIndex') }}">
-              <span class="sidenav-mini-icon"> S </span>
+              <span class="sidenav-mini-icon"> 2D </span>
               <span class="sidenav-normal  ms-2  ps-1"> SessionReset</span>
             </a>
           </li>
