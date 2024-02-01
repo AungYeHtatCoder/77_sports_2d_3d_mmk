@@ -98,7 +98,8 @@ class ThreeDController extends Controller
                                ->sum('sub_amount');
                 $withinLimit = $break - $totalBetAmount;
                 $overLimit = $sub_amount - $withinLimit;
-                if($overLimit > 0){
+                $limit_over = $totalBetAmount + $sub_amount;
+                if($limit_over > $break){
                     $pivot = new ThreeDigitOverLimit([
                         'lotto_id' => $lottery->id,
                         'three_digit_id' => $three_digit->id,
