@@ -191,7 +191,7 @@
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.winnerHistoryForAdmin')}}">
               <span class="sidenav-mini-icon"> 2D </span>
-              <span class="sidenav-normal  ms-2  ps-1"> 2D ပေါက်သူများ </span>
+              <span class="sidenav-normal  ms-2  ps-1">  ပေါက်သူများ </span>
             </a>
           </li>
           @endcan
@@ -199,7 +199,7 @@
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.winnerHistoryForAdminSession')}}">
               <span class="sidenav-mini-icon"> 2D </span>
-              <span class="sidenav-normal  ms-2  ps-1"> Session အလိုက်ပေါက်စာရင်း </span>
+              <span class="sidenav-normal  ms-2  ps-1">Sessionအလိုက်ပေါက်စာရင်း </span>
             </a>
           </li>
           @endcan
@@ -238,7 +238,7 @@
           @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.tow-d-morning-number.index') }}">
-              <span class="sidenav-mini-icon"> MS </span>
+              <span class="sidenav-mini-icon"> 2D </span>
               <span class="sidenav-normal  ms-2  ps-1"> 2D (12:1) မှတ်တမ်း </span>
             </a>
           </li>
@@ -319,7 +319,7 @@
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.SessionResetIndex') }}">
               <span class="sidenav-mini-icon"> 2D </span>
-              <span class="sidenav-normal  ms-2  ps-1"> SessionReset</span>
+              <span class="sidenav-normal  ms-2  ps-1"> Session-ဖျက်ရန်</span>
             </a>
           </li>
           @endcan
