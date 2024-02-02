@@ -81,11 +81,11 @@
                     @endforeach
                 </select>
             </div> --}}
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                  @error('user_currency')
                 <span class="text-danger">* {{ message }}</span>
                 @enderror
-            </div>
+            </div> --}}
             <div class="mb-3">
                 <label for="country_code" class="form-label">ဖုန်းနံပါတ်</label>
                 <div class="d-flex">

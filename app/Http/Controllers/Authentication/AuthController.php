@@ -58,17 +58,20 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string'],
-            'user_currency' => ['required', 'string'],
+            //'user_currency' => ['required', 'string'],
             'phone' => ['required', 'unique:users,phone'],
             'password' => ['required', 'min:6']
         ]);
         $user = User::create([
             'name' => $request->name,
-            'user_currency' => $request->user_currency,
+            //'user_currency' => $request->user_currency,
             'country_code' => $request->country_code,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
+    //$user->roles()->sync($request->input('roles', []));
+        // user assign role default user
+        $user->roles()->sync([4]);
         Auth::login($user);
         return redirect()->route('home')->with('success', 'Registration successful');
     }
