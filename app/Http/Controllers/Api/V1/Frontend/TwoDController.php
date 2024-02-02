@@ -63,11 +63,11 @@ class TwoDController extends Controller
     
         // Extract validated data
         $validatedData = $validator->validated();
-        $subAmount = array_sum(array_column($request->amounts, 'amount'));
+        // $subAmount = array_sum(array_column($request->amounts, 'amount'));
         
-        if ($subAmount > $break) {
-            return response()->json(['message' => 'Limit ပမာဏထက်ကျော်ထိုးလို့ မရပါ။'], 401);
-        }
+        // if ($subAmount > $break) {
+        //     return response()->json(['message' => 'Limit ပမာဏထက်ကျော်ထိုးလို့ မရပါ။'], 401);
+        // }
 
         // Determine the current session based on time
         $currentSession = date('H') < 12 ? 'morning' : 'evening';
@@ -95,7 +95,8 @@ class TwoDController extends Controller
                 'user_id' => $user->id, // Use authenticated user's ID
                 'session' => $currentSession
             ]);
-    
+            
+            $overLimitAmounts = [];
             // Iterate through each bet and process it
             foreach ($validatedData['amounts'] as $bet) {
                 $two_digit_id = $bet['num'] === 0 ? 100 : $bet['num']; // Assuming '00' corresponds to 100
@@ -103,16 +104,11 @@ class TwoDController extends Controller
                 $totalBetAmountForTwoDigit = DB::table('lottery_two_digit_copy')
                 ->where('two_digit_id', $two_digit_id)
                 ->sum('sub_amount');
-    
-                // ... Your betting logic here ...
                 $sub_amount = $bet['amount'];
                 $check_limit = $totalBetAmountForTwoDigit + $sub_amount;
-            if($check_limit > $break){
-                return response()->json([
-                    'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
-                ], 401);
-            }else{
-                 $pivot = new LotteryTwoDigitPivot([
+
+                if($totalBetAmountForTwoDigit + $sub_amount <= $break){
+                    $pivot = new LotteryTwoDigitPivot([
                         'lottery_id' => $lottery->id,
                         'two_digit_id' => $two_digit_id,
                         'sub_amount' => $sub_amount,
@@ -120,7 +116,52 @@ class TwoDController extends Controller
                         'currency' => 'mmk'
                     ]);
                     $pivot->save();
-            }
+                }else{
+                    $withinLimit = $break - $totalBetAmountForTwoDigit;
+                    $overLimit = $sub_amount - $withinLimit;
+
+                    if ($withinLimit > 0) {
+                        $pivotWithin = new LotteryTwoDigitPivot([
+                            'lottery_id' => $lottery->id,
+                            'two_digit_id' => $two_digit_id,
+                            'sub_amount' => $withinLimit,
+                            'prize_sent' => false,
+                            'currency' => 'mmk'
+                        ]);
+                        $pivotWithin->save();
+                          $overLimitAmounts[] = [
+                            'num' => $bet['num'],
+                            'amount' => $overLimit,
+                        ];
+                    }
+
+                    // if ($overLimit > 0) {
+                    //     $pivotOver = new LotteryTwoDigitOverLimit([
+                    //         'lottery_id' => $lottery->id,
+                    //         'two_digit_id' => $two_digit_id,
+                    //         'sub_amount' => $overLimit,
+                    //         'prize_sent' => false,
+                    //         'currency' => 'mmk'
+
+                    //     ]);
+                    //     $pivotOver->save();
+                    // }
+                }
+
+            // if($check_limit > $break){
+            //     return response()->json([
+            //         'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+            //     ], 401);
+            // }else{
+            //      $pivot = new LotteryTwoDigitPivot([
+            //             'lottery_id' => $lottery->id,
+            //             'two_digit_id' => $two_digit_id,
+            //             'sub_amount' => $sub_amount,
+            //             'prize_sent' => false,
+            //             'currency' => 'mmk'
+            //         ]);
+            //         $pivot->save();
+            // }
 
                 // if ($totalBetAmountForTwoDigit + $sub_amount <= $break) {
                 //     $pivot = new LotteryTwoDigitPivot([
@@ -159,6 +200,13 @@ class TwoDController extends Controller
                 //     }
                 // }
             }
+
+            if(!empty($overLimitAmounts)){
+                    return response()->json([
+                        'overLimitAmounts' => $overLimitAmounts,
+                        'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+                    ], 401);
+                }
     
             // Commit the transaction
             DB::commit();
