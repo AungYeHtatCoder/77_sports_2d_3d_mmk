@@ -115,7 +115,6 @@ public function Admin2dDailyEveningHistory($twoDid = [], $timezone = 'Asia/Yango
         $timeAt12PM = Carbon::now($timezone)->startOfDay()->setTime(12, 0);
         $timeAt530PM = Carbon::now($timezone)->startOfDay()->setTime(17, 30);
         return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
-            ->join('users', 'lotteries.user_id', '=', 'users.id')
             ->select([
                 'two_digits.*', 
                 'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
@@ -123,9 +122,7 @@ public function Admin2dDailyEveningHistory($twoDid = [], $timezone = 'Asia/Yango
                 'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
                 'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
                 'lottery_two_digit_pivot.created_at AS pivot_created_at', 
-                'lottery_two_digit_pivot.updated_at AS pivot_updated_at',
-                'users.name',
-                'users.phone'
+                'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
             ])
             ->where(function ($query) use ($timeAt12PM, $timeAt530PM) {
                 $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM, $timeAt530PM]);
