@@ -127,29 +127,29 @@ class Lottery extends Model
     //         ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
     //         ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
     // }
-    public function Admin2DMorningHistory($twoDid = [])
-{
-    if (empty($twoDid)) {
-        $twoDid = Lottery::pluck('id');
-    }
-    $timeAt5AM = Carbon::now()->setTime(5, 0);
-    $timeAt1230PM = Carbon::now()->setTime(12, 30);
-    return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
-        ->select([
-            'two_digits.*', 
-            'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
-            'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
-            'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
-            'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
-            'lottery_two_digit_pivot.created_at AS pivot_created_at', 
-            'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
-        ])
-        ->where(function ($query) use ($timeAt5AM, $timeAt1230PM) {
-            $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt5AM, $timeAt1230PM]);
-        })
-        ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
-        ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
-}
+//     public function Admin2DMorningHistory($twoDid = [])
+// {
+//     if (empty($twoDid)) {
+//         $twoDid = Lottery::pluck('id');
+//     }
+//     $timeAt5AM = Carbon::now()->setTime(5, 0);
+//     $timeAt1230PM = Carbon::now()->setTime(12, 30);
+//     return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
+//         ->select([
+//             'two_digits.*', 
+//             'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
+//             'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
+//             'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
+//             'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
+//             'lottery_two_digit_pivot.created_at AS pivot_created_at', 
+//             'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
+//         ])
+//         ->where(function ($query) use ($timeAt5AM, $timeAt1230PM) {
+//             $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt5AM, $timeAt1230PM]);
+//         })
+//         ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
+//         ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
+// }
 
     // public function Admin2dDailyEveningHistory($twoDid = [], $timestamp = '2022-01-01 00:00:00', $timezone = 'Asia/Yangon')
     // {
@@ -234,85 +234,86 @@ class Lottery extends Model
     // }
 
 
-    public function Admin2dDailyEveningHistory($twoDid = [], $timezone = 'Asia/Yangon')
-    {
-        if (empty($twoDid)) {
-            $twoDid = Lottery::pluck('id');
-        }
-        $timeAt12PM = Carbon::now($timezone)->startOfDay()->setTime(12, 0);
-        $timeAt530PM = Carbon::now($timezone)->startOfDay()->setTime(17, 30);
-        return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
-            ->select([
-                'two_digits.*', 
-                'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
-                'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
-                'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
-                'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
-                'lottery_two_digit_pivot.created_at AS pivot_created_at', 
-                'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
-            ])
-            ->where(function ($query) use ($timeAt12PM, $timeAt530PM) {
-                $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM, $timeAt530PM]);
-            })
-            ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
-            ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
+    // public function Admin2dDailyEveningHistory($twoDid = [])
+    // {
+    //     if (empty($twoDid)) {
+    //         $twoDid = Lottery::pluck('id');
+    //     }
+    //     $timezone = 'Asia/Yangon'; // Set your desired timezone
+    //     $timeAt12PM = Carbon::now($timezone)->startOfDay()->setTime(12, 0);
+    //     $timeAt530PM = Carbon::now($timezone)->startOfDay()->setTime(17, 30);
+    //     return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
+    //         ->select([
+    //             'two_digits.*', 
+    //             'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
+    //             'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
+    //             'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
+    //             'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
+    //             'lottery_two_digit_pivot.created_at AS pivot_created_at', 
+    //             'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
+    //         ])
+    //         ->where(function ($query) use ($timeAt12PM, $timeAt530PM) {
+    //             $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM, $timeAt530PM]);
+    //         })
+    //         ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
+    //         ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
+    // }
+
+    
+
+public function Admin2DEveningHistory($twoDid = [])
+{
+     $timezone = 'Asia/Yangon'; // Set your desired timezone
+
+    if (empty($twoDid)) {
+        $twoDid = Lottery::pluck('id');
     }
-
     
+    $timeAt12PM = Carbon::now($timezone)->setTime(12, 0);
+    $timeAt430PM = Carbon::now($timezone)->setTime(17, 30);
+    return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
+        ->select([
+            'two_digits.*', 
+            'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
+            'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
+            'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
+            'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
+            'lottery_two_digit_pivot.created_at AS pivot_created_at', 
+            'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
+        ])
+        ->where(function ($query) use ($timeAt12PM, $timeAt430PM) {
+            $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM, $timeAt430PM]);
+        })
+        ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
+        ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
+}
 
-// public function Admin2DEveningHistory($twoDid = [])
-// {
-//      $timezone = 'Asia/Yangon'; // Set your desired timezone
-
-//     if (empty($twoDid)) {
-//         $twoDid = Lottery::pluck('id');
-//     }
-    
-//     $timeAt12PM = Carbon::now($timezone)->setTime(12, 0);
-//     $timeAt430PM = Carbon::now($timezone)->setTime(17, 30);
-//     return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
-//         ->select([
-//             'two_digits.*', 
-//             'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
-//             'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
-//             'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
-//             'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
-//             'lottery_two_digit_pivot.created_at AS pivot_created_at', 
-//             'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
-//         ])
-//         ->where(function ($query) use ($timeAt12PM, $timeAt430PM) {
-//             $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM, $timeAt430PM]);
-//         })
-//         ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
-//         ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
-// }
-
-// public function Admin2DMorningHistory($twoDid = [])
-// {
-//     if (empty($twoDid)) {
-//         $twoDid = Lottery::pluck('id');
-//     }
-//     $timeAt5AM = Carbon::now()->setTime(5, 0);
-//     $timeAt1230PM = Carbon::now()->setTime(12, 30);
-//     return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
-//         ->join('users', 'lottery_two_digit_pivot.user_id', '=', 'users.id')
-//         ->select([
-//             'two_digits.*', 
-//             'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
-//             'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
-//             'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
-//             'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
-//             'lottery_two_digit_pivot.created_at AS pivot_created_at', 
-//             'lottery_two_digit_pivot.updated_at AS pivot_updated_at',
-//             'users.name',
-//             'users.phone'
-//         ])
-//         ->where(function ($query) use ($timeAt5AM, $timeAt1230PM) {
-//             $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt5AM, $timeAt1230PM]);
-//         })
-//         ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
-//         ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
-// }
+public function Admin2DMorningHistory($twoDid = [])
+{
+    if (empty($twoDid)) {
+        $twoDid = Lottery::pluck('id');
+    }
+    $timeAt5AM = Carbon::now()->setTime(5, 0);
+    $timeAt1230PM = Carbon::now()->setTime(12, 30);
+    return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
+        ->join('users', 'lottery_two_digit_pivot.user_id', '=', 'users.id')
+        ->select([
+            'two_digits.*', 
+            'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
+            'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
+            'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
+            'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
+            'lottery_two_digit_pivot.created_at AS pivot_created_at', 
+            'lottery_two_digit_pivot.updated_at AS pivot_updated_at',
+            'users.name',
+            'users.phone'
+        ])
+        ->where(function ($query) use ($timeAt5AM, $timeAt1230PM) {
+            $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt5AM, $timeAt1230PM]);
+        })
+        ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
+        ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
+}
 /* 
 if you want to get user name and phone number from user table then you can use join method to join user table with lottery_two_digit_pivot table and select user name and phone number from user table. change table like this
 public function up(): void
