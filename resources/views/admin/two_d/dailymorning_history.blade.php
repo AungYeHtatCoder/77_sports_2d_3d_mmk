@@ -35,7 +35,7 @@
                         <div>
                             <h5 class="mb-0">2D - 12:1 စာရင်း ပေါင်းချုပ် -   Dashboards
                                 <span>
-                                     <h6>
+                                     <h6 class="btn btn-primary">
                                     <span id="date_time"></span>
                                      </h6>
                                 </span>

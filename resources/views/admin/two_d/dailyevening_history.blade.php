@@ -35,7 +35,7 @@
                         <div>
                             <h5 class="mb-0">2D - 4:30 စာရင်း ပေါင်းချုပ် -   Dashboards
                                 <span>
-                                     <h6>
+                                     <h6 class="btn btn-primary">
                                       {{-- today date and time with js --}}
                                      <span id="date_time"></span>
                                      </h6>

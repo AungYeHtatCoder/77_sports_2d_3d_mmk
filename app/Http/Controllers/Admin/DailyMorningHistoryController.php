@@ -35,22 +35,7 @@ class DailyMorningHistoryController extends Controller
         ]);
     }
 
-    public function getAdmin2dDailyMorningHistory()
-    {
-        $lotteries = (new Lottery)->dailyMorningHistoryForAdmin('5:00', '12:30')->get();
-
-        $totalAmount = 0;
-        foreach ($lotteries as $lottery) {
-            foreach ($lottery->twoDigits as $twoDigit) {
-                $totalAmount += $twoDigit->pivot->sub_amount;
-            }
-        }
-
-        return [
-            'twoDigit' => $lotteries,
-            'total_amount' => $totalAmount,
-        ];
-    }
+    
     public function TwodDailyEveningHistory()
     {
         $startTime = Carbon::today()->setHour(12)->setMinute(0); // Example: today at 2 PM
@@ -74,41 +59,4 @@ class DailyMorningHistoryController extends Controller
         ]);
     }
 
-    public function getAdmin2dDailyEveningHistory()
-    {
-        $eveningStart = Carbon::now()->startOfDay()->addHours(12);
-        $eveningEnd = Carbon::now()->startOfDay()->addHours(20);
-        $lotteries = (new Lottery)->dailyEveningHistoryForAdmin($eveningStart, $eveningEnd)->get();
-
-        $totalAmount = 0;
-        foreach ($lotteries as $lottery) {
-            foreach ($lottery->twoDigits as $twoDigit) {
-                $totalAmount += $twoDigit->pivot->sub_amount;
-            }
-        }
-
-        return [
-            'twoDigit' => $lotteries,
-            'total_amount' => $totalAmount,
-        ];
-    }
 }
-//    public function TwodDailyMorningHistory()
-// {
-//     $displayTwoDigits = User::getAdmin2dDailyMorningHistory();
-//     $twod_limits = TwoDLimit::orderBy('id', 'desc')->first();
-//     return view('admin.two_d.dailymorning_history', [
-//         'displayTwoDigits' => $displayTwoDigits,
-//         'twod_limits' => $twod_limits,
-//     ]);
-// }
-
-// public function TwodDailyEveningHistory()
-// {
-//     $displayTwoDigits = User::getAdmin2dDailyEveningHistory();
-//     $twod_limits = TwoDLimit::orderBy('id', 'desc')->first();
-//     return view('admin.two_d.dailyeveing_history', [
-//         'displayTwoDigits' => $displayTwoDigits,
-//         'twod_limits' => $twod_limits,
-//     ]);
-// }
