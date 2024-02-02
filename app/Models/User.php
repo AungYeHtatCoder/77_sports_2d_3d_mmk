@@ -488,7 +488,7 @@ public static function getUserOneMonthThreeDigits($userId) {
 
 public static function getAdmin2dDailyEveningHistory()
 {
-    $twodigits = Lottery::with('twoDigitsEvening')->get();
+    $twodigits = Lottery::with('Admin2DEveningHistory')->get();
 
     $displaytwoDigits = $twodigits->flatMap(function ($twodigit) {
         return $twodigit->Admin2DMorningHistory;

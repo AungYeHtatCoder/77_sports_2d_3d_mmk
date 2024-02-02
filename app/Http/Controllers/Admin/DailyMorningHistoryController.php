@@ -12,14 +12,29 @@ class DailyMorningHistoryController extends Controller
 {
     public function TwodDailyMorningHistory()
     {
-        $lotteries = (new Lottery)->getLotteriesWithUserAndTwoDigits('5:00', '12:30');
+        $lotteryData = $this->getAdmin2dDailyMorningHistory();
         $twod_limits = TwoDLimit::orderBy('id', 'desc')->first();
+
         return view('admin.two_d.dailymorning_history', [
-            'displayTwoDigits' => $lotteries,
+            'displayTwoDigits' => $lotteryData['twoDigit'],
+            'total_amount' => $lotteryData['total_amount'],
             'twod_limits' => $twod_limits,
         ]);
     }
 
+    public function getAdmin2dDailyMorningHistory()
+    {
+        $lotteries = (new Lottery)->getLotteriesWithUserAndTwoDigits('5:00', '12:30');
+
+        $totalAmount = $lotteries->sum(function ($lottery) {
+            return $lottery->twoDigits->sum('pivot.sub_amount');
+        });
+
+        return [
+            'twoDigit' => $lotteries,
+            'total_amount' => $totalAmount,
+        ];
+    }
     public function TwodDailyEveningHistory()
     {
         $displayTwoDigits = User::getAdmin2dDailyEveningHistory();
