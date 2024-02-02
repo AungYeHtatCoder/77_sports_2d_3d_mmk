@@ -93,13 +93,13 @@
            {{-- <td>{{ $digit->phone }}</td> --}}
            <td>{{ $digit->two_digit }}</td>
            <td>
-            @if($digit->pivot->sub_amount >= $twod_limits->two_d_limit)
+            @if($digit->sub_amount >= $twod_limits->two_d_limit)
             <span class="text-danger">
-          {{ $digit->pivot->sub_amount }}
+          {{ $digit->sub_amount }}
             </span>
             @else
             <p class="text-info">
-          {{ $digit->pivot->sub_amount }}
+          {{ $digit->sub_amount }}
             </p>
             @endif
            </td>
@@ -108,7 +108,7 @@
              class="badge bg-gradient-info">{{ $digit->created_at->format('d-m-Y (l) (h:i a)') }}</span>
            </td>
            <td>
-            @if ($digit->pivot->prize_sent == 1)
+            @if ($digit->prize_sent == 1)
              <span class="text-success">Win</span>
             @else
              <span class="text-danger">Pending</span>
