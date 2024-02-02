@@ -104,8 +104,12 @@
             @endif
            </td>
            <td class="text-sm font-weight-normal">
-            <span
-             class="badge bg-gradient-info">{{ $digit->created_at->format('d-m-Y (l) (h:i a)') }}</span>
+             {{ Carbon\Carbon::parse($digit->created_at)->format('h:i A') }}  
+            <span class="badge bg-gradient-info">
+             {{ Carbon\Carbon::parse($digit->created_at)->format('d-m-Y') }}
+            </span>
+            {{-- <span
+             class="badge bg-gradient-info">{{ $digit->created_at->format('d-m-Y (l) (h:i a)') }}</span> --}}
            </td>
            <td>
             @if ($digit->prize_sent == 1)
