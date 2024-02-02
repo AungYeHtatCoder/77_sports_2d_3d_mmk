@@ -105,8 +105,11 @@ class Lottery extends Model
 
         // If the current time is past 12:30 PM, return an empty collection or a specific message
         if ($currentTime > $timeAt1230PM) {
-            return collect(); // or return 'The specific time is over';
+            return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')->whereNull('lottery_two_digit_pivot.lottery_id');
         }
+        // if ($currentTime > $timeAt1230PM) {
+        //     return collect(); // or return 'The specific time is over';
+        // }
 
         return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
             ->select([
@@ -171,8 +174,11 @@ class Lottery extends Model
 
         // If the current time is past 5:30 PM, return an empty collection or a specific message
         if ($currentTime > $timeAt530PM) {
-            return collect(); // or return 'The specific time is over';
+            return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')->whereNull('lottery_two_digit_pivot.lottery_id');
         }
+        // if ($currentTime > $timeAt530PM) {
+        //     return collect(); // or return 'The specific time is over';
+        // }
 
         return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
             ->select([
