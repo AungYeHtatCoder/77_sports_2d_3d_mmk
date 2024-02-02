@@ -12,6 +12,8 @@
  /* For some browsers */
 }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-icons@1.13.12/iconfont/material-icons.min.css">
 @endsection
 @section('content')
 <div class="row mt-4">
@@ -87,6 +89,22 @@
 @endsection
 @section('scripts')
 <script src="{{ asset('admin_app/assets/js/plugins/datatables.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    @if(session('toast_success'))
+    Swal.fire({
+      icon: 'success',
+      title: 'Success! အကောင့်ဖွင့်ပေးမှူ့အောင်မြင်ပါသည်!',
+      text: '{{ session('
+      toast_success ') }}',
+      timer: 3000,
+      showConfirmButton: false
+    });
+    @endif
+  });
+</script>
 {{-- <script>
     const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
       searchable: true,
