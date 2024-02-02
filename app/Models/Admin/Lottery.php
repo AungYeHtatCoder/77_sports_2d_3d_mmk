@@ -296,7 +296,6 @@ public function Admin2DMorningHistory($twoDid = [])
     $timeAt5AM = Carbon::now()->setTime(5, 0);
     $timeAt1230PM = Carbon::now()->setTime(12, 30);
     return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
-        ->join('users', 'lottery_two_digit_pivot.user_id', '=', 'users.id')
         ->select([
             'two_digits.*', 
             'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
@@ -304,9 +303,8 @@ public function Admin2DMorningHistory($twoDid = [])
             'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
             'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
             'lottery_two_digit_pivot.created_at AS pivot_created_at', 
-            'lottery_two_digit_pivot.updated_at AS pivot_updated_at',
-            'users.name',
-            'users.phone'
+            'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
+            
         ])
         ->where(function ($query) use ($timeAt5AM, $timeAt1230PM) {
             $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt5AM, $timeAt1230PM]);
