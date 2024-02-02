@@ -174,7 +174,7 @@ class Lottery extends Model
 
         // If the current time is past 5:30 PM, return an empty collection or a specific message
         if ($currentTime > $timeAt530PM) {
-            return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')->whereNull('lottery_two_digit_pivot.lottery_id') . 'စာရင်းမရှိသေးပါ';
+            return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')->whereNull('lottery_two_digit_pivot.lottery_id');
             //return 'စာရင်းမရှိသေးပါ';
         }
         // if ($currentTime > $timeAt530PM) {
