@@ -27,8 +27,8 @@
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
                             <div class="ms-auto my-auto">
                                 <a href="{{ url('/admin/twod-daily-morning-history') }}"
-                                    class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; 12:1 စာရင်း ပေါင်းချုပ်</a>
-                                    User</a>
+                                    class="btn bg-gradient-primary btn-sm mb-0"> > &nbsp; 12:1 စာရင်း ပေါင်းချုပ်</a>
+                                    
                                 <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv"
                                     type="button" name="button">Export</button>
                             </div>

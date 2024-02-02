@@ -70,6 +70,8 @@
            <thead class="thead-light">
                 <tr>
                 <th>No</th>
+                <th>Name</th>
+                <th>Phone</th>
                 <th>2D</th>
                 <th>ထိုးကြေး</th>
                 <th>ရက်စွဲ</th>
@@ -87,6 +89,8 @@
          @foreach ($displayTwoDigits['twoDigit'] as $index => $digit)
          <tr>
            <td>{{ $index + 1 }}</td>
+           <td>{{ $digit->name }}</td>
+           <td>{{ $digit->phone }}</td>
            <td>{{ $digit->two_digit }}</td>
            <td>
             @if($digit->pivot->sub_amount >= $twod_limits->two_d_limit)
