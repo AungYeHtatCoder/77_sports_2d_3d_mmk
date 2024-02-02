@@ -33,7 +33,7 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">2D - 12:1 စာရင်း ပေါင်းချုပ် -   Dashboards
+                            <h5 class="mb-0">2D - 4:30 စာရင်း ပေါင်းချုပ် -   Dashboards
                                 <span>
                                      <h6>
                                       {{-- today date and time with js --}}
@@ -47,7 +47,7 @@
                             <div class="ms-auto my-auto">
                                 
                                 <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"
-                                    href="{{ url('/admin/tow-d-morning-number') }}" >Back</a>
+                                    href="{{ url('/admin/two-d-evening-number') }}" >Back</a>
                             </div>
                         </div>
                                 </span>

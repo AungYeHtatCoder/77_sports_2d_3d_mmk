@@ -300,4 +300,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     
    // TwodDailyMorningHistory
     Route::get('/twod-daily-morning-history', [App\Http\Controllers\Admin\DailyMorningHistoryController::class, 'TwodDailyMorningHistory'])->name('TwodDailyMorningHistory');
+    // TwodDailyEveningHistory
+    Route::get('/twod-daily-evening-history', [App\Http\Controllers\Admin\DailyMorningHistoryController::class, 'TwodDailyEveningHistory'])->name('TwodDailyEveningHistory');
 });

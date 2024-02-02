@@ -485,5 +485,20 @@ public static function getUserOneMonthThreeDigits($userId) {
         'total_amount' => $totalAmount,
     ];
 }
+
+public static function getAdmin2dDailyEveningHistory()
+{
+    $twodigits = Lottery::with('Admin2DEveningHistory')->get();
+
+    $displaytwoDigits = $twodigits->flatMap(function ($twodigit) {
+        return $twodigit->Admin2DMorningHistory;
+    });
+    $totalAmount = $displaytwoDigits->sum('pivot.sub_amount');
+
+    return [
+        'twoDigit' => $displaytwoDigits,
+        'total_amount' => $totalAmount,
+    ];
+}
     
 }

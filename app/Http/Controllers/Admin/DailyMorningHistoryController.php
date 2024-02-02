@@ -18,4 +18,14 @@ class DailyMorningHistoryController extends Controller
         'twod_limits' => $twod_limits,
     ]);
 }
+
+public function TwodDailyEveningHistory()
+{
+    $displayTwoDigits = User::getAdmin2dDailyEveningHistory();
+    $twod_limits = TwoDLimit::orderBy('id', 'desc')->first();
+    return view('admin.two_d.dailyeveing_history', [
+        'displayTwoDigits' => $displayTwoDigits,
+        'twod_limits' => $twod_limits,
+    ]);
+}
 }
