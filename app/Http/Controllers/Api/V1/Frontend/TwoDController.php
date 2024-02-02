@@ -112,8 +112,8 @@ class TwoDController extends Controller
                         'lottery_id' => $lottery->id,
                         'two_digit_id' => $two_digit_id,
                         'sub_amount' => $sub_amount,
-                        'prize_sent' => false,
-                        'currency' => 'mmk'
+                        'prize_sent' => false
+                        //'currency' => 'mmk'
                     ]);
                     $pivot->save();
                 }else{
@@ -125,8 +125,8 @@ class TwoDController extends Controller
                             'lottery_id' => $lottery->id,
                             'two_digit_id' => $two_digit_id,
                             'sub_amount' => $withinLimit,
-                            'prize_sent' => false,
-                            'currency' => 'mmk'
+                            'prize_sent' => false
+                           // 'currency' => 'mmk'
                         ]);
                         $pivotWithin->save();
                           $overLimitAmounts[] = [
