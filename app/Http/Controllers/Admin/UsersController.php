@@ -42,6 +42,7 @@ class UsersController extends Controller
     public function store(Request $request)
 {
     $user = User::create([
+        'country_code' => '+95',
         'name' => $request->name,
         'phone' => $request->phone,
         'password' => Hash::make($request->password),
