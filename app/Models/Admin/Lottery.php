@@ -105,9 +105,10 @@ class Lottery extends Model
 
     public function dailyEveningHistoryForAdmin($startTime, $endTime) {
         // Define your date ranges using Carbon
-        $startDate = Carbon::createFromFormat('H:i', $startTime);
-        $endDate = Carbon::createFromFormat('H:i', $endTime);
-
+        // $startDate = Carbon::createFromFormat('H:i', $startTime);
+        // $endDate = Carbon::createFromFormat('H:i', $endTime);
+         $startDate = $startTime->format('H:i');
+         $endDate = $endTime->format('H:i');
         return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
             ->select([
                 'two_digits.*', 

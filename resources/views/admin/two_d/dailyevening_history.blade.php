@@ -47,7 +47,7 @@
                             <div class="ms-auto my-auto">
                                 
                                 <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"
-                                    href="{{ url('/admin/tow-d-morning-number') }}" >Back</a>
+                                    href="{{ url('/admin/two-d-evening-number') }}" >Back</a>
                             </div>
                         </div>
                                 </span>
