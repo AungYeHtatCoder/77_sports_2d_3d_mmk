@@ -82,7 +82,7 @@ class Lottery extends Model
                     ->wherePivotBetween('created_at', [$onceMonthStart, $onceMonthEnd]);
     }
 
-    public function Admin2DMorningHistory($twoDid = [], $timezone = 'Asia/Yangon')
+    public function getAdmin2dDailyEveningHistory($twoDid = [], $timezone = 'Asia/Yangon')
     {
         if (empty($twoDid)) {
             $twoDid = Lottery::pluck('id');
