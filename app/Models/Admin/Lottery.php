@@ -110,11 +110,14 @@ class Lottery extends Model
 
 public function Admin2DEveningHistory($twoDid = [])
 {
+     $timezone = 'Asia/Yangon'; // Set your desired timezone
+
     if (empty($twoDid)) {
         $twoDid = Lottery::pluck('id');
     }
-    $timeAt5AM = Carbon::now()->setTime(12, 0);
-    $timeAt1230PM = Carbon::now()->setTime(17, 30);
+    
+    $timeAt12PM = Carbon::now($timezone)->setTime(12, 0);
+    $timeAt430PM = Carbon::now($timezone)->setTime(17, 30);
     return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
         ->select([
             'two_digits.*', 
@@ -125,8 +128,8 @@ public function Admin2DEveningHistory($twoDid = [])
             'lottery_two_digit_pivot.created_at AS pivot_created_at', 
             'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
         ])
-        ->where(function ($query) use ($timeAt5AM, $timeAt1230PM) {
-            $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt5AM, $timeAt1230PM]);
+        ->where(function ($query) use ($timeAt12PM, $timeAt430PM) {
+            $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM, $timeAt430PM]);
         })
         ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
         ->orderBy('lottery_two_digit_pivot.created_at', 'desc');

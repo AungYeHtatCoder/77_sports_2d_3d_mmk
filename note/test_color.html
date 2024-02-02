@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Golden Gradient Background with Wave</title>
+    <style>
+      .background {
+        height: 100vh;
+        background: linear-gradient(#b8860b, #ffd700, #ffa500);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .wave {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200%; /* Ensures the wave stretches across the entire screen */
+        height: 200px; /* Adjust height to suit */
+      }
+
+      .wave path {
+        fill: #ffd700; /* Your wave color */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background">
+      <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill-opacity="1" d="M0,160L1440,32L1440,320L0,320Z"></path>
+      </svg>
+    </div>
+  </body>
+</html>
