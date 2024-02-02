@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Golden Gradient Background</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .background {
+        height: 100%;
+        background: linear-gradient(#b8860b, #ffd700, #ffa500);
+        position: relative;
+      }
+
+      .wave {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 150px;
+        background: linear-gradient(#ffd700, #ffa500);
+        border-radius: 50% / 20%;
+        transform: scaleX(1.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background">
+      <div class="wave"></div>
+    </div>
+  </body>
+</html>

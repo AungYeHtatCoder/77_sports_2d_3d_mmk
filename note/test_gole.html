@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Golden Gradient Background with Wave</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .background {
+        height: 100%;
+        background: linear-gradient(#b8860b, #ffd700, #ffa500); /* Adjust your colors as needed */
+        position: relative;
+      }
+
+      .wave-path {
+        fill: url(#gradient); /* This applies the gradient to the wave */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background">
+      <svg
+        viewBox="0 24 150 28"
+        preserveAspectRatio="none"
+        style="height: 150px; position: absolute; bottom: 0; left: 0; width: 100%"
+      >
+        <defs>
+          <linearGradient id="gradient" gradientTransform="rotate(90)">
+            <stop offset="0%" stop-color="#FFD700" />
+            <stop offset="50%" stop-color="#FFA500" />
+            <stop offset="100%" stop-color="#FFD700" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M-196,44 l 224,-11 c 224,-11 224,22 448,0 c 224,-22 224,-11 448,0 l 224,11 v 28 h-1344 z"
+          class="wave-path"
+        ></path>
+      </svg>
+    </div>
+  </body>
+</html>

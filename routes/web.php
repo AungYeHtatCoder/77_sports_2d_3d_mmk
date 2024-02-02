@@ -298,4 +298,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     // commission update
    Route::post('jackpot-transfer-commission/{id}', [App\Http\Controllers\Admin\Commission\JackpotCommissionController::class, 'JackpottransferCommission'])->name('jackpot-transfer-commission');
     
+   // TwodDailyMorningHistory
+    Route::get('/twod-daily-morning-history', [App\Http\Controllers\Admin\DailyMorningHistoryController::class, 'TwodDailyMorningHistory'])->name('TwodDailyMorningHistory');
 });
