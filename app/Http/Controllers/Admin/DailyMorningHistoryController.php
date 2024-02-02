@@ -24,7 +24,7 @@ class DailyMorningHistoryController extends Controller
 
     public function getAdmin2dDailyMorningHistory()
     {
-        $lotteries = (new Lottery)->getLotteriesWithUserAndTwoDigits('5:00', '12:30')->get();
+        $lotteries = (new Lottery)->dailyMorningHistoryForAdmin('5:00', '12:30')->get();
 
         $totalAmount = 0;
         foreach ($lotteries as $lottery) {
@@ -40,12 +40,31 @@ class DailyMorningHistoryController extends Controller
     }
     public function TwodDailyEveningHistory()
     {
-        $displayTwoDigits = User::getAdmin2dDailyEveningHistory();
+        $lotteryData = $this->getAdmin2dDailyEveningHistory();
         $twod_limits = TwoDLimit::orderBy('id', 'desc')->first();
-        return view('admin.two_d.dailyeveing_history', [
-            'displayTwoDigits' => $displayTwoDigits,
+
+        return view('admin.two_d.dailyevening_history', [
+            'displayTwoDigits' => $lotteryData['twoDigit'],
+            'total_amount' => $lotteryData['total_amount'],
             'twod_limits' => $twod_limits,
         ]);
+    }
+
+    public function getAdmin2dDailyEveningHistory()
+    {
+        $lotteries = (new Lottery)->dailyEveningHistoryForAdmin('12:00', '17:30')->get();
+
+        $totalAmount = 0;
+        foreach ($lotteries as $lottery) {
+            foreach ($lottery->twoDigits as $twoDigit) {
+                $totalAmount += $twoDigit->pivot->sub_amount;
+            }
+        }
+
+        return [
+            'twoDigit' => $lotteries,
+            'total_amount' => $totalAmount,
+        ];
     }
 }
 //    public function TwodDailyMorningHistory()

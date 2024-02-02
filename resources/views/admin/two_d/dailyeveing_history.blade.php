@@ -47,7 +47,7 @@
                             <div class="ms-auto my-auto">
                                 
                                 <a class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1"
-                                    href="{{ url('/admin/two-d-evening-number') }}" >Back</a>
+                                    href="{{ url('/admin/tow-d-morning-number') }}" >Back</a>
                             </div>
                         </div>
                                 </span>
@@ -79,14 +79,14 @@
                 </tr>
            </thead>
             <tbody>
-        @if(isset($displayTwoDigit['twoDigit']) && count($displayTwoDigit['jackpotDigit']) == 0)
+        @if(isset($displayTwoDigits) && count($displayTwoDigits) == 0)
         <p class="text-center text-white px-3 py-2 mt-3" style="background-color: #c50408">
-          ကံစမ်းထားသော 2D ထီဂဏန်းများ မရှိသေးပါ
+        ကံစမ်းထားသော 2D ထီဂဏန်းများ မရှိသေးပါ
         </p>
         @endif
 
         @if($displayTwoDigits)
-         @foreach ($displayTwoDigits['twoDigit'] as $index => $digit)
+        @foreach ($displayTwoDigits as $index => $digit)
          <tr>
            <td>{{ $index + 1 }}</td>
            <td><p>===</p></td>
@@ -121,7 +121,7 @@
        </table>
         <div class="mb-3 d-flex justify-content-around text-white p-2 shadow border border-1" style="border-radius: 10px; background: var(--Primary, #12486b)">
       <p class="text-end pt-1" style="color: #fff">Total Amount : ||&nbsp; &nbsp; စုစုပေါင်းထိုးကြေး
-        <strong>{{ $displayTwoDigits['total_amount'] }} MMK</strong>
+        <strong>{{ $total_amount }} MMK</strong>
       </p>
     </div>
    </div>

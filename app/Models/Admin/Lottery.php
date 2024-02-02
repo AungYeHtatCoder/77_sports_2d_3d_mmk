@@ -83,7 +83,27 @@ class Lottery extends Model
                     ->wherePivotBetween('created_at', [$onceMonthStart, $onceMonthEnd]);
     }
 
-    public function getLotteriesWithUserAndTwoDigits($startTime, $endTime) {
+    public function dailyMorningHistoryForAdmin($startTime, $endTime) {
+        // Define your date ranges using Carbon
+        $startDate = Carbon::createFromFormat('H:i', $startTime);
+        $endDate = Carbon::createFromFormat('H:i', $endTime);
+
+        return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
+            ->select([
+                'two_digits.*', 
+                'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
+                'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
+                'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
+                'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
+                'lottery_two_digit_pivot.created_at AS pivot_created_at', 
+                'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
+            ])
+            ->whereBetween('lottery_two_digit_pivot.created_at', [$startDate, $endDate])
+            ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
+    }
+
+
+    public function dailyEveningHistoryForAdmin($startTime, $endTime) {
         // Define your date ranges using Carbon
         $startDate = Carbon::createFromFormat('H:i', $startTime);
         $endDate = Carbon::createFromFormat('H:i', $endTime);
