@@ -107,13 +107,25 @@ class Lottery extends Model
         ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
 }
 
-public function Admin2dDailyEveningHistory($twoDid = [], $timezone = 'Asia/Yangon')
+
+    public function Admin2dDailyEveningHistory($twoDid = [], $timestamp = '2022-01-01 00:00:00', $timezone = 'Asia/Yangon')
     {
         if (empty($twoDid)) {
             $twoDid = Lottery::pluck('id');
         }
-        $timeAt12PM = Carbon::now($timezone)->startOfDay()->setTime(12, 0);
-        $timeAt530PM = Carbon::now($timezone)->startOfDay()->setTime(17, 30);
+
+        // Create a DateTime object with the original timestamp
+        $dateTime = new DateTime($timestamp, new DateTimeZone('UTC')); // Assuming the original timestamp is in UTC
+
+        // Set the timezone to 'Asia/Yangon'
+        $dateTime->setTimezone(new DateTimeZone($timezone));
+
+        // Get the time at 12 PM and 5:30 PM in the new timezone
+        $timeAt12PM = clone $dateTime;
+        $timeAt12PM->setTime(12, 0);
+        $timeAt530PM = clone $dateTime;
+        $timeAt530PM->setTime(17, 30);
+
         return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
             ->select([
                 'two_digits.*', 
@@ -125,13 +137,39 @@ public function Admin2dDailyEveningHistory($twoDid = [], $timezone = 'Asia/Yango
                 'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
             ])
             ->where(function ($query) use ($timeAt12PM, $timeAt530PM) {
-                $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM, $timeAt530PM]);
+                $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM->format('Y-m-d H:i:s'), $timeAt530PM->format('Y-m-d H:i:s')]);
             })
             ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
             ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
     }
 
+
+    // public function Admin2dDailyEveningHistory($twoDid = [], $timezone = 'Asia/Yangon')
+    // {
+    //     if (empty($twoDid)) {
+    //         $twoDid = Lottery::pluck('id');
+    //     }
+    //     $timeAt12PM = Carbon::now($timezone)->startOfDay()->setTime(12, 0);
+    //     $timeAt530PM = Carbon::now($timezone)->startOfDay()->setTime(17, 30);
+    //     return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
+    //         ->select([
+    //             'two_digits.*', 
+    //             'lottery_two_digit_pivot.lottery_id AS pivot_lottery_id', 
+    //             'lottery_two_digit_pivot.two_digit_id AS pivot_two_digit_id', 
+    //             'lottery_two_digit_pivot.sub_amount AS pivot_sub_amount', 
+    //             'lottery_two_digit_pivot.prize_sent AS pivot_prize_sent', 
+    //             'lottery_two_digit_pivot.created_at AS pivot_created_at', 
+    //             'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
+    //         ])
+    //         ->where(function ($query) use ($timeAt12PM, $timeAt530PM) {
+    //             $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM, $timeAt530PM]);
+    //         })
+    //         ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
+    //         ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
+    // }
+
     
+
 // public function Admin2DEveningHistory($twoDid = [])
 // {
 //      $timezone = 'Asia/Yangon'; // Set your desired timezone
