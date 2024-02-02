@@ -104,7 +104,7 @@
         </option>
         @endforeach
        </select> --}}
-       <select class="form-control" name="roles[]" id="choices-roles" multiple>
+       <select class="form-control" name="roles[]" id="choices-roles">
     @foreach ($roles as $id => $role)
         <!-- Check if the current loop's role is 'User', if so, mark it as selected -->
         <option value="{{ $id }}" {{ $role === 'User' ? 'selected' : '' }} disabled>

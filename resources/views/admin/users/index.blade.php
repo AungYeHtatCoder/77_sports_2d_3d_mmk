@@ -41,6 +41,7 @@
      <thead class="thead-light">
       <th>#</th>
       <th>UserName</th>
+      <th>Balance</th>
       <th>Commission</th>
       <th>Role</th>
       <th>Created_at</th>
@@ -51,6 +52,7 @@
       <tr>
        <td class="text-sm font-weight-normal">{{ ++$key }}</td>
        <td class="text-sm font-weight-normal">{{ $user->name }}</td>
+        <td class="text-sm font-weight-normal">{{ $user->balance }}</td>
        <td class="text-sm font-weight-normal">{{ $user->commission_balance }}</td>
        <td class="text-sm font-weight-normal">
         @foreach ($user->roles as $role)
