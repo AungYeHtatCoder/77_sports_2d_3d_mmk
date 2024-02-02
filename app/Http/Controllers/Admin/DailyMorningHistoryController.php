@@ -14,12 +14,23 @@ class DailyMorningHistoryController extends Controller
 {
     public function TwodDailyMorningHistory()
     {
-        $lotteryData = $this->getAdmin2dDailyMorningHistory();
-        $twod_limits = TwoDLimit::orderBy('id', 'desc')->first();
+         $startTime = Carbon::today()->setHour(6)->setMinute(0); // Example: today at 2 PM
+        $endTime = Carbon::today()->setHour(12)->setMinute(30); // Example: today at 4 PM
+
+    // Fetch the two digits within the specified time range
+    $twoDigits = DB::table('lottery_two_digit_pivot')
+        ->join('two_digits', 'lottery_two_digit_pivot.two_digit_id', '=', 'two_digits.id')
+        ->whereBetween('lottery_two_digit_pivot.created_at', [$startTime, $endTime])
+        ->select('two_digits.two_digit', 'lottery_two_digit_pivot.sub_amount', 'lottery_two_digit_pivot.prize_sent',  'lottery_two_digit_pivot.created_at') // Select the columns you need
+        ->get();
+
+    // Calculate the total sum of sub_amount
+    $totalSubAmount = $twoDigits->sum('sub_amount');
+    $twod_limits = TwoDLimit::orderBy('id', 'desc')->first();
 
         return view('admin.two_d.dailymorning_history', [
-            'displayTwoDigits' => $lotteryData['twoDigit'],
-            'total_amount' => $lotteryData['total_amount'],
+           'displayTwoDigits' => $twoDigits,
+            'totalSubAmount' => $totalSubAmount,
             'twod_limits' => $twod_limits,
         ]);
     }

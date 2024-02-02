@@ -36,10 +36,7 @@
                             <h5 class="mb-0">2D - 12:1 စာရင်း ပေါင်းချုပ် -   Dashboards
                                 <span>
                                      <h6>
-                                      {{-- today date and time with js --}}
-                                      <span id="date_time"></span>
-                                      <script type="text/javascript">window.onload = date_time('date_time');</script>
-
+                                    <span id="date_time"></span>
                                      </h6>
                                 </span>
                                 <span>
@@ -93,22 +90,26 @@
            {{-- <td>{{ $digit->phone }}</td> --}}
            <td>{{ $digit->two_digit }}</td>
            <td>
-            @if($digit->pivot->sub_amount >= $twod_limits->two_d_limit)
+            @if($digit->sub_amount >= $twod_limits->two_d_limit)
             <span class="text-danger">
-          {{ $digit->pivot->sub_amount }}
+          {{ $digit->sub_amount }}
             </span>
             @else
             <p class="text-info">
-          {{ $digit->pivot->sub_amount }}
+          {{ $digit->sub_amount }}
             </p>
             @endif
            </td>
            <td class="text-sm font-weight-normal">
-            <span
-             class="badge bg-gradient-info">{{ $digit->created_at->format('d-m-Y (l) (h:i a)') }}</span>
+             {{ Carbon\Carbon::parse($digit->created_at)->format('h:i A') }}  
+            <span class="badge bg-gradient-info">
+             {{ Carbon\Carbon::parse($digit->created_at)->format('d-m-Y') }}
+            </span>
+            {{-- <span
+             class="badge bg-gradient-info">{{ $digit->created_at->format('d-m-Y (l) (h:i a)') }}</span> --}}
            </td>
            <td>
-            @if ($digit->pivot->prize_sent == 1)
+            @if ($digit->prize_sent == 1)
              <span class="text-success">Win</span>
             @else
              <span class="text-danger">Pending</span>
@@ -121,7 +122,7 @@
        </table>
         <div class="mb-3 d-flex justify-content-around text-white p-2 shadow border border-1" style="border-radius: 10px; background: var(--Primary, #12486b)">
       <p class="text-end pt-1" style="color: #fff">Total Amount : ||&nbsp; &nbsp; စုစုပေါင်းထိုးကြေး
-        <strong>{{ $total_amount }} MMK</strong>
+        <strong>{{ $totalSubAmount }} MMK</strong>
       </p>
     </div>
    </div>
@@ -169,4 +170,35 @@
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>
+    <script type="text/javascript">
+    function date_time(id) {
+        date = new Date;
+        year = date.getFullYear();
+        month = date.getMonth();
+        months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December');
+        d = date.getDate();
+        day = date.getDay();
+        days = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+        h = date.getHours();
+        if(h<10) {
+                h = "0"+h;
+        }
+        m = date.getMinutes();
+        if(m<10) {
+                m = "0"+m;
+        }
+        s = date.getSeconds();
+        if(s<10) {
+                s = "0"+s;
+        }
+        result = ''+days[day]+' '+months[month]+' '+d+' '+year+' '+h+':'+m+':'+s;
+        document.getElementById(id).innerHTML = result;
+        setTimeout('date_time("' + id + '");', '1000');
+        return true;
+    }
+
+    // Call the function immediately after defining to set the initial date and time
+    date_time('date_time');
+</script>
+
 @endsection
