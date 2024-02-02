@@ -268,7 +268,7 @@ public function Admin2DEveningHistory($twoDid = [])
     if (empty($twoDid)) {
         $twoDid = Lottery::pluck('id');
     }
-    $eveningStart = Carbon::now()->startOfDay()->addHours(12);
+    $eveningStart = Carbon::now()->startOfDay()->addHours(12)->setTime(12, 0);
     $eveningEnd = Carbon::now()->startOfDay()->addHours(24);
     $timeAt12PM = Carbon::now($timezone)->setTime(12, 0);
     $timeAt430PM = Carbon::now($timezone)->setTime(17, 30);
