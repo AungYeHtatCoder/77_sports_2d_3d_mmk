@@ -49,7 +49,7 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
-        $user->roles()->sync([4]);
+        $user->roles()->sync(4);
         return $this->success([
             'user' => $user,
             'token' => $user->createToken('API Token of '.$user->name)->plainTextToken
