@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Admin\Lottery;
@@ -52,7 +53,9 @@ class DailyMorningHistoryController extends Controller
 
     public function getAdmin2dDailyEveningHistory()
     {
-        $lotteries = (new Lottery)->dailyEveningHistoryForAdmin('12:00', '17:30')->get();
+        $eveningStart = Carbon::now()->startOfDay()->addHours(12);
+        $eveningEnd = Carbon::now()->startOfDay()->addHours(20);
+        $lotteries = (new Lottery)->dailyEveningHistoryForAdmin($eveningStart, $eveningEnd)->get();
 
         $totalAmount = 0;
         foreach ($lotteries as $lottery) {
