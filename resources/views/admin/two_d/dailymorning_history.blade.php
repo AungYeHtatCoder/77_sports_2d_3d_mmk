@@ -89,7 +89,7 @@
          @foreach ($displayTwoDigits['twoDigit'] as $index => $digit)
          <tr>
            <td>{{ $index + 1 }}</td>
-           <td>{{ === }}</td>
+           <td><p>===</p></td>
            {{-- <td>{{ $digit->phone }}</td> --}}
            <td>{{ $digit->two_digit }}</td>
            <td>
