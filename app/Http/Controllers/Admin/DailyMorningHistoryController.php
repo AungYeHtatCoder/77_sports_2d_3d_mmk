@@ -24,11 +24,14 @@ class DailyMorningHistoryController extends Controller
 
     public function getAdmin2dDailyMorningHistory()
     {
-        $lotteries = (new Lottery)->getLotteriesWithUserAndTwoDigits('5:00', '12:30');
+        $lotteries = (new Lottery)->getLotteriesWithUserAndTwoDigits('5:00', '12:30')->get();
 
-        $totalAmount = $lotteries->sum(function ($lottery) {
-            return $lottery->twoDigits->sum('pivot.sub_amount');
-        });
+        $totalAmount = 0;
+        foreach ($lotteries as $lottery) {
+            foreach ($lottery->twoDigits as $twoDigit) {
+                $totalAmount += $twoDigit->pivot->sub_amount;
+            }
+        }
 
         return [
             'twoDigit' => $lotteries,
