@@ -268,7 +268,8 @@ public function Admin2DEveningHistory($twoDid = [])
     if (empty($twoDid)) {
         $twoDid = Lottery::pluck('id');
     }
-    
+    $eveningStart = Carbon::now()->startOfDay()->addHours(12);
+    $eveningEnd = Carbon::now()->startOfDay()->addHours(24);
     $timeAt12PM = Carbon::now($timezone)->setTime(12, 0);
     $timeAt430PM = Carbon::now($timezone)->setTime(17, 30);
     return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot', 'lottery_id', 'two_digit_id')
@@ -281,8 +282,8 @@ public function Admin2DEveningHistory($twoDid = [])
             'lottery_two_digit_pivot.created_at AS pivot_created_at', 
             'lottery_two_digit_pivot.updated_at AS pivot_updated_at'
         ])
-        ->where(function ($query) use ($timeAt12PM, $timeAt430PM) {
-            $query->whereBetween('lottery_two_digit_pivot.created_at', [$timeAt12PM, $timeAt430PM]);
+        ->where(function ($query) use ($eveningStart, $eveningEnd) {
+            $query->whereBetween('lottery_two_digit_pivot.created_at', [$eveningStart, $eveningEnd]);
         })
         ->whereIn('lottery_two_digit_pivot.lottery_id', $twoDid)
         ->orderBy('lottery_two_digit_pivot.created_at', 'desc');
