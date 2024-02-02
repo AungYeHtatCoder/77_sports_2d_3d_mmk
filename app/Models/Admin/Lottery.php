@@ -115,10 +115,10 @@ class Lottery extends Model
         }
 
         // Create a DateTime object with the original timestamp
-        $dateTime = new DateTime($timestamp, new DateTimeZone('UTC')); // Assuming the original timestamp is in UTC
+        $dateTime = new \DateTime($timestamp, new \DateTimeZone('UTC')); // Assuming the original timestamp is in UTC
 
         // Set the timezone to 'Asia/Yangon'
-        $dateTime->setTimezone(new DateTimeZone($timezone));
+        $dateTime->setTimezone(new \DateTimeZone($timezone));
 
         // Get the time at 12 PM and 5:30 PM in the new timezone
         $timeAt12PM = clone $dateTime;
