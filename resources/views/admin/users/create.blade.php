@@ -87,8 +87,8 @@
        <input type="text" id="name" name="name" class="form-control">
       </div>
       <div class="custom-form-group">
-       <label for="title">Email</label>
-       <input type="email" id="email" name="email" class="form-control">
+       <label for="title">Phone</label>
+       <input type="text" id="email" name="phone" class="form-control">
       </div>
       <div class="custom-form-group">
        <label for="title">Password</label>
@@ -97,13 +97,22 @@
 
       <div class="custom-form-group">
        <label for="choices-role">Choose Role</label>
-       <select class="form-control" name="roles[]" id="choices-roles" multiple>
+       {{-- <select class="form-control" name="roles[]" id="choices-roles" multiple>
         @foreach ($roles as $id => $role)
         <option value="{{ $id }}" {{ in_array($id, old('roles', [])) ? 'selected' : '' }}>
          {{ $role }}
         </option>
         @endforeach
-       </select>
+       </select> --}}
+       <select class="form-control" name="roles[]" id="choices-roles" multiple>
+    @foreach ($roles as $id => $role)
+        <!-- Check if the current loop's role is 'User', if so, mark it as selected -->
+        <option value="{{ $id }}" {{ $role === 'User' ? 'selected' : '' }}>
+            {{ $role }}
+        </option>
+    @endforeach
+</select>
+
       </div>
 
       <div class="custom-form-group">
