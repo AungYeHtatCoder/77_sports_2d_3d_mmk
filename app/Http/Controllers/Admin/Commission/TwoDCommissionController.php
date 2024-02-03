@@ -28,18 +28,18 @@ class TwoDCommissionController extends Controller
     // ->groupBy('lotteries.user_id')
     // ->get();
     $totalAmounts = Lottery::join('users', 'lotteries.user_id', '=', 'users.id')
-    ->select(
-        DB::raw('ANY_VALUE(users.name) as name'),
-        DB::raw('ANY_VALUE(users.phone) as phone'),
-        DB::raw('ANY_VALUE(lotteries.id) as lottery_id'),
-        DB::raw('ANY_VALUE(lotteries.comission) as comission'),
-        DB::raw('ANY_VALUE(lotteries.commission_amount) as commission_amount'),
-        DB::raw('ANY_VALUE(lotteries.status) as status'),
-        'lotteries.user_id',
-        DB::raw('SUM(lotteries.total_amount) as total_amount')
-    )
-    ->groupBy('lotteries.user_id')
-    ->get();
+        ->select([
+            DB::raw('ANY_VALUE(users.name) as name'),
+            DB::raw('ANY_VALUE(users.phone) as phone'),
+            DB::raw('ANY_VALUE(lotteries.id) as lottery_id'),
+            DB::raw('ANY_VALUE(lotteries.comission) as comission'),
+            DB::raw('ANY_VALUE(lotteries.commission_amount) as commission_amount'),
+            DB::raw('ANY_VALUE(lotteries.status) as status'),
+            'lotteries.user_id',
+            DB::raw('SUM(lotteries.total_amount) as total_amount')
+        ])
+        ->groupBy('lotteries.user_id')
+        ->get();
 
 
 
