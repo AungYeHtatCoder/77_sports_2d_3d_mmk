@@ -96,10 +96,16 @@
                         @endphp
                         <input type="hidden" value="{{ $commission }}" class="commission-amount-input">
                     </td>
-                    <td>
+                    {{-- <td>
                         <button type="button" class="btn btn-primary btn-sm w-100 update-commission" data-lotto-id="{{ $totalAmount->lottery_id }}">
                             <i class="material-icons" style="font-size: 24px;">update</i>
                         </button>
+                    </td> --}}
+                    <td>
+                    <!-- Adjust the data attribute to pass the user_id -->
+                    <button type="button" class="btn btn-primary btn-sm w-100 update-commission" data-user-id="{{ $totalAmount->user_id }}">
+                        <i class="material-icons" style="font-size: 24px;">update</i>
+                    </button>
                     </td>
                     <td>
                     <a href="{{ route('admin.three-d-commission-show', $totalAmount->lottery_id) }}" class="btn btn-primary btn-sm">Transfer</a>
@@ -121,13 +127,14 @@
     <script>
         $(document).ready(function(){
     $('.update-commission').click(function(){
-        var lottoId = $(this).data('lotto-id'); // Get the data-lotto-id attribute value
+       // var lottoId = $(this).data('lotto-id'); // Get the data-lotto-id attribute value
+        var userId = $(this).data('user-id'); // Get the user_id
         var commissionValue = $(this).closest('tr').find('.commission-input').val(); // Get the commission value from the input field
         var commissionAmountValue = $(this).closest('tr').find('.commission-amount-input').val(); // Get the commission value from the input field
         var statusValue = 'approved';
 
         $.ajax({
-            url: "/admin/three-d-commission-update/" + lottoId, // Update with your actual path
+            url: "/admin/three-d-commission-update/" + userId, // Update with your actual path
             type: 'POST',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
