@@ -58,30 +58,51 @@ class TwoDCommissionController extends Controller
         return view('admin.commission.two_d_commission_show', compact('lotto', 'user'));
     }
 
-    public function update(Request $request, $id)
+//     public function update(Request $request, $id)
+// {
+//     Log::info($request->all());
+//     // Validate the request data
+//     $validatedData = $request->validate([
+//         'commission' => 'required|numeric',
+//         'commission_amount' => 'required|numeric',
+//         'status' => 'string',
+//     ]);
+
+//     // Find the Lotto record by its id
+//     $lotto = Lottery::findOrFail($id);
+
+//     // Update the commission field
+//     $lotto->comission = $validatedData['commission'];
+//     $lotto->commission_amount = $validatedData['commission_amount'];
+//     $lotto->status = $validatedData['status'];
+
+//     // Save the changes to the database
+//     $lotto->save();
+
+//     // Redirect back with a success message
+//     return redirect()->back()->with('success', 'Commission updated successfully.');
+// }
+public function update(Request $request, $userId)
 {
-    Log::info($request->all());
     // Validate the request data
     $validatedData = $request->validate([
         'commission' => 'required|numeric',
         'commission_amount' => 'required|numeric',
-        'status' => 'string',
+        'status' => 'required|string',
     ]);
 
-    // Find the Lotto record by its id
-    $lotto = Lottery::findOrFail($id);
-
-    // Update the commission field
-    $lotto->comission = $validatedData['commission'];
-    $lotto->commission_amount = $validatedData['commission_amount'];
-    $lotto->status = $validatedData['status'];
-
-    // Save the changes to the database
-    $lotto->save();
+    // Update records by user_id
+    Lottery::where('user_id', $userId)
+         ->update([
+             'comission' => $validatedData['commission'],
+             'commission_amount' => $validatedData['commission_amount'],
+             'status' => $validatedData['status'],
+         ]);
 
     // Redirect back with a success message
-    return redirect()->back()->with('success', 'Commission updated successfully.');
+    return redirect()->back()->with('success', 'Commissions updated successfully.');
 }
+
 
     public function TwoDtransferCommission(Request $request)
 {
