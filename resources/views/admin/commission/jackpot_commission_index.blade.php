@@ -34,7 +34,7 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">အောက်နှစ်လုံးထီ ကော်မစ်ရှင်း ပေါင်းချုပ် စာရင်း  Dashboard
+                            <h5 class="mb-0">အောက်နှစ်လုံး ကော်မစ်ရှင်း ပေါင်းချုပ် စာရင်း  Dashboard
                             </h5>
 
                         </div>
@@ -66,7 +66,7 @@
                   @foreach($totalAmounts as $index => $totalAmount)
                    <tr>
                     {{-- <td>{{ $index + 1 }}</td> --}}
-                    <td>{{ $totalAmount->id }}</td>
+                    <td>{{ $totalAmount->lottery_id }}</td>
                     <td>{{ $totalAmount->name }}</td>
                     <td>{{ $totalAmount->total_amount }}</td>
                     <td>
@@ -97,12 +97,12 @@
                         <input type="hidden" value="{{ $commission }}" class="commission-amount-input">
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm w-100 update-commission" data-lotto-id="{{ $totalAmount->id }}">
+                        <button type="button" class="btn btn-primary btn-sm w-100 update-commission" data-lotto-id="{{ $totalAmount->lottery_id }}">
                             <i class="material-icons" style="font-size: 24px;">update</i>
                         </button>
                     </td>
                     <td>
-                    <a href="{{ route('admin.jackpot-commission-show', $totalAmount->id) }}" class="btn btn-primary btn-sm">Transfer</a>
+                    <a href="{{ route('admin.two-d-commission-show', $totalAmount->lottery_id) }}" class="btn btn-primary btn-sm">Transfer</a>
                     </td> 
                    </tr>
                   @endforeach
@@ -127,7 +127,7 @@
         var statusValue = 'approved';
 
         $.ajax({
-            url: "/admin/jackpot-commission-update/" + lottoId, // Update with your actual path
+            url: "/admin/two-d-commission-update/" + lottoId, // Update with your actual path
             type: 'POST',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),

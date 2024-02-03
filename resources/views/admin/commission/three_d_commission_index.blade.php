@@ -66,7 +66,7 @@
                   @foreach($totalAmounts as $index => $totalAmount)
                    <tr>
                     {{-- <td>{{ $index + 1 }}</td> --}}
-                    <td>{{ $totalAmount->id }}</td>
+                    <td>{{ $totalAmount->lottery_id }}</td>
                     <td>{{ $totalAmount->name }}</td>
                     <td>{{ $totalAmount->total_amount }}</td>
                     <td>
@@ -77,14 +77,7 @@
                             {{ $commission }}
                     </td>
                     <td>
-                        {{-- commission caculate --}}
-                         {{-- @php
-                        $commission = ($totalAmount->total_amount * $totalAmount->comission) / 100;
-                        @endphp
-
-                        {{ $commission }} --}}
-                        {{ $totalAmount->commission_amount }}
-                                    
+                        {{ $totalAmount->commission_amount }}            
                     </td> 
                     <td>
                         @if($totalAmount->status == 'pending')
@@ -104,26 +97,12 @@
                         <input type="hidden" value="{{ $commission }}" class="commission-amount-input">
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm w-100 update-commission" data-lotto-id="{{ $totalAmount->id }}">
+                        <button type="button" class="btn btn-primary btn-sm w-100 update-commission" data-lotto-id="{{ $totalAmount->lottery_id }}">
                             <i class="material-icons" style="font-size: 24px;">update</i>
                         </button>
                     </td>
-
                     <td>
-                    <!-- Add a data attribute for the user ID and commission -->
-                    {{-- <button type="button" class="btn btn-primary btn-sm w-100 transfer-commission" data-lottery-id="{{ $totalAmount->id }}" data-commission="{{ $commission }}">Transfer</button> --}}
-                    {{-- <form action="{{ route('admin.three-d-transfer-commission') }}" method="POST">
-                        @csrf
-
-                        <input type="hidden" name="lotto_id" value="{{ $totalAmount->id }}">
-                        <input type="hidden" name="commission" value="{{ $commission }}">
-                       <button type="button" class="btn btn-primary btn-sm w-100">
-                        <i class="material-icons" style="font-size: 24px;">update</i>
-                        </button>
-                    </form> --}}
-                    
-                    <a href="{{ route('admin.three-d-commission-show', $totalAmount->id) }}" class="btn btn-primary btn-sm">Transfer</a>
-                   
+                    <a href="{{ route('admin.two-d-commission-show', $totalAmount->lottery_id) }}" class="btn btn-primary btn-sm">Transfer</a>
                     </td> 
                    </tr>
                   @endforeach
@@ -139,20 +118,6 @@
     <script src="{{ asset('admin_app/assets/js/plugins/datatables.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-{{-- <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    @if(session('success'))
-    Swal.fire({
-      icon: 'success',
-      title: 'Success!',
-      text: '{{ session('success') }}', // Make sure the session key is 'success'
-      timer: 3000,
-      showConfirmButton: false
-    });
-    @endif
-  });
-</script> --}}
-
     <script>
         $(document).ready(function(){
     $('.update-commission').click(function(){
@@ -162,7 +127,7 @@
         var statusValue = 'approved';
 
         $.ajax({
-            url: "/admin/three-d-commission-update/" + lottoId, // Update with your actual path
+            url: "/admin/two-d-commission-update/" + lottoId, // Update with your actual path
             type: 'POST',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -198,91 +163,7 @@
     });
 });
 
-// $(document).ready(function(){
-//     $('.update-commission').click(function(){
-//         var lottoId = $(this).data('lotto-id');
-//         var commissionValue = $(this).closest('tr').find('.commission-input').val();
-//         var statusValue = 'approved';
-//         $.ajax({
-//             url: "/admin/three-d-commission-update/" + lottoId,
-//             type: 'POST',
-//             headers: {
-//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-//                 'X-HTTP-Method-Override': 'PUT' // For overriding the POST method to PUT.
-//             },
-//             data: {
-//                 'commission': commissionValue,
-//                  'status': statusValue
-//             },
-//             success: function(response) {
-//                 alert('Commission updated successfully!');
-//             },
-//             error: function(jqXHR, textStatus, errorThrown) {
-//                 alert('Failed to update commission: ' + errorThrown);
-//             }
-//         });
-//     });
-// });
-</script>
-<script>
-//     $(document).ready(function(){
-//     $('.transfer-commission').click(function(){
-//         var lottoId = $(this).data('lottery-id');
-//         var commission = $(this).data('commission');
 
-//         $.ajax({
-//         url: "/admin/three-d-transfer-commission/",
-//         type: 'Post',
-//         headers: {
-//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-//         },
-//         data: {
-//             commission: commission
-//         },
-       
-//         success: function(response) {
-//             // Handle success
-//             alert(response.message);
-//         },
-//         error: function(jqXHR, textStatus, errorThrown) {
-//             // Handle errors
-//             alert('Failed to transfer commission: ' + errorThrown);
-//         }
-//     });
-//     });
-// });
-
-
-
-// $(document).ready(function(){
-//     $('.transfer-commission').click(function(){
-//         //var userId = $(this).data('user-id');
-//         var lottoId = $(this).data('lotto-id');
-//         var commission = $(this).data('commission');
-
-//         $.ajax({
-//              url: "/admin/three-d-transfer-commission",
-//                 type: 'POST',
-//                 headers: {
-//                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-//                 },
-//             data: {
-//                 _token: '{{ csrf_token() }}',
-//                 lotto_id: lottoId,
-//                 commission: commission,
-                
-//             },
-//             success: function(response) {
-//                 // Handle success. For example, alert the user.
-//                 alert(response.message);
-//             },
-//             error: function(jqXHR, textStatus, errorThrown) {
-//                 // Handle errors. For example, alert the user.
-//                 alert('Failed to transfer commission: ' + errorThrown);
-//             }
-//         });
-//     });
-// });
 </script>
 
 
@@ -312,34 +193,7 @@
             });
         };
     </script>
-    {{-- <script>
-$(document).ready(function(){
-    $('.update-commission').click(function(){
-        var lottoId = $(this).data('lotto-id'); // Get the data-lotto-id attribute value
-        var commissionValue = $(this).closest('tr').find('input[name="commission"]').val(); // Get the commission value from the input field
-
-        $.ajax({
-            url: "{{ url('admin/three-d-commission-update') }}/" + lottoId, // Update with your actual path
-            type: 'PUT',
-            data: {
-                '_token': '{{ csrf_token() }}',
-                'commission': commissionValue,
-                'lotto_id': lottoId // If your route or controller requires the lotto_id to be sent explicitly
-            },
-            success: function(response) {
-                // Handle the response from the server
-                alert('Commission updated successfully!');
-                // You might want to update the UI to reflect the new commission value
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Handle any errors
-                alert('Failed to update commission: ' + errorThrown);
-            }
-        });
-    });
-});
-</script> --}}
-
+   
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {

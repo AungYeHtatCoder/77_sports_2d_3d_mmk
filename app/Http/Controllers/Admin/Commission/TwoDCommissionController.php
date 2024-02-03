@@ -18,15 +18,7 @@ class TwoDCommissionController extends Controller
         //     ->select('users.name', 'lotteries.user_id', 'lotteries.id', 'lotteries.comission', 'lotteries.commission_amount', 'lotteries.status', DB::raw('SUM(lotteries.total_amount) as total_amount'))
         //     ->groupBy('lotteries.user_id')
         //     ->get();
-    //     $totalAmounts = Lottery::join('users', 'lotteries.user_id', '=', 'users.id')
-    // ->select('users.name', 'lotteries.user_id', DB::raw('SUM(lotteries.total_amount) as total_amount'))
-    // ->groupBy('lotteries.user_id')
-    // ->get();
-
-    // $users = Lottery::join('users', 'lotteries.user_id', '=', 'users.id')
-    // ->select('users.name', 'lotteries.user_id', 'lotteries.id', 'lotteries.comission', 'lotteries.commission_amount', 'lotteries.status')
-    // ->groupBy('lotteries.user_id')
-    // ->get();
+    
     $totalAmounts = Lottery::join('users', 'lotteries.user_id', '=', 'users.id')
         ->select([
             DB::raw('MAX(users.name) as name'),
@@ -40,9 +32,6 @@ class TwoDCommissionController extends Controller
         ])
         ->groupBy('lotteries.user_id')
         ->get();
-
-
-
         $commission_percent = Commission::latest()->first();
 
         //$commission = $commission_percent ? $commission_percent->commission : 0;
@@ -51,7 +40,6 @@ class TwoDCommissionController extends Controller
          [
             'totalAmounts' => $totalAmounts,
            // 'commission_percent' => $commission
-            //'users' => $users
         ]);
     }
 
