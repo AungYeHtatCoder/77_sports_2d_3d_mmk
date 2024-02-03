@@ -66,7 +66,7 @@
                   @foreach($totalAmounts as $index => $totalAmount)
                    <tr>
                     {{-- <td>{{ $index + 1 }}</td> --}}
-                    <td>{{ $totalAmount->id }}</td>
+                    <td>{{ $totalAmount->lottery_id }}</td>
                     <td>{{ $totalAmount->name }}</td>
                     <td>{{ $totalAmount->total_amount }}</td>
                     <td>
@@ -97,12 +97,12 @@
                         <input type="hidden" value="{{ $commission }}" class="commission-amount-input">
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm w-100 update-commission" data-lotto-id="{{ $totalAmount->id }}">
+                        <button type="button" class="btn btn-primary btn-sm w-100 update-commission" data-lotto-id="{{ $totalAmount->lottery_id }}">
                             <i class="material-icons" style="font-size: 24px;">update</i>
                         </button>
                     </td>
                     <td>
-                    <a href="{{ route('admin.two-d-commission-show', $totalAmount->id) }}" class="btn btn-primary btn-sm">Transfer</a>
+                    <a href="{{ route('admin.two-d-commission-show', $totalAmount->lottery_id) }}" class="btn btn-primary btn-sm">Transfer</a>
                     </td> 
                    </tr>
                   @endforeach
