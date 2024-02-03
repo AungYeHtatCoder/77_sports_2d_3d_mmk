@@ -134,60 +134,82 @@ class TwoDWinnerHistoryController extends Controller
 
     public function updatePrizeSentDate($winnerId)
     {
-        // Find the lottery_two_digit_pivot record
-        $lotteryTwoDigitPivot = DB::table('lottery_two_digit_pivot')->where('lottery_id', $winnerId)->first();
-
-        // Check if the record exists
-        if (!$lotteryTwoDigitPivot) {
-            return redirect()->back()->with('error', 'Record not found!');
-        }
-
         $currentTime = Carbon::now()->format('H:i');
-
-        // Define the session times
-       // $earlyMorningSessionEnd = Carbon::createFromTimeString('09:30')->format('H:i');
         $morningSessionEnd = Carbon::createFromTimeString('12:00')->format('H:i');
-        //$earlyEveningSessionEnd = Carbon::createFromTimeString('14:00')->format('H:i');
         $eveningSessionEnd = Carbon::createFromTimeString('16:30')->format('H:i');
 
-        // Check the current time and update the prize_sent field based on the session time
-        if($currentTime <= $morningSessionEnd) {
+        // Define the session based on the current time
+        $session = ($currentTime <= $morningSessionEnd) ? 'morning' : (($currentTime <= $eveningSessionEnd) ? 'evening' : null);
+
+        if ($session) {
+            // Join with the lotteries table to access the session column
             DB::table('lottery_two_digit_pivot')
-                ->where('lottery_id', $winnerId)
-                ->where('session', 'morning')
+                ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
+                ->where('lottery_two_digit_pivot.lottery_id', $winnerId)
+                ->where('lotteries.session', $session)
                 ->update(['prize_sent' => true]);
-        } elseif ($currentTime <= $eveningSessionEnd) {
-            DB::table('lottery_two_digit_pivot')
-                ->where('lottery_id', $winnerId)
-                ->where('session', 'evening')
-                ->update(['prize_sent' => true]);
-        }else{
+
+            return redirect()->back()->with('success', 'Prize sent date updated successfully!');
+        } else {
             return redirect()->back()->with('error', 'Record not found!');
         }
-        // if ($currentTime <= $earlyMorningSessionEnd) {
-        //     DB::table('lottery_two_digit_pivot')
-        //         ->where('lottery_id', $winnerId)
-        //         ->where('session', 'early-morning')
-        //         ->update(['prize_sent' => true]);
-        // } elseif ($currentTime <= $morningSessionEnd) {
-        //     DB::table('lottery_two_digit_pivot')
-        //         ->where('lottery_id', $winnerId)
-        //         ->where('session', 'morning')
-        //         ->update(['prize_sent' => true]);
-        // } elseif ($currentTime <= $earlyEveningSessionEnd) {
-        //     DB::table('lottery_two_digit_pivot')
-        //         ->where('lottery_id', $winnerId)
-        //         ->where('session', 'early-evening')
-        //         ->update(['prize_sent' => true]);
-        // } elseif ($currentTime <= $eveningSessionEnd) {
-        //     DB::table('lottery_two_digit_pivot')
-        //         ->where('lottery_id', $winnerId)
-        //         ->where('session', 'evening')
-        //         ->update(['prize_sent' => true]);
-        // }
-
-        return redirect()->back()->with('success', 'Prize sent date updated successfully!');
     }
+    // public function updatePrizeSentDate($winnerId)
+    // {
+    //     // Find the lottery_two_digit_pivot record
+    //     $lotteryTwoDigitPivot = DB::table('lottery_two_digit_pivot')->where('lottery_id', $winnerId)->first();
+
+    //     // Check if the record exists
+    //     if (!$lotteryTwoDigitPivot) {
+    //         return redirect()->back()->with('error', 'Record not found!');
+    //     }
+
+    //     $currentTime = Carbon::now()->format('H:i');
+
+    //     // Define the session times
+    //    // $earlyMorningSessionEnd = Carbon::createFromTimeString('09:30')->format('H:i');
+    //     $morningSessionEnd = Carbon::createFromTimeString('12:00')->format('H:i');
+    //     //$earlyEveningSessionEnd = Carbon::createFromTimeString('14:00')->format('H:i');
+    //     $eveningSessionEnd = Carbon::createFromTimeString('16:30')->format('H:i');
+
+    //     // Check the current time and update the prize_sent field based on the session time
+    //     if($currentTime <= $morningSessionEnd) {
+    //         DB::table('lottery_two_digit_pivot')
+    //             ->where('lottery_id', $winnerId)
+    //             ->where('session', 'morning')
+    //             ->update(['prize_sent' => true]);
+    //     } elseif ($currentTime <= $eveningSessionEnd) {
+    //         DB::table('lottery_two_digit_pivot')
+    //             ->where('lottery_id', $winnerId)
+    //             ->where('session', 'evening')
+    //             ->update(['prize_sent' => true]);
+    //     }else{
+    //         return redirect()->back()->with('error', 'Record not found!');
+    //     }
+    //     // if ($currentTime <= $earlyMorningSessionEnd) {
+    //     //     DB::table('lottery_two_digit_pivot')
+    //     //         ->where('lottery_id', $winnerId)
+    //     //         ->where('session', 'early-morning')
+    //     //         ->update(['prize_sent' => true]);
+    //     // } elseif ($currentTime <= $morningSessionEnd) {
+    //     //     DB::table('lottery_two_digit_pivot')
+    //     //         ->where('lottery_id', $winnerId)
+    //     //         ->where('session', 'morning')
+    //     //         ->update(['prize_sent' => true]);
+    //     // } elseif ($currentTime <= $earlyEveningSessionEnd) {
+    //     //     DB::table('lottery_two_digit_pivot')
+    //     //         ->where('lottery_id', $winnerId)
+    //     //         ->where('session', 'early-evening')
+    //     //         ->update(['prize_sent' => true]);
+    //     // } elseif ($currentTime <= $eveningSessionEnd) {
+    //     //     DB::table('lottery_two_digit_pivot')
+    //     //         ->where('lottery_id', $winnerId)
+    //     //         ->where('session', 'evening')
+    //     //         ->update(['prize_sent' => true]);
+    //     // }
+
+    //     return redirect()->back()->with('success', 'Prize sent date updated successfully!');
+    // }
 
     public function getWinnersHistoryForAdminGroupBySessionApi()
     {
