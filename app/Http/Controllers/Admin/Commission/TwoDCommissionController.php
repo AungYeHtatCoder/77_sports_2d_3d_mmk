@@ -16,7 +16,7 @@ class TwoDCommissionController extends Controller
     {
         $totalAmounts = Lottery::join('users', 'lotteries.user_id', '=', 'users.id')
             ->select('users.name', 'lotteries.user_id', 'lotteries.id', 'lotteries.comission', 'lotteries.commission_amount', 'lotteries.status', DB::raw('SUM(lotteries.total_amount) as total_amount'))
-            ->groupBy('lotteries.user_id', 'users.name', 'lotteries.id', 'lotteries.comission', 'lotteries.commission_amount', 'lotteries.status')
+            ->groupBy('lotteries.user_id')
             ->get();
 
         $commission_percent = Commission::latest()->first();
