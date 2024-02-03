@@ -102,7 +102,7 @@
                         </button>
                     </td>
                     <td>
-                    <a href="{{ route('admin.two-d-commission-show', $totalAmount->lottery_id) }}" class="btn btn-primary btn-sm">Transfer</a>
+                    <a href="{{ route('admin.three-d-commission-show', $totalAmount->lottery_id) }}" class="btn btn-primary btn-sm">Transfer</a>
                     </td> 
                    </tr>
                   @endforeach
@@ -127,7 +127,7 @@
         var statusValue = 'approved';
 
         $.ajax({
-            url: "/admin/two-d-commission-update/" + lottoId, // Update with your actual path
+            url: "/admin/three-d-commission-update/" + lottoId, // Update with your actual path
             type: 'POST',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
