@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
     {
         $users = [
             [
-                'name'           => 'Admin | NanDaAung',
+                'name'           => 'Super Admin',
                 'country_code' => "+95",
                 'phone'          => '09123456789',
                 'password'       => '$2y$10$qyxYm.2dlaXROvs0OrGHseo4qbeissRMqNWdhlcr/vUqE62vN94Fi', // password
@@ -24,9 +24,9 @@ class UsersTableSeeder extends Seeder
                 'updated_at'     => '2019-09-10 14:00:26',
             ],
             [
-                'name'           => 'Aung Myo Kyaw',
+                'name'           => 'Admin',
                 'country_code' => "+95",
-                'phone'          => '09112345678',
+                'phone'          => '09223456789',
                 'password'       => '$2y$10$qyxYm.2dlaXROvs0OrGHseo4qbeissRMqNWdhlcr/vUqE62vN94Fi', // password
                 'remember_token' => null,
                 'created_at'     => '2023-08-14 14:00:26',

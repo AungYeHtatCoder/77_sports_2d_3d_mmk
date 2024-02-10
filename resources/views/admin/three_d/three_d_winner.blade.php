@@ -54,7 +54,7 @@
                             <th>PlayerName</th>
                             <th>Winning Three Digits</th>
                             <th>Bet Amount</th>
-                            <th>12PM - 2:30 PM</th>
+                            <th>Date</th>
                             <th>Prize Amount</th>
                             <th>SendToAccBalance</th>
                         </thead>
