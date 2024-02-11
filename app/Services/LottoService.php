@@ -20,7 +20,6 @@ class LottoService
         try {
             // Retrieve the authenticated user
             $user = Auth::user();
-            $user->balance -= $totalAmount;
 
             // Check if the user's balance is sufficient
             if ($user->balance < 0) {
@@ -28,8 +27,7 @@ class LottoService
             }
 
             // Save the user with the new balance
-        /** @var \App\Models\User $user */
-            $user->save();
+        
 
             // Create a new lottery record
             $lottery = Lotto::create([
@@ -41,6 +39,10 @@ class LottoService
             foreach ($amounts as $item) {
                 $this->processAmount($item, $lottery);
             }
+            /** @var \App\Models\User $user */
+            $user->balance -= $totalAmount;
+            $user->save();
+            
 
             // Commit the transaction
             DB::commit();
@@ -85,6 +87,7 @@ class LottoService
             'currency' => 'mmk'
         ]);
         $pivot->save();
+       
 
         // Perform additional actions if necessary
         // ...
