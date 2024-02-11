@@ -61,18 +61,18 @@ class TwoDLotteryService
            ->map(function ($twoDigit) {
             // Convert main model timestamps
             if ($twoDigit->created_at && $twoDigit->created_at instanceof \DateTime) {
-             $twoDigit->created_at->setTimezone(new \DateTimeZone('Asia/Yangon'));
+             $twoDigit->created_at = Carbon::parse($twoDigit->created_at)->setTimezone('Asia/Yangon')->toIso8601String();
             }
             if ($twoDigit->updated_at && $twoDigit->updated_at instanceof \DateTime) {
-             $twoDigit->updated_at->setTimezone(new \DateTimeZone('Asia/Yangon'));
+             $twoDigit->updated_at = Carbon::parse($twoDigit->updated_at)->setTimezone('Asia/Yangon')->toIso8601String();
             }
             
             // Convert pivot timestamps
             if ($twoDigit->pivot->created_at && $twoDigit->pivot->created_at instanceof \DateTime) {
-             $twoDigit->pivot->created_at->setTimezone(new \DateTimeZone('Asia/Yangon'));
+             $twoDigit->pivot->created_at = Carbon::parse($twoDigit->pivot->created_at)->setTimezone('Asia/Yangon')->toIso8601String();
             }
             if ($twoDigit->pivot->updated_at && $twoDigit->pivot->updated_at instanceof \DateTime) {
-             $twoDigit->pivot->updated_at->setTimezone(new \DateTimeZone('Asia/Yangon'));
+             $twoDigit->pivot->updated_at = Carbon::parse($twoDigit->pivot->updated_at)->setTimezone('Asia/Yangon')->toIso8601String();
             }
             
             return $twoDigit;
