@@ -89,7 +89,7 @@
            <td>{{ $index + 1 }}</td>
            <td><p>===</p></td>
            {{-- <td>{{ $digit->phone }}</td> --}}
-           <td>{{ $digit->two_digit - 1 }}</td>
+           <td>{{ $digit->two_digit + 1 }}</td>
            <td>
             @if($digit->sub_amount >= $twod_limits->two_d_limit)
             <span class="text-danger">
