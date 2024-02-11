@@ -49,7 +49,7 @@ class ThreeDController extends Controller
 
      public function play(ThreedPlayRequest $request): JsonResponse
     {
-        Log::info($request->all());
+        //Log::info($request->all());
         $totalAmount = $request->input('totalAmount');
         $amounts = $request->input('amounts');
 

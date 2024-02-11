@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers\Api\V1\Frontend;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Lottery;
+use Illuminate\Http\Request;
+use App\Services\TwoDService;
+use App\Traits\HttpResponses;
 use App\Models\Admin\Currency;
-use App\Models\Admin\LotteryMatch;
 use App\Models\Admin\TwoDigit;
 use App\Models\Admin\TwoDLimit;
-use App\Models\Lottery;
-use App\Models\LotteryTwoDigitCopy;
-use App\Models\LotteryTwoDigitPivot;
-use App\Models\Two\LotteryTwoDigitOverLimit;
-use App\Models\User;
-use App\Traits\HttpResponses;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
+use App\Models\Admin\LotteryMatch;
 use Illuminate\Support\Facades\DB;
+use App\Models\LotteryTwoDigitCopy;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Models\LotteryTwoDigitPivot;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\TwoDPlayRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Two\LotteryTwoDigitOverLimit;
 
 class TwoDController extends Controller
 {
@@ -38,193 +41,221 @@ class TwoDController extends Controller
         ]);
     }
 
-    public function play(Request $request)
-    {
-        // Log the entire request
-        Log::info($request->all());
-        $break = TwoDLimit::latest()->first()->two_d_limit;
-        // Convert JSON request to an array
-        $data = $request->json()->all();
-    
-        // Validate the incoming data
-        $validator = Validator::make($data, [
-           // 'currency' => 'required|string',
-            'totalAmount' => 'required|numeric|min:1',
-            'amounts' => 'required|array',
-            'amounts.*.num' => 'required|integer',
-            'amounts.*.amount' => 'required|integer|min:1',
-            // 'amounts.*.amount' => 'required|integer|min:1|max:'.$break,
+    // In your controller
+
+    public function play(TwoDPlayRequest $request, TwoDService $twoDService): JsonResponse
+{
+    // Retrieve the validated data from the request
+    $totalAmount = $request->input('totalAmount');
+    $amounts = $request->input('amounts');
+
+    try {
+        // Pass the validated data to the TwoDService
+        $result = $twoDService->play($totalAmount, $amounts);
+
+        // Assuming the service will handle exceptions and return a suitable result
+        return response()->json([
+            'success' => true,
+            'message' => 'Bet placed successfully.',
+            'data' => $result
         ]);
-    
-        // Check for validation errors
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()], 401);
-        }
-    
-        // Extract validated data
-        $validatedData = $validator->validated();
-        // $subAmount = array_sum(array_column($request->amounts, 'amount'));
-        
-        // if ($subAmount > $break) {
-        //     return response()->json(['message' => 'Limit ပမာဏထက်ကျော်ထိုးလို့ မရပါ။'], 401);
-        // }
-
-        // Determine the current session based on time
-        $currentSession = date('H') < 12 ? 'morning' : 'evening';
-    
-        // Start database transaction
-        DB::beginTransaction();
-    
-        try {
-            $totalAmount = $request->totalAmount;
-            
-            $user = Auth::user();
-            $user->balance -= $totalAmount;
-    
-            // Check if the user has sufficient balance
-            if ($user->balance < 0) {
-                return response()->json(['message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'], 401);
-            }
-            /** @var \App\Models\User $user */
-            $user->save();
-    
-            // Create a new lottery entry
-            $lottery = Lottery::create([
-                'pay_amount' => $totalAmount,
-                'total_amount' => $totalAmount,
-                'user_id' => $user->id, // Use authenticated user's ID
-                'session' => $currentSession
-            ]);
-            
-            $overLimitAmounts = [];
-            // Iterate through each bet and process it
-            foreach ($validatedData['amounts'] as $bet) {
-                $two_digit_id = $bet['num'] === 0 ? 100 : $bet['num']; // Assuming '00' corresponds to 100
-                $break = TwoDLimit::latest()->first()->two_d_limit;
-                $totalBetAmountForTwoDigit = DB::table('lottery_two_digit_copy')
-                ->where('two_digit_id', $two_digit_id)
-                ->sum('sub_amount');
-                $sub_amount = $bet['amount'];
-                $check_limit = $totalBetAmountForTwoDigit + $sub_amount;
-
-                if($totalBetAmountForTwoDigit + $sub_amount <= $break){
-                    $pivot = new LotteryTwoDigitPivot([
-                        'lottery_id' => $lottery->id,
-                        'two_digit_id' => $two_digit_id,
-                        'sub_amount' => $sub_amount,
-                        'prize_sent' => false
-                        //'currency' => 'mmk'
-                    ]);
-                    $pivot->save();
-                }else{
-                    $withinLimit = $break - $totalBetAmountForTwoDigit;
-                    $overLimit = $sub_amount - $withinLimit;
-
-                    if ($withinLimit > 0) {
-                        $pivotWithin = new LotteryTwoDigitPivot([
-                            'lottery_id' => $lottery->id,
-                            'two_digit_id' => $two_digit_id,
-                            'sub_amount' => $withinLimit,
-                            'prize_sent' => false
-                           // 'currency' => 'mmk'
-                        ]);
-                        $pivotWithin->save();
-                          $overLimitAmounts[] = [
-                            'num' => $bet['num'],
-                            'amount' => $overLimit,
-                        ];
-                    }
-
-                    // if ($overLimit > 0) {
-                    //     $pivotOver = new LotteryTwoDigitOverLimit([
-                    //         'lottery_id' => $lottery->id,
-                    //         'two_digit_id' => $two_digit_id,
-                    //         'sub_amount' => $overLimit,
-                    //         'prize_sent' => false,
-                    //         'currency' => 'mmk'
-
-                    //     ]);
-                    //     $pivotOver->save();
-                    // }
-                }
-
-            // if($check_limit > $break){
-            //     return response()->json([
-            //         'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
-            //     ], 401);
-            // }else{
-            //      $pivot = new LotteryTwoDigitPivot([
-            //             'lottery_id' => $lottery->id,
-            //             'two_digit_id' => $two_digit_id,
-            //             'sub_amount' => $sub_amount,
-            //             'prize_sent' => false,
-            //             'currency' => 'mmk'
-            //         ]);
-            //         $pivot->save();
-            // }
-
-                // if ($totalBetAmountForTwoDigit + $sub_amount <= $break) {
-                //     $pivot = new LotteryTwoDigitPivot([
-                //         'lottery_id' => $lottery->id,
-                //         'two_digit_id' => $two_digit_id,
-                //         'sub_amount' => $sub_amount,
-                //         'prize_sent' => false,
-                //         'currency' => 'mmk'
-                //     ]);
-                //     $pivot->save();
-                // } else {
-                //     $withinLimit = $break - $totalBetAmountForTwoDigit;
-                //     $overLimit = $sub_amount - $withinLimit;
-
-                //     if ($withinLimit > 0) {
-                //         $pivotWithin = new LotteryTwoDigitPivot([
-                //             'lottery_id' => $lottery->id,
-                //             'two_digit_id' => $two_digit_id,
-                //             'sub_amount' => $withinLimit,
-                //             'prize_sent' => false,
-                //             'currency' => 'mmk'
-                //         ]);
-                //         $pivotWithin->save();
-                //     }
-
-                //     if ($overLimit > 0) {
-                //         $pivotOver = new LotteryTwoDigitOverLimit([
-                //             'lottery_id' => $lottery->id,
-                //             'two_digit_id' => $two_digit_id,
-                //             'sub_amount' => $overLimit,
-                //             'prize_sent' => false,
-                //             'currency' => 'mmk'
-
-                //         ]);
-                //         $pivotOver->save();
-                //     }
-                // }
-            }
-
-            if(!empty($overLimitAmounts)){
-                    return response()->json([
-                        'overLimitAmounts' => $overLimitAmounts,
-                        'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
-                    ], 401);
-                }
-    
-            // Commit the transaction
-            DB::commit();
-    
-            // Return a success response
-            return $this->success([
-                'message' => 'Bet placed successfully',
-            ]);
-            // return response()->json(['message' => 'Bet placed successfully'], 200);
-        } catch (\Exception $e) {
-            // Roll back the transaction in case of error
-            DB::rollback();
-            Log::error('Error in play method: ' . $e->getMessage());
-    
-            // Return an error response
-            return response()->json(['message' => $e->getMessage()], 401);
-        }
+    } catch (\Exception $e) {
+        // In case of an exception, return an error response
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 401); // Use appropriate status code for client errors (e.g., 400) or server errors (e.g., 500)
     }
+}
+
+
+    // public function play(Request $request)
+    // {
+    //     // Log the entire request
+    //     Log::info($request->all());
+    //     $break = TwoDLimit::latest()->first()->two_d_limit;
+    //     // Convert JSON request to an array
+    //     $data = $request->json()->all();
+    
+    //     // Validate the incoming data
+    //     $validator = Validator::make($data, [
+    //        // 'currency' => 'required|string',
+    //         'totalAmount' => 'required|numeric|min:1',
+    //         'amounts' => 'required|array',
+    //         'amounts.*.num' => 'required|integer',
+    //         'amounts.*.amount' => 'required|integer|min:1',
+    //         // 'amounts.*.amount' => 'required|integer|min:1|max:'.$break,
+    //     ]);
+    
+    //     // Check for validation errors
+    //     if ($validator->fails()) {
+    //         return response()->json(['message' => $validator->errors()], 401);
+    //     }
+    
+    //     // Extract validated data
+    //     $validatedData = $validator->validated();
+    //     // $subAmount = array_sum(array_column($request->amounts, 'amount'));
+        
+    //     // if ($subAmount > $break) {
+    //     //     return response()->json(['message' => 'Limit ပမာဏထက်ကျော်ထိုးလို့ မရပါ။'], 401);
+    //     // }
+
+    //     // Determine the current session based on time
+    //     $currentSession = date('H') < 12 ? 'morning' : 'evening';
+    
+    //     // Start database transaction
+    //     DB::beginTransaction();
+    
+    //     try {
+    //         $totalAmount = $request->totalAmount;
+            
+    //         $user = Auth::user();
+    //         $user->balance -= $totalAmount;
+    
+    //         // Check if the user has sufficient balance
+    //         if ($user->balance < 0) {
+    //             return response()->json(['message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'], 401);
+    //         }
+    //         /** @var \App\Models\User $user */
+    //         $user->save();
+    
+    //         // Create a new lottery entry
+    //         $lottery = Lottery::create([
+    //             'pay_amount' => $totalAmount,
+    //             'total_amount' => $totalAmount,
+    //             'user_id' => $user->id, // Use authenticated user's ID
+    //             'session' => $currentSession
+    //         ]);
+            
+    //         $overLimitAmounts = [];
+    //         // Iterate through each bet and process it
+    //         foreach ($validatedData['amounts'] as $bet) {
+    //             $two_digit_id = $bet['num'] === 0 ? 100 : $bet['num']; // Assuming '00' corresponds to 100
+    //             $break = TwoDLimit::latest()->first()->two_d_limit;
+    //             $totalBetAmountForTwoDigit = DB::table('lottery_two_digit_copy')
+    //             ->where('two_digit_id', $two_digit_id)
+    //             ->sum('sub_amount');
+    //             $sub_amount = $bet['amount'];
+    //             $check_limit = $totalBetAmountForTwoDigit + $sub_amount;
+
+    //             if($totalBetAmountForTwoDigit + $sub_amount <= $break){
+    //                 $pivot = new LotteryTwoDigitPivot([
+    //                     'lottery_id' => $lottery->id,
+    //                     'two_digit_id' => $two_digit_id,
+    //                     'sub_amount' => $sub_amount,
+    //                     'prize_sent' => false
+    //                     //'currency' => 'mmk'
+    //                 ]);
+    //                 $pivot->save();
+    //             }else{
+    //                 $withinLimit = $break - $totalBetAmountForTwoDigit;
+    //                 $overLimit = $sub_amount - $withinLimit;
+
+    //                 if ($withinLimit > 0) {
+    //                     $pivotWithin = new LotteryTwoDigitPivot([
+    //                         'lottery_id' => $lottery->id,
+    //                         'two_digit_id' => $two_digit_id,
+    //                         'sub_amount' => $withinLimit,
+    //                         'prize_sent' => false
+    //                        // 'currency' => 'mmk'
+    //                     ]);
+    //                     $pivotWithin->save();
+    //                       $overLimitAmounts[] = [
+    //                         'num' => $bet['num'],
+    //                         'amount' => $overLimit,
+    //                     ];
+    //                 }
+
+    //                 // if ($overLimit > 0) {
+    //                 //     $pivotOver = new LotteryTwoDigitOverLimit([
+    //                 //         'lottery_id' => $lottery->id,
+    //                 //         'two_digit_id' => $two_digit_id,
+    //                 //         'sub_amount' => $overLimit,
+    //                 //         'prize_sent' => false,
+    //                 //         'currency' => 'mmk'
+
+    //                 //     ]);
+    //                 //     $pivotOver->save();
+    //                 // }
+    //             }
+
+    //         // if($check_limit > $break){
+    //         //     return response()->json([
+    //         //         'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+    //         //     ], 401);
+    //         // }else{
+    //         //      $pivot = new LotteryTwoDigitPivot([
+    //         //             'lottery_id' => $lottery->id,
+    //         //             'two_digit_id' => $two_digit_id,
+    //         //             'sub_amount' => $sub_amount,
+    //         //             'prize_sent' => false,
+    //         //             'currency' => 'mmk'
+    //         //         ]);
+    //         //         $pivot->save();
+    //         // }
+
+    //             // if ($totalBetAmountForTwoDigit + $sub_amount <= $break) {
+    //             //     $pivot = new LotteryTwoDigitPivot([
+    //             //         'lottery_id' => $lottery->id,
+    //             //         'two_digit_id' => $two_digit_id,
+    //             //         'sub_amount' => $sub_amount,
+    //             //         'prize_sent' => false,
+    //             //         'currency' => 'mmk'
+    //             //     ]);
+    //             //     $pivot->save();
+    //             // } else {
+    //             //     $withinLimit = $break - $totalBetAmountForTwoDigit;
+    //             //     $overLimit = $sub_amount - $withinLimit;
+
+    //             //     if ($withinLimit > 0) {
+    //             //         $pivotWithin = new LotteryTwoDigitPivot([
+    //             //             'lottery_id' => $lottery->id,
+    //             //             'two_digit_id' => $two_digit_id,
+    //             //             'sub_amount' => $withinLimit,
+    //             //             'prize_sent' => false,
+    //             //             'currency' => 'mmk'
+    //             //         ]);
+    //             //         $pivotWithin->save();
+    //             //     }
+
+    //             //     if ($overLimit > 0) {
+    //             //         $pivotOver = new LotteryTwoDigitOverLimit([
+    //             //             'lottery_id' => $lottery->id,
+    //             //             'two_digit_id' => $two_digit_id,
+    //             //             'sub_amount' => $overLimit,
+    //             //             'prize_sent' => false,
+    //             //             'currency' => 'mmk'
+
+    //             //         ]);
+    //             //         $pivotOver->save();
+    //             //     }
+    //             // }
+    //         }
+
+    //         if(!empty($overLimitAmounts)){
+    //                 return response()->json([
+    //                     'overLimitAmounts' => $overLimitAmounts,
+    //                     'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+    //                 ], 401);
+    //             }
+    
+    //         // Commit the transaction
+    //         DB::commit();
+    
+    //         // Return a success response
+    //         return $this->success([
+    //             'message' => 'Bet placed successfully',
+    //         ]);
+    //         // return response()->json(['message' => 'Bet placed successfully'], 200);
+    //     } catch (\Exception $e) {
+    //         // Roll back the transaction in case of error
+    //         DB::rollback();
+    //         Log::error('Error in play method: ' . $e->getMessage());
+    
+    //         // Return an error response
+    //         return response()->json(['message' => $e->getMessage()], 401);
+    //     }
+    // }
 
     public function playHistory()
     {
