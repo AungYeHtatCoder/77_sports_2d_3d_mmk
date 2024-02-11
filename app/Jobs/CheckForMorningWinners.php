@@ -64,7 +64,7 @@ class CheckForMorningWinners implements ShouldQueue
         DB::transaction(function () use ($entry) {
             $lottery = Lottery::findOrFail($entry->lottery_id);
             $user = $lottery->user;
-            $user->balance += $entry->sub_amount * 85; // Assuming the prize multiplier is 85
+            $user->balance += $entry->sub_amount * 80; // Assuming the prize multiplier is 85
             $user->save();
 
             // Update prize_sent to true for the winning entry
