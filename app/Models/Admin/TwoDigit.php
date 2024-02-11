@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Admin\Lottery;
 use App\Models\Jackpot\Jackpot;
@@ -15,6 +16,22 @@ class TwoDigit extends Model
     protected $fillable = [
         'two_digit',
     ];
+    // In your TwoDigit model
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('Asia/Yangon');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('Asia/Yangon');
+    }
 
     public function lotteries() {
         return $this->belongsToMany(Lottery::class, 'lottery_two_digit_pivot')->withPivot('sub_amount');

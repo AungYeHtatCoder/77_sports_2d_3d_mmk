@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1\Frontend;
-
 use App\Models\User;
 use App\Models\Lottery;
 use Illuminate\Http\Request;
@@ -10,6 +9,7 @@ use App\Traits\HttpResponses;
 use App\Models\Admin\Currency;
 use App\Models\Admin\TwoDigit;
 use App\Models\Admin\TwoDLimit;
+use App\Services\LotteryService;
 use Illuminate\Http\JsonResponse;
 use App\Models\Admin\LotteryMatch;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +17,7 @@ use App\Models\LotteryTwoDigitCopy;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\LotteryTwoDigitPivot;
+use App\Services\TwoDLotteryService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\TwoDPlayRequest;
 use Illuminate\Support\Facades\Validator;
@@ -25,6 +26,13 @@ use App\Models\Two\LotteryTwoDigitOverLimit;
 class TwoDController extends Controller
 {
     use HttpResponses;
+    protected $lotteryService;
+
+    public function __construct(TwoDLotteryService $lotteryService)
+    {
+        $this->middleware('auth'); // Ensure user is authenticated
+        $this->lotteryService = $lotteryService;
+    }
     public function index()
     {
         $digits = TwoDigit::all();
@@ -41,10 +49,8 @@ class TwoDController extends Controller
         ]);
     }
 
-    // In your controller
-
     public function play(TwoDPlayRequest $request, TwoDService $twoDService): JsonResponse
-{
+    {
     // Retrieve the validated data from the request
     $totalAmount = $request->input('totalAmount');
     $amounts = $request->input('amounts');
@@ -67,7 +73,20 @@ class TwoDController extends Controller
         ], 401); // Use appropriate status code for client errors (e.g., 400) or server errors (e.g., 500)
     }
 }
+    
 
+    public function playHistory(): JsonResponse
+    {
+        $userId = auth()->id();
+
+        $history12pm = $this->lotteryService->getUserTwoDigits($userId, 'morning');
+        $history4pm = $this->lotteryService->getUserTwoDigits($userId, 'evening');
+
+        return response()->json([
+            'history12pm' => $history12pm,
+            'history4pm' => $history4pm,
+        ]);
+    }
 
     // public function play(Request $request)
     // {
@@ -257,21 +276,21 @@ class TwoDController extends Controller
     //     }
     // }
 
-    public function playHistory()
-    {
-        $userId = auth()->id();
-        //$history9am = User::getUserEarlyMorningTwoDigits($userId);
-        $history12pm = User::getUserMorningTwoDigits($userId);
-        //$history2pm = User::getUserEarlyEveningTwoDigits($userId);
-        $history4pm = User::getUserEveningTwoDigits($userId);
+    // public function playHistory()
+    // {
+    //     $userId = auth()->id();
+    //     //$history9am = User::getUserEarlyMorningTwoDigits($userId);
+    //     $history12pm = User::getUserMorningTwoDigits($userId);
+    //     //$history2pm = User::getUserEarlyEveningTwoDigits($userId);
+    //     $history4pm = User::getUserEveningTwoDigits($userId);
 
-        return $this->success([
-            //'history9am' => $history9am,
-            'history12pm' => $history12pm,
-            //'history2pm' => $history2pm,
-            'history4pm' => $history4pm,
-        ]);
-    }
+    //     return $this->success([
+    //         //'history9am' => $history9am,
+    //         'history12pm' => $history12pm,
+    //         //'history2pm' => $history2pm,
+    //         'history4pm' => $history4pm,
+    //     ]);
+    // }
     public function TwoDigitOnceMonthHistory()
     {
         $userId = auth()->id(); // Get logged in user's ID

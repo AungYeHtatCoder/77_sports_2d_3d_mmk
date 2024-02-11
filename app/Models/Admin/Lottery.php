@@ -57,6 +57,16 @@ class Lottery extends Model
                     ->wherePivotBetween('created_at', [$morningStart, $morningEnd]);
     }
 
+    // In your Lottery model
+
+    public function twoDigitsForSession($sessionStart, $sessionEnd)
+    {
+        return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot')
+                    ->withPivot('sub_amount', 'prize_sent', 'created_at')
+                    ->wherePivotBetween('created_at', [$sessionStart, $sessionEnd]);
+    }
+
+
     // two digit early evening
     public function twoDigitsEarlyEvening()
     {
