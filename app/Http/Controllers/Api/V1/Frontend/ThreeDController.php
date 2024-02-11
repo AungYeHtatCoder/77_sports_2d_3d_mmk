@@ -89,14 +89,14 @@ class ThreeDController extends Controller
                                ->where('three_digit_id', $three_digit->id)
                                ->sum('sub_amount');
             $limit_break = $totalBetAmount + $sub_amount;
-            if($limit_break > $break){
-                return response()->json([
-                    'amount.*.num' => $three_digit->three_digit,
-                    'amounts.*.amount' => $sub_amount,
-                    'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+            // if($limit_break > $break){
+            //     return response()->json([
+            //         'amount.*.num' => $three_digit->three_digit,
+            //         'amounts.*.amount' => $sub_amount,
+            //         'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
 
-                ]);
-            }
+            //     ]);
+            // }
             if ($totalBetAmount + $sub_amount <= $break) {
                 $pivot = new LotteryThreeDigitPivot([
                     'lotto_id' => $lottery->id,
@@ -119,10 +119,10 @@ class ThreeDController extends Controller
                         'currency' => 'mmk'
                     ]);
                     $pivotWithin->save();
-                     $overLimitAmounts[] = [
-            'num' => $num,
-            'amount' => $overLimit,
-        ];
+        //              $overLimitAmounts[] = [
+        //     'num' => $num,
+        //     'amount' => $overLimit,
+        // ];
                 }
                 
             //     $check_limit = $totalBetAmount + $sub_amount;
@@ -184,12 +184,12 @@ class ThreeDController extends Controller
             //     $pivot->save();
             // }
         }
-        if(!empty($overLimitAmounts)){
-                    return response()->json([
-                        'overLimitAmounts' => $overLimitAmounts,
-                        'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
-                    ], 401);
-                }
+        // if(!empty($overLimitAmounts)){
+        //             return response()->json([
+        //                 'overLimitAmounts' => $overLimitAmounts,
+        //                 'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+        //             ], 401);
+        //         }
         // foreach ($request->amounts as $item) {
         //     $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);
         //     $sub_amount = $item['amount'];
