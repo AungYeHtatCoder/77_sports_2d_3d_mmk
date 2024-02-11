@@ -88,6 +88,15 @@ class ThreeDController extends Controller
             $totalBetAmount = DB::table('lotto_three_digit_copy')
                                ->where('three_digit_id', $three_digit->id)
                                ->sum('sub_amount');
+            $limit_break = $totalBetAmount + $sub_amount;
+            if($limit_break > $break){
+                return response()->json([
+                    'amount.*.num' => $three_digit->three_digit,
+                    'amounts.*.amount' => $sub_amount,
+                    'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
+
+                ]);
+            }
             if ($totalBetAmount + $sub_amount <= $break) {
                 $pivot = new LotteryThreeDigitPivot([
                     'lotto_id' => $lottery->id,
