@@ -89,11 +89,9 @@
            <td><p>===</p></td>
            {{-- <td>{{ $digit->phone }}</td> --}}
            <td>
-            {{-- zero --}}
-            @if($digit->two_digit_id >= 10)
-            0 {{ $digit->two_digit_id - 1 }}
-            @elseif($digit->two_digit_id == 01)
-            00
+            {{-- Add leading zero for numbers less than 10 --}}
+            @if($digit->two_digit_id < 10)
+            {{ str_pad($digit->two_digit_id - 1, 2, '0', STR_PAD_LEFT) }}
             @else
             {{ $digit->two_digit_id - 1 }}
             @endif
