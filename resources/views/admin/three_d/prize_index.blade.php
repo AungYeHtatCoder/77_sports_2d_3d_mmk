@@ -67,8 +67,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="custom-form-group ms-3 mx-3">
-                            <label for="prize_no">Prize Number</label>
-                            <input type="text" name="prize_no" id="player_name" class="form-control" placeholder="First Prize Digit">
+                            <label for="prize_no">3D ထွက်ဂဏန်းထဲ့ရန်</label>
+                            <input type="text" name="prize_no" id="player_name" class="form-control" placeholder="ထွက်ဂဏန်းထဲ့ပါ">
                         </div>
                         {{-- <input type="hidden" name="session" value="morning"> --}}
                     </div>
@@ -92,7 +92,7 @@
                 <div class="d-lg-flex mt-2">
                     <div class="ms-auto my-auto mt-lg-0">
                         <div class="ms-auto my-auto">
-                            <a href="#" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; Create New</a>
+                            {{-- <a href="#" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; Create New</a> --}}
                             <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button>
                         </div>
                     </div>
