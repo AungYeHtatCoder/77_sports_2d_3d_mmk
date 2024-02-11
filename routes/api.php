@@ -49,6 +49,8 @@ Route::group(["middleware" => ['auth:sanctum']], function(){
     Route::get('/twoD', [TwoDController::class, 'index']);
     Route::post('/twoD/play', [TwoDController::class, 'play']);
     Route::get('/twoD/playHistory', [TwoDController::class, 'playHistory']); //unfinished
+    // for admin 
+    Route::get('/two-d-play-history-for-admin', [TwoDController::class, 'playHistoryForAdmin'])->name('TwoDPlayHistoryForAdmin');
 
     //3D Routes
     Route::get('/threeD', [ThreeDController::class, 'index']);

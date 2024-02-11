@@ -87,6 +87,18 @@ class TwoDController extends Controller
             'history4pm' => $history4pm,
         ]);
     }
+    // for admin 
+    public function playHistoryForAdmin(): JsonResponse
+{
+    // Example: Fetching history for all users
+    $history12pm = $this->lotteryService->getAllUsersTwoDigits('morning');
+    $history4pm = $this->lotteryService->getAllUsersTwoDigits('evening');
+
+    return response()->json([
+        'history12pm' => $history12pm,
+        'history4pm' => $history4pm,
+    ]);
+}
 
     // public function play(Request $request)
     // {
