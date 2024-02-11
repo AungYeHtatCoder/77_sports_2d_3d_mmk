@@ -104,11 +104,11 @@ public function EveningTwoD()
     //$playDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     // Check if the current day is a playing day
 
-    $playDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-    if (!in_array(strtolower(date('l')), $playDays)) {
-        // Return an error or a message that today is not a playing day
-        return redirect()->back()->with('error', 'Today is not a playing day.');
-    }
+    // $playDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+    // if (!in_array(strtolower(date('l')), $playDays)) {
+    //     // Return an error or a message that today is not a playing day
+    //     return redirect()->back()->with('error', 'Today is not a playing day.');
+    // }
     // Retrieve lotteries between 6am and 12pm where the associated LotteryMatch is active
     $lotteries = Lottery::whereHas('lotteryMatch', function ($query) {
         $query->where('is_active', true);
