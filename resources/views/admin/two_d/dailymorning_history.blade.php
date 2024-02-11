@@ -88,7 +88,16 @@
            <td>{{ $index + 1 }}</td>
            <td><p>===</p></td>
            {{-- <td>{{ $digit->phone }}</td> --}}
-           <td>{{ $digit->two_digit_id - 1 }}</td>
+           <td>
+            {{-- zero --}}
+            @if($digit->two_digit_id >= 10)
+            0 {{ $digit->two_digit_id - 1 }}
+            @elseif($digit->two_digit_id == 01)
+            00
+            @else
+            {{ $digit->two_digit_id - 1 }}
+            @endif
+           </td>
            <td>
             @if($digit->sub_amount >= $twod_limits->two_d_limit)
             <span class="text-danger">
