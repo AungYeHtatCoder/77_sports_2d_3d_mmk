@@ -89,7 +89,13 @@
            <td>{{ $index + 1 }}</td>
            <td><p>===</p></td>
            {{-- <td>{{ $digit->phone }}</td> --}}
-           <td>{{ $digit->two_digit_id - 1 }}</td>
+           <td>
+             @if($digit->two_digit_id < 11)
+            {{ str_pad($digit->two_digit_id - 1, 2, '0', STR_PAD_LEFT) }}
+            @else
+            {{ $digit->two_digit_id - 1 }}
+            @endif
+            </td>
            <td>
             @if($digit->sub_amount >= $twod_limits->two_d_limit)
             <span class="text-danger">
