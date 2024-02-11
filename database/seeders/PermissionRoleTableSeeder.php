@@ -17,6 +17,8 @@ class PermissionRoleTableSeeder extends Seeder
         // Admin gets all permissions
         $admin_permissions = Permission::all();
         Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id'));
+        // admin 2 gets all permissions
+        //Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id'));
 
         // Master gets specific permissions
         $master_permissions = Permission::whereIn('title', [
