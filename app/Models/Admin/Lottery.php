@@ -59,7 +59,7 @@ class Lottery extends Model
 
     // In your Lottery model
 
-    public function twoDigitsForSession($morningStart, $morningEnd)
+    public function twoDigitsForSession()
     {
         $morningStart = Carbon::now()->startOfDay()->setTime(5, 30);
         $morningEnd = Carbon::now()->startOfDay()->setTime(12, 15);
