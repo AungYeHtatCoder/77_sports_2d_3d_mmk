@@ -63,7 +63,22 @@ class ThreeDController extends Controller
         }
         /** @var \App\Models\User $user */
         $user->save();
+        $num = str_pad($request->amounts[0]['num'], 3, '0', STR_PAD_LEFT);
+        $sub_amount = $request->amounts[0]['amount'];
+        $three_digit = ThreeDigit::where('three_digit', $num)->firstOrFail();
+            $break = ThreeDDLimit::latest()->first()->three_d_limit;
+            $totalBetAmountdb = DB::table('lotto_three_digit_copy')
+                               ->where('three_digit_id', $three_digit->id)
+                               ->sum('sub_amount');
+            $limit_break = $totalBetAmountdb + $sub_amount;
+            if($limit_break > $break){
+                return response()->json([
+                    'amount.*.num' => $three_digit->three_digit,
+                    'amounts.*.amount' => $sub_amount,
+                    'message' => 'သတ်မှတ်ထားသော ထိုးငွေပမာဏ ထက်ကျော်လွန်နေပါသည်။'
 
+                ]);
+            }
         // Commission calculation
         //$commission_percent = DB::table('commissions')->latest()->first();
         $commission_percent = 0.5;
