@@ -59,11 +59,13 @@ class Lottery extends Model
 
     // In your Lottery model
 
-    public function twoDigitsForSession($sessionStart, $sessionEnd)
+    public function twoDigitsForSession($morningStart, $morningEnd)
     {
+        $morningStart = Carbon::now()->startOfDay()->setTime(5, 30);
+        $morningEnd = Carbon::now()->startOfDay()->setTime(12, 15);
         return $this->belongsToMany(TwoDigit::class, 'lottery_two_digit_pivot')
                     ->withPivot('sub_amount', 'prize_sent', 'created_at')
-                    ->wherePivotBetween('created_at', [$sessionStart, $sessionEnd]);
+                    ->wherePivotBetween('created_at', [$morningStart, $morningEnd]);
     }
 
 
