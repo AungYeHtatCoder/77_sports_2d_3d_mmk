@@ -53,6 +53,10 @@ class ThreeDController extends Controller
         $totalAmount = $request->input('totalAmount');
         $amounts = $request->input('amounts');
 
+        if($totalAmount > Auth::user()->balance){
+            return response()->json(['success' => false, 'message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'], 401);
+        }
+
         $result = $this->lottoService->play($totalAmount, $amounts);
 
         // Assuming the service will handle exceptions and return a suitable result.
