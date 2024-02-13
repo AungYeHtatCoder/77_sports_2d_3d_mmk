@@ -23,7 +23,7 @@ class LottoService
 
             // Check if the user's balance is sufficient
             if ($user->balance < 0) {
-                throw new \Exception('Insufficient funds.');
+                throw new \Exception('လက်ကျန်ငွေ မလုံလောက်ပါ။');
             }
 
             // Save the user with the new balance
@@ -52,10 +52,11 @@ class LottoService
         } catch (\Exception $e) {
             // Rollback the transaction on error
             DB::rollback();
-            Log::error('Error in LottoService play method: ' . $e->getMessage());
+            // Log::error('Error in LottoService play method: ' . $e->getMessage());
 
             // Rethrow the exception to be handled by the global exception handler
-            throw $e;
+            // throw $e;
+            return response()->json(['message'=> $e->getMessage()], 401);
         }
     }
 
@@ -75,7 +76,8 @@ class LottoService
         // Check if the limit is exceeded
         $break = ThreeDDLimit::latest()->first()->three_d_limit;
         if ($totalBetAmount + $sub_amount > $break) {
-            throw new \Exception('The bet amount exceeds the limit.');
+            // throw new \Exception('The bet amount exceeds the limit.');
+            return response()->json(['message'=> 'သတ်မှတ်ထားသော limit ပမာဏထပ်ကျော်လွန်နေပါသည်။'], 401);
         }
 
         // Create a pivot record for a valid bet
