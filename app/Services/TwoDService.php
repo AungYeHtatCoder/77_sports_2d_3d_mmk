@@ -29,7 +29,7 @@ class TwoDService
             foreach ($amounts as $amount) {
                 $preCheck = $this->preProcessAmountCheck($amount);
                 if(is_array($preCheck)){
-                    $preOver[] = $preCheck;
+                    $preOver[] = $preCheck[0];
                 }
             }
             if(!empty($preOver)){
@@ -48,7 +48,7 @@ class TwoDService
             foreach ($amounts as $amount) {
                 $check = $this->processAmount($amount, $lottery->id);
                 if(is_array($check)){
-                    $over[] = $check;
+                    $over[] = $check[0];
                 }
             }
             if(!empty($over)){

@@ -65,6 +65,7 @@ class TwoDController extends Controller
         if ($result == "Insufficient funds.") {
             $message = "လက်ကျန်ငွေ မလုံလောက်ပါ။";
         } elseif (is_array($result)) {
+            // return response()->json($result);
             $digit = [];
             foreach($result as $k => $r){
                 $digit[] = TwoDigit::find($result[$k]+1)->two_digit;
