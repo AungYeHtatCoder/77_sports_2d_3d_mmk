@@ -62,13 +62,16 @@ class TwoDController extends Controller
         // Pass the validated data to the TwoDService
         $result = $twoDService->play($totalAmount, $amounts);
 
-        if($result == "Insufficient funds."){
-            return response()->json(['message' => "လက်ကျန်ငွေ မလုံလောက်ပါ။"], 401);
-        }elseif($result == "overlimit"){
-            return response()->json(['message' => "သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။"], 401);
-        }else{
+        if ($result == "Insufficient funds.") {
+            $message = "လက်ကျန်ငွေ မလုံလောက်ပါ။";
+        } elseif ($result == "overlimit") {
+            $message = "သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
+        } else {
             return $this->success($result);
         }
+        
+        return response()->json(['message' => $message], 401);
+        
         // Assuming the service will handle exceptions and return a suitable result
         
         // return response()->json([
