@@ -3,7 +3,7 @@
         <a href="{{ url()->previous() }}"><i class="fas fa-arrow-left"></i></a>
     </div>
     <a href="{{ url('/') }}" class="text-decoration-none text-white d-block">
-        <h4 style="font-size: 24px; font-weight: 800">Thai Lotto 123</h4>
+        <h4 style="font-size: 24px; font-weight: 800">77 Sports</h4>
     </a>
     <button onclick="location.reload();" class="btn btn-sm text-white"><i class="fas fa-rotate"></i></button>
     {{-- <a href="#" class="text-decoration-none text-white d-block" onclick="location.reload();">

@@ -20,13 +20,13 @@ use Illuminate\Support\Facades\Route;
 
 
 // Route::middleware('auth')->group(function () {
-//     Route::get('/user-profile-home', [ProfileController::class, 'profile'])->name('user-profile-home');
+    Route::get('/user-profile-home', [ProfileController::class, 'profile'])->name('user-profile-home');
 //     //profile management
-//     Route::post('editProfile/', [ProfileController::class, 'update'])->name('editProfile');
-//     Route::post('editInfo', [ProfileController::class, 'editInfo'])->name('editInfo');
-//     Route::post('changePassword', [ProfileController::class, 'changePassword'])->name('changePassword');
+    Route::post('editProfile/', [ProfileController::class, 'update'])->name('editProfile');
+    Route::post('editInfo', [ProfileController::class, 'editInfo'])->name('editInfo');
+    Route::post('changePassword', [ProfileController::class, 'changePassword'])->name('changePassword');
 //     // user balance update 
-//     Route::put('balanceUpdate', [ProfileController::class, 'balanceUpdate'])->name('balanceUpdate');
+    Route::put('balanceUpdate', [ProfileController::class, 'balanceUpdate'])->name('balanceUpdate');
 //     //profile management
 
 
