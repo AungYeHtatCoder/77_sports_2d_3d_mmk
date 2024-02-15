@@ -64,6 +64,8 @@ class TwoDController extends Controller
 
         if($result == "Insufficient funds."){
             return response()->json(['message' => "လက်ကျန်ငွေ မလုံလောက်ပါ။"], 401);
+        }elseif($result == "overlimit"){
+            return response()->json(['message' => "သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။"], 401);
         }else{
             return $this->success($result);
         }
