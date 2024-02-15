@@ -23,6 +23,10 @@ class TwoDService
                 throw new \Exception('Insufficient funds.');
             }
 
+            foreach ($amounts as $amount) {
+                $this->preProcessAmountCheck($amount);
+            }
+
             $lottery = Lottery::create([
                 'pay_amount' => $totalAmount,
                 'total_amount' => $totalAmount,
@@ -43,7 +47,24 @@ class TwoDService
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Error in TwoDService play method: ' . $e->getMessage());
-            return ['error' => $e->getMessage()];
+            //return ['error' => $e->getMessage()];
+            // Rethrow the exception to be handled by the global exception handler
+            // 401 is the status code for Unauthorized
+            return response()->json(['message'=> $e->getMessage()], 401);
+        }
+    }
+
+     protected function preProcessAmountCheck($amount)
+    {
+        $twoDigit = TwoDigit::where('two_digit', sprintf('%02d', $amount['num']))->firstOrFail();
+        $break = TwoDLimit::latest()->first()->two_d_limit;
+        $totalBetAmountForTwoDigit = DB::table('lottery_two_digit_copy')
+                                       ->where('two_digit_id', $twoDigit->id)
+                                       ->sum('sub_amount');
+        $subAmount = $amount['amount'];
+
+        if ($totalBetAmountForTwoDigit + $subAmount > $break) {
+            throw new \Exception('The bet amount exceeds the limit for two-digit number ' . $twoDigit->two_digit);
         }
     }
 
