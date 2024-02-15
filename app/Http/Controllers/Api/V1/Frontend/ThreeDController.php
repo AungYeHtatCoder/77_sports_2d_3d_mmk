@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ThreeDigit\ThreeDigit;
 use App\Http\Requests\PlayLottoRequest;
 use App\Http\Requests\ThreedPlayRequest;
+use App\Models\Admin\ThreedDigit;
 use App\Models\ThreeDigit\ThreeDigitOverLimit;
 use App\Models\ThreeDigit\LotteryThreeDigitCopy;
 use App\Models\ThreeDigit\LotteryThreeDigitPivot;
@@ -53,11 +54,25 @@ class ThreeDController extends Controller
         $totalAmount = $request->input('totalAmount');
         $amounts = $request->input('amounts');
 
-        if($totalAmount > Auth::user()->balance){
-            return response()->json(['success' => false, 'message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'], 401);
-        }
+        // if($totalAmount > Auth::user()->balance){
+        //     return response()->json(['success' => false, 'message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'], 401);
+        // }
 
         $result = $this->lottoService->play($totalAmount, $amounts);
+
+        if ($result == "Insufficient funds.") {
+            $message = "လက်ကျန်ငွေ မလုံလောက်ပါ။";
+        } elseif (is_array($result)) {
+            // return response()->json($result);
+            $digit = [];
+            foreach($result as $k => $r){
+                $digit[] = ThreedDigit::find($result[$k]+1)->three_digit;
+            }
+            $d = implode(",",$digit);
+            $message = $d." ဂဏန်းမှာ သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
+        } else {
+            return $this->success($result);
+        }
 
         // Assuming the service will handle exceptions and return a suitable result.
         return response()->json(['success' => true, 'message' => 'Bet placed successfully.', 'data' => $result]);

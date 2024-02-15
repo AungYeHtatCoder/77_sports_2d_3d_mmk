@@ -69,11 +69,19 @@ class LottoService
             $user = Auth::user();
 
             if ($user->balance < $totalAmount) {
-                throw new \Exception('Insufficient balance.');
+                // throw new \Exception('Insufficient balance.');
+                return "Insufficient funds.";
             }
 
-            foreach ($amounts as $item) {
-                $this->preProcessAmountCheck($item);
+            $preOver = [];
+            foreach ($amounts as $amount) {
+                $preCheck = $this->preProcessAmountCheck($amount);
+                if(is_array($preCheck)){
+                    $preOver[] = $preCheck[0];
+                }
+            }
+            if(!empty($preOver)){
+                return $preOver;
             }
 
             //$lottery = $this->createLottery($totalAmount, $user->id);
@@ -82,8 +90,15 @@ class LottoService
                 'user_id' => $user->id,
             ]);
 
-            foreach ($amounts as $item) {
-                $this->processAmount($item, $lottery);
+            $over = [];
+            foreach ($amounts as $amount) {
+                $check = $this->processAmount($amount, $lottery->id);
+                if(is_array($check)){
+                    $over[] = $check[0];
+                }
+            }
+            if(!empty($over)){
+                return $over;
             }
 
             $user->decrement('balance', $totalAmount);
@@ -108,7 +123,8 @@ class LottoService
     $break = ThreeDDLimit::latest()->first()->three_d_limit;
 
     if ($totalBetAmount + $sub_amount > $break) {
-        throw new \Exception("The bet amount for number $num exceeds the limit.");
+        // throw new \Exception("The bet amount for number $num exceeds the limit.");
+        return [$item['num']];
     }
 }
 
@@ -129,7 +145,8 @@ class LottoService
         $break = ThreeDDLimit::latest()->first()->three_d_limit;
         if ($totalBetAmount + $sub_amount > $break) {
             // throw new \Exception('The bet amount exceeds the limit.');
-            return response()->json(['message'=> 'သတ်မှတ်ထားသော limit ပမာဏထပ်ကျော်လွန်နေပါသည်။'], 401);
+            return [$item['num']];
+            // return response()->json(['message'=> 'သတ်မှတ်ထားသော limit ပမာဏထပ်ကျော်လွန်နေပါသည်။'], 401);
         }
 
         // Create a pivot record for a valid bet
