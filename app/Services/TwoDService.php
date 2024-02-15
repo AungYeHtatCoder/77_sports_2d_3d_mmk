@@ -26,8 +26,12 @@ class TwoDService
             }
 
             foreach ($amounts as $amount) {
-                $this->preProcessAmountCheck($amount);
+                $preCheck = $this->preProcessAmountCheck($amount);
+                if($preCheck == "overlimit"){
+                    return "overlimit";
+                }
             }
+
 
             $lottery = Lottery::create([
                 'pay_amount' => $totalAmount,
@@ -37,7 +41,10 @@ class TwoDService
             ]);
 
             foreach ($amounts as $amount) {
-                $this->processAmount($amount, $lottery->id);
+                $check = $this->processAmount($amount, $lottery->id);
+                if($check == "overlimit"){
+                    return "overlimit";
+                }
             }
             /** @var \App\Models\User $user */
             $user->balance -= $totalAmount;
