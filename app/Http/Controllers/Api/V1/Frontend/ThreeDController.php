@@ -63,6 +63,8 @@ class ThreeDController extends Controller
         return response()->json(['success' => true, 'message' => 'Bet placed successfully.', 'data' => $result]);
     }
 
+    
+
 //     public function play(Request $request)
 // {
 //     Log::info($request->all());

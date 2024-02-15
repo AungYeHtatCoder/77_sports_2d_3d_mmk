@@ -93,7 +93,8 @@ class LottoService
             return $lottery;
         } catch (\Exception $e) {
             DB::rollback();
-            throw $e;
+            //throw $e;
+             return response()->json(['message'=> $e->getMessage()], 401);
         }
     }
 
