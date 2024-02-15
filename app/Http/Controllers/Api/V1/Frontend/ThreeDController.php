@@ -59,23 +59,27 @@ class ThreeDController extends Controller
         // }
 
         $result = $this->lottoService->play($totalAmount, $amounts);
-
+        // return response()->json($result);
         if ($result == "Insufficient funds.") {
             $message = "လက်ကျန်ငွေ မလုံလောက်ပါ။";
         } elseif (is_array($result)) {
             // return response()->json($result);
             $digit = [];
             foreach($result as $k => $r){
-                $digit[] = ThreedDigit::find($result[$k]+1)->three_digit;
+                $digit[] = ThreeDigit::find($result[$k]+1)->three_digit;
             }
+            // return response()->json($digit);
             $d = implode(",",$digit);
+            // return response()->json($d);
             $message = $d." ဂဏန်းမှာ သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
         } else {
             return $this->success($result);
         }
 
+        return response()->json(['message' => $message], 401);
+
         // Assuming the service will handle exceptions and return a suitable result.
-        return response()->json(['success' => true, 'message' => 'Bet placed successfully.', 'data' => $result]);
+        // return response()->json(['success' => true, 'message' => 'Bet placed successfully.', 'data' => $result]);
     }
 
     
