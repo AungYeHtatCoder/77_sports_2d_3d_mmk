@@ -63,11 +63,12 @@ class TwoDController extends Controller
         $result = $twoDService->play($totalAmount, $amounts);
 
         // Assuming the service will handle exceptions and return a suitable result
-        return response()->json([
-            'success' => true,
-            'message' => 'Bet placed successfully.',
-            'data' => $result
-        ]);
+        return $this->success($result);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Bet placed successfully.',
+        //     'data' => $result
+        // ]);
     } catch (\Exception $e) {
         // In case of an exception, return an error response
         return response()->json([
