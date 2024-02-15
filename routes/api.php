@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\Frontend\ThreeDController;
 use App\Http\Controllers\Api\V1\Frontend\WalletController;
 use App\Http\Controllers\Api\V1\Frontend\PromotionController;
 use App\Http\Controllers\Api\Jackpot\JackpotOneWeekGetDataController;
+use App\Http\Controllers\Api\V1\Frontend\TwoDRemainingAmountController;
 
 
 
@@ -76,5 +77,5 @@ Route::group(["middleware" => ['auth:sanctum']], function(){
      Route::get('/two-d-winners-history-group-by-session', [App\Http\Controllers\Admin\TwoDWinnerHistoryController::class, 'getWinnersHistoryForAdminGroupBySessionApi'])->name('winnerHistoryForAdminSession');
      // commission balance update 
     Route::post('/balance-update', [ProfileController::class, 'balanceUpdateApi']);
-
+    Route::get('/two-d-remaining-amount', [TwoDRemainingAmountController::class, 'index'])->name('twod.play.remaining.amount');
 });
