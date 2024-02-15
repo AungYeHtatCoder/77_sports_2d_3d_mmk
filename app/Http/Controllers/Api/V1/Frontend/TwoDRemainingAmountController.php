@@ -8,6 +8,8 @@ use App\Models\Admin\TwoDigit;
 use App\Models\Admin\LotteryMatch;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\TwoDLimit;
+
 class TwoDRemainingAmountController extends Controller
 {
     
@@ -23,8 +25,9 @@ public function index()
             $totalBetAmountForTwoDigit = DB::table('lottery_two_digit_copy')
                 ->where('two_digit_id', $digit->id)
                 ->sum('sub_amount');
+            $limits = TwoDLimit::latest()->first();
 
-            $remainingAmounts[$digit->id] = 900000 - $totalBetAmountForTwoDigit; // Assuming 900000 is the session limit
+            $remainingAmounts[$digit->id] = $limits - $totalBetAmountForTwoDigit; // Assuming 900000 is the session limit
         }
         $lottery_matches = LotteryMatch::where('id', 1)->whereNotNull('is_active')->first(['id', 'match_name', 'is_active']);
 
