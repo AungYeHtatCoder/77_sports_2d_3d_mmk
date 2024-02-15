@@ -43,9 +43,11 @@ class TwoDController extends Controller
             $remaining = $break-$totalAmount;
             $digit->remaining = $remaining;
         }
+        $lottery_matches = LotteryMatch::where('id', 1)->whereNotNull('is_active')->first(['id', 'match_name', 'is_active']);
         return $this->success([
             'break' => $break,
             'two_digits' => $digits,
+            'lottery_matches' => $lottery_matches
         ]);
     }
 
