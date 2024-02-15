@@ -64,8 +64,8 @@ class TwoDController extends Controller
 
         if ($result == "Insufficient funds.") {
             $message = "လက်ကျန်ငွေ မလုံလောက်ပါ။";
-        } elseif ($result == "overlimit") {
-            $message = "သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
+        } elseif (is_array($result)) {
+            $message = $result[0]."သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
         } else {
             return $this->success($result);
         }
