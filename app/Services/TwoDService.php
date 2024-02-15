@@ -27,11 +27,10 @@ class TwoDService
 
             foreach ($amounts as $amount) {
                 $preCheck = $this->preProcessAmountCheck($amount);
-                if($preCheck == "overlimit"){
-                    return "overlimit";
+                if(is_array($preCheck)){
+                    return $preCheck;
                 }
             }
-
 
             $lottery = Lottery::create([
                 'pay_amount' => $totalAmount,
@@ -42,8 +41,8 @@ class TwoDService
 
             foreach ($amounts as $amount) {
                 $check = $this->processAmount($amount, $lottery->id);
-                if($check == "overlimit"){
-                    return "overlimit";
+                if(is_array($check)){
+                    return $check;
                 }
             }
             /** @var \App\Models\User $user */
@@ -73,7 +72,7 @@ class TwoDService
         $subAmount = $amount['amount'];
 
         if ($totalBetAmountForTwoDigit + $subAmount > $break) {
-            return "overlimit";
+            return [$amount['num']];
             // throw new \Exception('The bet amount exceeds the limit for two-digit number ' . $twoDigit->two_digit);
         }
     }
@@ -96,7 +95,7 @@ class TwoDService
             ]);
         } else {
             // Handle the case where the bet exceeds the limit
-            return "overlimit";
+            return [$amount['num']];
             // throw new \Exception('The bet amount exceeds the limit for two-digit number ' . $twoDigit->two_digit);
         }
     }
