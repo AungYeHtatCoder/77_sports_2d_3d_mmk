@@ -67,7 +67,7 @@ class TwoDController extends Controller
         } elseif (is_array($result)) {
             $digit = [];
             foreach($result as $k => $r){
-                $digit[] = TwoDigit::find($r+1)->two_digit;
+                $digit[] = TwoDigit::find($result[$k]+1)->two_digit;
             }
             $d = implode(",",$digit);
             $message = $d." ဂဏန်းမှာ သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
