@@ -25,12 +25,17 @@ class TwoDService
                 return "Insufficient funds.";
             }
 
+            $preOver = [];
             foreach ($amounts as $amount) {
                 $preCheck = $this->preProcessAmountCheck($amount);
                 if(is_array($preCheck)){
-                    return $preCheck;
+                    $preOver[] = $preCheck;
                 }
             }
+            if(!empty($preOver)){
+                return $preOver;
+            }
+
 
             $lottery = Lottery::create([
                 'pay_amount' => $totalAmount,
@@ -39,12 +44,17 @@ class TwoDService
                 'session' => $this->determineSession(),
             ]);
 
+            $over = [];
             foreach ($amounts as $amount) {
                 $check = $this->processAmount($amount, $lottery->id);
                 if(is_array($check)){
-                    return $check;
+                    $over[] = $check;
                 }
             }
+            if(!empty($over)){
+                return $over;
+            }
+
             /** @var \App\Models\User $user */
             $user->balance -= $totalAmount;
             $user->save();
