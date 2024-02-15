@@ -25,7 +25,7 @@ public function index()
             $totalBetAmountForTwoDigit = DB::table('lottery_two_digit_copy')
                 ->where('two_digit_id', $digit->id)
                 ->sum('sub_amount');
-            $limits = TwoDLimit::latest()->first();
+            $limits = TwoDLimit::latest()->first()->two_d_limit;
 
             $remainingAmounts[$digit->id] = $limits - $totalBetAmountForTwoDigit; // Assuming 900000 is the session limit
         }
