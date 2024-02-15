@@ -65,7 +65,7 @@ class TwoDController extends Controller
         if ($result == "Insufficient funds.") {
             $message = "လက်ကျန်ငွေ မလုံလောက်ပါ။";
         } elseif (is_array($result)) {
-            $digit = TwoDigit::find($result[0]+1);
+            $digit = TwoDigit::find($result[0]+1)->two_digit;
             $message = $digit." ဂဏန်းမှာ သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
         } else {
             return $this->success($result);
