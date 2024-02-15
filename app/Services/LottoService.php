@@ -89,6 +89,7 @@ class LottoService
                 'total_amount' => $totalAmount,
                 'user_id' => $user->id,
             ]);
+            
 
             $over = [];
             foreach ($amounts as $amount) {
@@ -105,11 +106,12 @@ class LottoService
 
             DB::commit();
 
-            return $lottery;
+            // return $lottery;
         } catch (\Exception $e) {
             DB::rollback();
             //throw $e;
              return response()->json(['message'=> $e->getMessage()], 401);
+            //  return $e->getMessage();
         }
     }
 
@@ -128,7 +130,7 @@ class LottoService
     }
 }
 
-    protected function processAmount($item, $lottery)
+    protected function processAmount($item, $lotteryId)
     {
         $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);
         $sub_amount = $item['amount'];
@@ -143,22 +145,26 @@ class LottoService
 
         // Check if the limit is exceeded
         $break = ThreeDDLimit::latest()->first()->three_d_limit;
-        if ($totalBetAmount + $sub_amount > $break) {
-            // throw new \Exception('The bet amount exceeds the limit.');
+        if ($totalBetAmount + $sub_amount <= $break) {
+            // Create a pivot record for a valid bet
+            $pivot = new LotteryThreeDigitPivot([
+                'lotto_id' => $lotteryId,
+                'three_digit_id' => $three_digit->id,
+                'sub_amount' => $sub_amount,
+                'prize_sent' => false,
+                'currency' => 'mmk'
+            ]);
+            $pivot->save();
+        }else{
             return [$item['num']];
+            // throw new \Exception('The bet amount exceeds the limit.');
             // return response()->json(['message'=> 'သတ်မှတ်ထားသော limit ပမာဏထပ်ကျော်လွန်နေပါသည်။'], 401);
         }
 
-        // Create a pivot record for a valid bet
-        $pivot = new LotteryThreeDigitPivot([
-            'lotto_id' => $lottery->id,
-            'three_digit_id' => $three_digit->id,
-            'sub_amount' => $sub_amount,
-            'prize_sent' => false,
-            'currency' => 'mmk'
-        ]);
-        $pivot->save();
+
+
        
+        
 
         // Perform additional actions if necessary
         // ...
