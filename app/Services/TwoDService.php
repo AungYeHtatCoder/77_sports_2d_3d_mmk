@@ -43,7 +43,7 @@ class TwoDService
 
             DB::commit();
 
-            return ['message' => 'Bet placed successfully'];
+            // return ['message' => 'Bet placed successfully'];
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Error in TwoDService play method: ' . $e->getMessage());
