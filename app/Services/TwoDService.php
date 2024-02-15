@@ -21,7 +21,8 @@ class TwoDService
 
             if ($user->balance < $totalAmount) {
                 // throw new \Exception('Insufficient funds.');
-                return response()->json(['message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'], 401);
+                // return response()->json(['message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'], 401);
+                return "Insufficient funds.";
             }
 
             foreach ($amounts as $amount) {
