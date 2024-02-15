@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers\Api\V1\Frontend;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Traits\HttpResponses;
-use App\Models\Admin\Currency;
-use App\Services\LottoService;
-use App\Models\Admin\Commission;
-use App\Models\ThreeDigit\Lotto;
-use Illuminate\Http\JsonResponse;
-use App\Models\Admin\ThreeDDLimit;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Models\ThreeDigit\ThreeDigit;
 use App\Http\Requests\PlayLottoRequest;
 use App\Http\Requests\ThreedPlayRequest;
+use App\Models\Admin\Commission;
+use App\Models\Admin\Currency;
+use App\Models\Admin\LotteryMatch;
 use App\Models\Admin\ThreedDigit;
-use App\Models\ThreeDigit\ThreeDigitOverLimit;
+use App\Models\Admin\ThreeDDLimit;
 use App\Models\ThreeDigit\LotteryThreeDigitCopy;
 use App\Models\ThreeDigit\LotteryThreeDigitPivot;
+use App\Models\ThreeDigit\Lotto;
+use App\Models\ThreeDigit\ThreeDigit;
+use App\Models\ThreeDigit\ThreeDigitOverLimit;
+use App\Models\User;
+use App\Services\LottoService;
+use App\Traits\HttpResponses;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ThreeDController extends Controller
 {
@@ -36,15 +37,17 @@ class ThreeDController extends Controller
     {
         $digits = ThreeDigit::all();
         $break = ThreeDDLimit::latest()->first()->three_d_limit;
-        foreach($digits as $digit)
-        {
-            $totalAmount = LotteryThreeDigitCopy::where('three_digit_id	', $digit->id)->sum('sub_amount');
+        foreach($digits as $digit){
+            $totalAmount = DB::table('lotto_three_digit_copy')->where('three_digit_id', $digit->id)->sum('sub_amount');
+            $break = ThreeDDLimit::latest()->first()->three_d_limit;
             $remaining = $break-$totalAmount;
             $digit->remaining = $remaining;
         }
+        $lottery_matches = LotteryMatch::where('id', 2)->whereNotNull('is_active')->first(['id', 'match_name', 'is_active']);
         return $this->success([
-            'digits', $digits,
-            'break', $break
+            'digits' => $digits,
+            'break' => $break,
+            'lottery_matches' => $lottery_matches
         ]);
     }
 
