@@ -89,7 +89,8 @@ class TwoDService
             ]);
         } else {
             // Handle the case where the bet exceeds the limit
-            throw new \Exception('The bet amount exceeds the limit for two-digit number ' . $twoDigit->two_digit);
+            return "overlimit";
+            // throw new \Exception('The bet amount exceeds the limit for two-digit number ' . $twoDigit->two_digit);
         }
     }
 
