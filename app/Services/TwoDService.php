@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Lottery;
 use App\Models\Admin\TwoDigit;
+use App\Models\Admin\HeadDigit;
 use App\Models\Admin\TwoDLimit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -36,7 +37,18 @@ class TwoDService
                 return $preOver;
             }
 
+            // Fetch all head digits not allowed
+   // $headDigitsNotAllowed = HeadDigit::pluck('digit_one', 'digit_two', 'digit_three')->flatten()->unique()->toArray();
 
+    // Check if any selected digit starts with the head digits not allowed
+     $headDigitsNotAllowed = HeadDigit::pluck('digit_one', 'digit_two', 'digit_three' )->toArray();
+            foreach ($amounts as $amount) {
+                $headDigitOfSelected = substr(sprintf('%02d', $amount['num']), 0, 1);
+                if (in_array($headDigitOfSelected, $headDigitsNotAllowed)) {
+                    return "Bets on numbers starting with '{$headDigitOfSelected}' are not allowed.";
+                }
+            }
+    
             $lottery = Lottery::create([
                 'pay_amount' => $totalAmount,
                 'total_amount' => $totalAmount,

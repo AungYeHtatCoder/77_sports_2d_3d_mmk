@@ -36,6 +36,7 @@ use App\Http\Controllers\Admin\ThreedHistoryController;
 use App\Http\Controllers\Home\CashOutRequestController;
 use App\Http\Controllers\Admin\ThreedMatchTimeController;
 use App\Http\Controllers\Admin\FillBalanceReplyController;
+use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
 
 Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -72,7 +73,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     // display limit 
     Route::get('/three-d-display-limit-amount', [App\Http\Controllers\Admin\ThreeDLimitController::class, 'overLimit'])->name('three-d-display-limit-amount');
     Route::get('/three-d-same-id-display-limit-amount', [App\Http\Controllers\Admin\ThreeDLimitController::class, 'SameThreeDigitIDoverLimit'])->name('three-d-display-same-id-limit-amount');
-    
+    // head digit close 
+    Route::resource('head-digit-close', HeadDigitCloseController::class);
     //cash in lists
     Route::get('/cashIn', [CashInRequestController::class, 'index'])->name('cashIn');
     Route::get('/cashIn/{id}', [CashInRequestController::class, 'show'])->name('cashIn.show');

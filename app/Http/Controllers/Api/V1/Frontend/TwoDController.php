@@ -8,6 +8,7 @@ use App\Services\TwoDService;
 use App\Traits\HttpResponses;
 use App\Models\Admin\Currency;
 use App\Models\Admin\TwoDigit;
+use App\Models\Admin\HeadDigit;
 use App\Models\Admin\TwoDLimit;
 use App\Services\LotteryService;
 use Illuminate\Http\JsonResponse;
@@ -52,48 +53,63 @@ class TwoDController extends Controller
     }
 
     public function play(TwoDPlayRequest $request, TwoDService $twoDService): JsonResponse
-    {
-        Log::info($request->all());
+{
+    Log::info($request->all());
+
     // Retrieve the validated data from the request
     $totalAmount = $request->input('totalAmount');
     $amounts = $request->input('amounts');
 
     try {
+        // Fetch all head digits not allowed
+        $closedHeadDigits = HeadDigit::query()
+            ->get(['digit_one', 'digit_two', 'digit_three'])
+            ->flatMap(function ($item) {
+                return [$item->digit_one, $item->digit_two, $item->digit_three];
+            })
+            ->unique()
+            ->filter()
+            ->values()
+            ->all();
+
+        foreach ($amounts as $amount) {
+            $headDigitOfSelected = substr(sprintf('%02d', $amount['num']), 0, 1); // Ensure two-digit format and extract the head digit
+            if (in_array($headDigitOfSelected, $closedHeadDigits)) {
+                return response()->json(['message' => "ထိပ်ဂဏန်း '{$headDigitOfSelected}'  ကိုပိတ်ထားသောကြောင့် ကံစမ်း၍ မရနိုင်ပါ ၊ ကျေးဇူးပြု၍ ဂဏန်းပြန်ရွှေးချယ်ပါ။ "], 401);
+            }
+        }
+
         // Pass the validated data to the TwoDService
         $result = $twoDService->play($totalAmount, $amounts);
 
-        if ($result == "Insufficient funds.") {
-            $message = "လက်ကျန်ငွေ မလုံလောက်ပါ။";
+        if ($result === "Insufficient funds.") {
+            // Insufficient funds message
+            return response()->json(['message' => "လက်ကျန်ငွေ မလုံလောက်ပါ။"], 401);
         } elseif (is_array($result)) {
-            // return response()->json($result);
-            $digit = [];
-            foreach($result as $k => $r){
-                $digit[] = TwoDigit::find($result[$k]+1)->two_digit;
-            }
-            $d = implode(",",$digit);
-            $message = $d." ဂဏန်းမှာ သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
-        } else {
-            return $this->success($result);
+            // Process exceeding limit message
+            $digitStrings = collect($result)->map(function ($r) {
+                return TwoDigit::find($r)->two_digit ?? 'Unknown';
+            })->implode(",");
+            
+            $message = "{$digitStrings} ဂဏန်းမှာ သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
+            return response()->json(['message' => $message], 401);
         }
-        
-        return response()->json(['message' => $message], 401);
-        
-        // Assuming the service will handle exceptions and return a suitable result
-        
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => 'Bet placed successfully.',
-        //     'data' => $result
-        // ]);
+
+        // If $result is neither "Insufficient funds." nor an array, assuming success.
+        return $this->success($result);
+
     } catch (\Exception $e) {
         // In case of an exception, return an error response
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage()
-        ], 401); // Use appropriate status code for client errors (e.g., 400) or server errors (e.g., 500)
+        return response()->json(['success' => false, 'message' => $e->getMessage()], 401);
     }
 }
-    
+
+// protected function success($data)
+// {
+//     // Assuming you have a success method to format your successful response
+//     return response()->json(['data' => $data], 200);
+// }
+
 
     public function playHistory(): JsonResponse
     {
