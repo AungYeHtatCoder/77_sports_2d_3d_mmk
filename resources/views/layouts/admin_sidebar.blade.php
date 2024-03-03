@@ -253,9 +253,17 @@
           @endcan --}}
            @can('user_access')
                 <li class="nav-item">
-                  <a class="nav-link text-white " href="{{ route('admin.morning-lajar') }}">
+                  <a class="nav-link text-white " href="{{ route('admin.two-digit-lejar-data') }}">
                     <span class="sidenav-mini-icon"> 2D </span>
                     <span class="sidenav-normal  ms-2  ps-1"> မနက်ပိုင်းလယ်ဂျာ </span>
+                  </a>
+                </li>
+                @endcan
+                @can('user_access')
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="{{ route('admin.evening-two-digit-lejar-data') }}">
+                    <span class="sidenav-mini-icon"> 2D </span>
+                    <span class="sidenav-normal  ms-2  ps-1"> ညနေပိုင်းလယ်ဂျာ </span>
                   </a>
                 </li>
                 @endcan

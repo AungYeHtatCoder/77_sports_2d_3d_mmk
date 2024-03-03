@@ -75,8 +75,8 @@ td{
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">2D မနက်ပိုင်းလယ်ဂျာ ပေါင်းချုပ် စာရင်း  <span>
-                                <a href="{{ url('admin/morning-lajar') }}" class="btn btn-primary">
+                            <h5 class="mb-0">2D ညနေပိုင်းလယ်ဂျာ ပေါင်းချုပ် စာရင်း  <span>
+                                <a href="{{ url('admin/evening-lajar') }}" class="btn btn-primary">
                                      နောက်တမျက်နှာသို့ 
                                 <i class="fas fa-angle-double-right"></i>
 
@@ -116,8 +116,8 @@ td{
                         @foreach($chunk as $two_digit => $details)
                             <td class="text-dark text-center" style="background-color: #fda6a5">{{ $two_digit }}</td>
                             <td>
-                            @if(isset($details['morning']->total_sub_amount))
-                                {{ $details['morning']->total_sub_amount }}
+                            @if(isset($details['evening']->total_sub_amount))
+                                {{ $details['evening']->total_sub_amount }}
                             @else
                                 <p>-</p>
                             @endif
@@ -140,52 +140,50 @@ td{
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script>
-        $(document).ready(function(){
-    $('.update-commission').click(function(){
-        var userId = $(this).data('user-id'); // Get the user_id
-        //var lottoId = $(this).data('lotto-id'); // Get the data-lotto-id attribute value
-        var commissionValue = $(this).closest('tr').find('.commission-input').val(); // Get the commission value from the input field
-        var commissionAmountValue = $(this).closest('tr').find('.commission-amount-input').val(); // Get the commission value from the input field
-        var statusValue = 'approved';
+//         $(document).ready(function(){
+//     $('.update-commission').click(function(){
+//         var userId = $(this).data('user-id'); // Get the user_id
+//         //var lottoId = $(this).data('lotto-id'); // Get the data-lotto-id attribute value
+//         var commissionValue = $(this).closest('tr').find('.commission-input').val(); // Get the commission value from the input field
+//         var commissionAmountValue = $(this).closest('tr').find('.commission-amount-input').val(); // Get the commission value from the input field
+//         var statusValue = 'approved';
 
-        $.ajax({
-            url: "/admin/two-d-commission-update/" + userId, // Update with your actual path
-            type: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'X-HTTP-Method-Override': 'PUT' // For overriding the POST method to PUT.
-            },
-            data: {
-                'commission': commissionValue,
-                'commission_amount': commissionAmountValue,
-                'status': 'approved'
-            },
-            success: function(response) {
-                // Handle the response from the server with SweetAlert
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: 'Commission updated successfully!',
-                    showConfirmButton: false,
-                    timer: 3000
-                }).then(function() {
-                    // Optional: You can refresh the page or make any UI updates here
-                    location.reload(); // For instance, this would refresh the page
-                });
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Handle any errors with SweetAlert
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to update commission: ' + errorThrown,
-                });
-            }
-        });
-    });
-});
-
-
+//         $.ajax({
+//             url: "/admin/two-d-commission-update/" + userId, // Update with your actual path
+//             type: 'POST',
+//             headers: {
+//                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+//                 'X-HTTP-Method-Override': 'PUT' // For overriding the POST method to PUT.
+//             },
+//             data: {
+//                 'commission': commissionValue,
+//                 'commission_amount': commissionAmountValue,
+//                 'status': 'approved'
+//             },
+//             success: function(response) {
+//                 // Handle the response from the server with SweetAlert
+//                 Swal.fire({
+//                     icon: 'success',
+//                     title: 'Success!',
+//                     text: 'Commission updated successfully!',
+//                     showConfirmButton: false,
+//                     timer: 3000
+//                 }).then(function() {
+//                     // Optional: You can refresh the page or make any UI updates here
+//                     location.reload(); // For instance, this would refresh the page
+//                 });
+//             },
+//             error: function(jqXHR, textStatus, errorThrown) {
+//                 // Handle any errors with SweetAlert
+//                 Swal.fire({
+//                     icon: 'error',
+//                     title: 'Oops...',
+//                     text: 'Failed to update commission: ' + errorThrown,
+//                 });
+//             }
+//         });
+//     });
+// });
 </script>
 
 

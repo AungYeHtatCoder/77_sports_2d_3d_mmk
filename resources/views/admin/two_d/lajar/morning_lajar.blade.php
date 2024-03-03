@@ -34,9 +34,11 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">2D မနက်ပိုင်းလယ်ဂျာ ပေါင်းချုပ် စာရင်း  Dashboard
+                            <h5 class="mb-0">2D မနက်ပိုင်းလယ်ဂျာ ပေါင်းချုပ် စာရင်း  
                                 <span>
-                                    <a href="{{ url('admin/two-digit-lejar-data') }}" class="btn btn-outline-primary btn-sm ms-4">လယ်ဂျာ</a>
+                                    <a href="{{ url('admin/two-digit-lejar-data') }}" class="btn btn-primary btn-sm ms-4">
+                                        <i class="fas fa-angle-double-left"></i> Back
+                                    </a>
                                 </span>
                             </h5>
 

@@ -37,6 +37,7 @@ class TwoDLagarService
                             'two_digit_id',
                             DB::raw('SUM(sub_amount) as total_sub_amount'),
                             DB::raw('GROUP_CONCAT(DISTINCT bet_digit) as bet_digits'),
+                            DB::raw('GROUP_CONCAT(DISTINCT prize_sent) as prize_sent'),
                             DB::raw('COUNT(*) as total_bets'),
                             DB::raw('MAX(lottery_two_digit_pivot.created_at) as latest_bet_time')
                         )
