@@ -235,6 +235,14 @@
             </a>
           </li>
           @endcan
+           @can('user_access')
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="{{ route('admin.two-digit-close.index') }}">
+                    <span class="sidenav-mini-icon"> 2D </span>
+                    <span class="sidenav-normal  ms-2  ps-1"> စိတ်ကြိုက်ဂဏန်းပိတ်ရန် </span>
+                  </a>
+                </li>
+                @endcan
           {{-- @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ url('admin/get-two-d-early-morning-number') }}">
@@ -243,6 +251,14 @@
             </a>
           </li>
           @endcan --}}
+           @can('user_access')
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="{{ route('admin.morning-lajar') }}">
+                    <span class="sidenav-mini-icon"> 2D </span>
+                    <span class="sidenav-normal  ms-2  ps-1"> မနက်ပိုင်းလယ်ဂျာ </span>
+                  </a>
+                </li>
+                @endcan
           @can('user_access')
           <li class="nav-item ">
             <a class="nav-link text-white " href="{{ route('admin.tow-d-morning-number.index') }}">

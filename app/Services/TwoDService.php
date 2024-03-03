@@ -108,11 +108,13 @@ class TwoDService
                                        ->where('two_digit_id', $twoDigit->id)
                                        ->sum('sub_amount');
         $subAmount = $amount['amount'];
+        $betDigit = $amount['num'];
 
         if ($totalBetAmountForTwoDigit + $subAmount <= $break) {
             LotteryTwoDigitPivot::create([
                 'lottery_id' => $lotteryId,
                 'two_digit_id' => $twoDigit->id,
+                'bet_digit' => $betDigit,
                 'sub_amount' => $subAmount,
             ]);
         } else {

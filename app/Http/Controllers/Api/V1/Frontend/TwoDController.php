@@ -14,6 +14,7 @@ use App\Services\LotteryService;
 use Illuminate\Http\JsonResponse;
 use App\Models\Admin\LotteryMatch;
 use Illuminate\Support\Facades\DB;
+use App\Models\Admin\CloseTwoDigit;
 use App\Models\LotteryTwoDigitCopy;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -76,6 +77,24 @@ class TwoDController extends Controller
             $headDigitOfSelected = substr(sprintf('%02d', $amount['num']), 0, 1); // Ensure two-digit format and extract the head digit
             if (in_array($headDigitOfSelected, $closedHeadDigits)) {
                 return response()->json(['message' => "ထိပ်ဂဏန်း '{$headDigitOfSelected}'  ကိုပိတ်ထားသောကြောင့် ကံစမ်း၍ မရနိုင်ပါ ၊ ကျေးဇူးပြု၍ ဂဏန်းပြန်ရွှေးချယ်ပါ။ "], 401);
+            }
+        }
+
+        $closedTwoDigits = CloseTwoDigit::query()
+            ->pluck('digit')
+            ->map(function ($digit) {
+                // Ensure formatting as a two-digit string
+                return sprintf('%02d', $digit);
+            })
+            ->unique()
+            ->filter()
+            ->values()
+            ->all();
+
+        foreach ($request->input('amounts') as $amount) {
+            $twoDigitOfSelected = sprintf('%02d', $amount['num']); // Ensure two-digit format
+            if (in_array($twoDigitOfSelected, $closedTwoDigits)) {
+                return response()->json(['message' => "2D -  '{$twoDigitOfSelected}'  ကိုပိတ်ထားသောကြောင့် ကံစမ်း၍ မရနိုင်ပါ ၊ ကျေးဇူးပြု၍ ဂဏန်းပြန်ရွှေးချယ်ပါ။ "], 401);
             }
         }
 

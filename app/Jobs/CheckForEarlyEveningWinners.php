@@ -52,7 +52,7 @@ class CheckForEarlyEveningWinners implements ShouldQueue
             
             // Update user's balance
             $user = $lottery->user;
-            $user->balance += $entry->sub_amount * 85;  // Update based on your prize calculation
+            $user->balance += $entry->sub_amount * 80;  // Update based on your prize calculation
             $user->save();
 
             // Update prize_sent in pivot
