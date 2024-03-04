@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers\Api\V1\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\PlayLottoRequest;
-use App\Http\Requests\ThreedPlayRequest;
-use App\Models\Admin\Commission;
-use App\Models\Admin\Currency;
-use App\Models\Admin\LotteryMatch;
-use App\Models\Admin\ThreedDigit;
-use App\Models\Admin\ThreeDDLimit;
-use App\Models\ThreeDigit\LotteryThreeDigitCopy;
-use App\Models\ThreeDigit\LotteryThreeDigitPivot;
-use App\Models\ThreeDigit\Lotto;
-use App\Models\ThreeDigit\ThreeDigit;
-use App\Models\ThreeDigit\ThreeDigitOverLimit;
 use App\Models\User;
-use App\Services\LottoService;
-use App\Traits\HttpResponses;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Traits\HttpResponses;
+use App\Models\Admin\Currency;
+use App\Services\LottoService;
+use App\Models\Admin\Commission;
+use App\Models\ThreeDigit\Lotto;
+use App\Models\Admin\ThreedDigit;
+use Illuminate\Http\JsonResponse;
+use App\Models\Admin\LotteryMatch;
+use App\Models\Admin\ThreeDDLimit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\ThreeDigit\ThreeDigit;
+use App\Models\ThreeDigit\ThreedClose;
+use App\Http\Requests\PlayLottoRequest;
+use App\Http\Requests\ThreedPlayRequest;
+use App\Models\ThreeDigit\ThreeDigitOverLimit;
+use App\Models\ThreeDigit\LotteryThreeDigitCopy;
+use App\Models\ThreeDigit\LotteryThreeDigitPivot;
 
 class ThreeDController extends Controller
 {
@@ -60,6 +61,25 @@ class ThreeDController extends Controller
         // if($totalAmount > Auth::user()->balance){
         //     return response()->json(['success' => false, 'message' => 'လက်ကျန်ငွေ မလုံလောက်ပါ။'], 401);
         // }
+
+        $closedTwoDigits = ThreedClose::query()
+            ->pluck('digit')
+            ->map(function ($digit) {
+                // Ensure formatting as a two-digit string
+                return sprintf('%03d', $digit);
+            })
+            ->unique()
+            ->filter()
+            ->values()
+            ->all();
+
+        foreach ($request->input('amounts') as $amount) {
+            $twoDigitOfSelected = sprintf('%03d', $amount['num']); // Ensure two-digit format
+            if (in_array($twoDigitOfSelected, $closedTwoDigits)) {
+                return response()->json(['message' => "3D -  '{$twoDigitOfSelected}'  ကိုပိတ်ထားသောကြောင့် ကံစမ်း၍ မရနိုင်ပါ ၊ ကျေးဇူးပြု၍ ဂဏန်းပြန်ရွှေးချယ်ပါ။ "], 401);
+            }
+        }
+
 
         $result = $this->lottoService->play($totalAmount, $amounts);
         // return response()->json($result);

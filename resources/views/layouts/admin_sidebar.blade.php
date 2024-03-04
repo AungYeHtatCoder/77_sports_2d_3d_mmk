@@ -383,6 +383,12 @@
        <span class="sidenav-normal  ms-2  ps-1"> 3D မှတ်တမ်း </span>
       </a>
      </li>
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('admin/three-digit-lejar')}}">
+       <span class="sidenav-mini-icon"> 3D  </span>
+       <span class="sidenav-normal  ms-2  ps-1"> လယ်ဂျာ </span>
+      </a>
+     </li>
      {{-- <li class="nav-item">
       <a class="nav-link text-white " href="{{ url('admin/threed-lotteries-match-time') }}">
        <span class="sidenav-mini-icon"> OD </span>
@@ -399,6 +405,12 @@
       <a class="nav-link text-white " href="{{ route('admin.three-digit-limit.index') }}">
        <span class="sidenav-mini-icon"> 3D </span>
        <span class="sidenav-normal  ms-2  ps-1"> ဘရိတ်သတ်မှတ်ရန် </span>
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ route('admin.three-digit-close.index') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1"> ပိတ်ဂဏန်းထဲ့ရန် </span>
       </a>
      </li>
      <li class="nav-item">

@@ -55,7 +55,7 @@ class TwoDController extends Controller
 
     public function play(TwoDPlayRequest $request, TwoDService $twoDService): JsonResponse
 {
-    Log::info($request->all());
+    //Log::info($request->all());
 
     // Retrieve the validated data from the request
     $totalAmount = $request->input('totalAmount');

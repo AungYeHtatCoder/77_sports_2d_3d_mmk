@@ -38,6 +38,8 @@ use App\Http\Controllers\Admin\TwoD\DataLejarController;
 use App\Http\Controllers\Admin\TwoD\TwoDLagarController;
 use App\Http\Controllers\Admin\ThreedMatchTimeController;
 use App\Http\Controllers\Admin\FillBalanceReplyController;
+use App\Http\Controllers\Admin\ThreeD\ThreeDCloseController;
+use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
 use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
 use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
 
@@ -84,7 +86,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/evening-lajar', [TwoDLagarController::class, 'showDataEvening'])->name('evening-lajar');
     // two digit data
     Route::get('/evening-two-digit-lejar-data', [DataLejarController::class, 'showDataEvening'])->name('evening-two-digit-lejar-data');
-
+    // three digit close
+    Route::resource('three-digit-close', ThreeDCloseController::class);
+    // three digit legar
+    Route::get('/three-digit-lejar', [ThreeDLegarController::class, 'showData'])->name('three-digit-lejar');
     // display limit 
     Route::get('/three-d-display-limit-amount', [App\Http\Controllers\Admin\ThreeDLimitController::class, 'overLimit'])->name('three-d-display-limit-amount');
     Route::get('/three-d-same-id-display-limit-amount', [App\Http\Controllers\Admin\ThreeDLimitController::class, 'SameThreeDigitIDoverLimit'])->name('three-d-display-same-id-limit-amount');

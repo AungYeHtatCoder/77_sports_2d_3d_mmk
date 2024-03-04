@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models\ThreeDigit;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ThreedDigit extends Model
+class ThreedClose extends Model
 {
     use HasFactory;
-    protected $fillable = ['three_digit'];
-
+    protected $fillable = ['digit'];
+    
 }

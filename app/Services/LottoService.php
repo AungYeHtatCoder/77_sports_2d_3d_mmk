@@ -134,6 +134,7 @@ class LottoService
     {
         $num = str_pad($item['num'], 3, '0', STR_PAD_LEFT);
         $sub_amount = $item['amount'];
+        $bet_digit = $item['num'];
 
         // Find the corresponding three digit record
         $three_digit = ThreeDigit::where('three_digit', $num)->firstOrFail();
@@ -150,6 +151,7 @@ class LottoService
             $pivot = new LotteryThreeDigitPivot([
                 'lotto_id' => $lotteryId,
                 'three_digit_id' => $three_digit->id,
+                'bet_digit' => $bet_digit,
                 'sub_amount' => $sub_amount,
                 'prize_sent' => false,
                 'currency' => 'mmk'
