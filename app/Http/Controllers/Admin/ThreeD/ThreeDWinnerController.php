@@ -55,7 +55,7 @@ class ThreeDWinnerController extends Controller
             'lottos.total_amount',
             'three_winners.prize_no', 
             'three_winners.created_at', 
-         DB::raw('lotto_three_digit_pivot.sub_amount * 500 as prize_amount')
+         DB::raw('lotto_three_digit_pivot.sub_amount * 550 as prize_amount')
         )
         ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
         ->get();
@@ -115,7 +115,7 @@ class ThreeDWinnerController extends Controller
             'lottos.total_amount',
             'three_winners.prize_no', 
             'three_winners.created_at', 
-         DB::raw('lotto_three_digit_pivot.sub_amount * 500 as prize_amount')
+         DB::raw('lotto_three_digit_pivot.sub_amount * 550 as prize_amount')
         )
         ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
         ->get();

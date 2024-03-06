@@ -69,7 +69,7 @@
                                             <td>{{ $twoDigit->two_digit }}</td>
                                             <td>{{ $twoDigit->pivot->sub_amount }}</td>
                                             <td><span class="badge badge-success">WINNER</span></td>
-                                            <td>{{ $twoDigit->pivot->sub_amount * 85 }}</td>
+                                            <td>{{ $twoDigit->pivot->sub_amount * 80 }}</td>
                                             <td>
 
                                                 @if ($twoDigit->pivot->prize_sent == 1)
