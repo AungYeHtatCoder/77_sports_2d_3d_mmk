@@ -69,12 +69,16 @@ class TwoDController extends Controller
                 return [$item->digit_one, $item->digit_two, $item->digit_three];
             })
             ->unique()
-            ->filter()
-            ->values()
+            // ->filter()
+            // ->values()
             ->all();
 
+        // return response()->json($closedHeadDigits);
         foreach ($amounts as $amount) {
             $headDigitOfSelected = substr(sprintf('%02d', $amount['num']), 0, 1); // Ensure two-digit format and extract the head digit
+            // if($headDigitOfSelected < 10 && in_array("0", $closedHeadDigits)){
+            //     return response()->json(['message' => "ထိပ်ဂဏန်း '0'  ကိုပိတ်ထားသောကြောင့် ကံစမ်း၍ မရနိုင်ပါ ၊ ကျေးဇူးပြု၍ ဂဏန်းပြန်ရွှေးချယ်ပါ။ "], 401);
+            // }
             if (in_array($headDigitOfSelected, $closedHeadDigits)) {
                 return response()->json(['message' => "ထိပ်ဂဏန်း '{$headDigitOfSelected}'  ကိုပိတ်ထားသောကြောင့် ကံစမ်း၍ မရနိုင်ပါ ၊ ကျေးဇူးပြု၍ ဂဏန်းပြန်ရွှေးချယ်ပါ။ "], 401);
             }

@@ -70,7 +70,7 @@
                 <td>{{ $threeDigit->three_digit }}</td>
                 <td>{{ $threeDigit->pivot->sub_amount }}</td>
                 <td><span class="badge badge-success">WINNER</span></td>
-                <td>{{ $threeDigit->pivot->sub_amount * 550 }}</td>
+                <td>{{ $threeDigit->pivot->sub_amount * 600 }}</td>
                 <td>
                  @if ($threeDigit->pivot->prize_sent == 1)
                 <button type="button" class="btn btn-success" disabled>Sent - လျော်ပြီး</button>
