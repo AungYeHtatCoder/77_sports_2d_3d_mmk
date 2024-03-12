@@ -92,7 +92,7 @@
        {{ \Carbon\Carbon::parse($winner->created_at)->format('d-m-Y (l) (h:i a)') }}
       </p>
      </td>
-     <td>
+     {{-- <td>
         @if($winner->prize_sent == 1)
             <span>
                 <p class="text-primary">
@@ -107,7 +107,7 @@
             </span> 
         @endif
 
-     </td>
+     </td> --}}
     </tr>
     @php 
     $totalPrizeAmount += $winner->prize_amount;
@@ -118,10 +118,14 @@
    @endif
                 </div>
             </div>
-        <p>
+        <div class="mt-4">
+        <div class="card">
+            <div class="card-header">
+                <p class="mb-0 text-center">
             <span style="font-size: 20px">ထီပေါက်ငွေစုစုပေါင်း</span>
             <span style="font-size: 20px" class="text-primary">{{ $totalPrizeAmount }}</span>
         </p>
+        </div>
         </div>
     </div>
 @endsection

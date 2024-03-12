@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Jobs\CheckForThreeDWinners;
 use App\Jobs\ThreeDUpdatePrizeSent;
 use Illuminate\Database\Eloquent\Model;
+use App\Jobs\ThreeDPermutationPrizeSent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ThreeWinner extends Model
@@ -23,6 +24,7 @@ class ThreeWinner extends Model
     static::created(function ($threedWinner) {
         //if ($threedWinner->prize_no) {
             CheckForThreeDWinners::dispatch($threedWinner);
+            ThreeDPermutationPrizeSent::dispatch($threedWinner);
             ThreeDUpdatePrizeSent::dispatch($threedWinner);
         //} 
         

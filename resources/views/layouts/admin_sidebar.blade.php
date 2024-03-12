@@ -432,9 +432,10 @@
       </a>
      </li> --}}
      <li class="nav-item">
-      <a class="nav-link text-white " href="{{ url('/admin/three-d-winner') }}">
+      <a class="nav-link text-white " href="{{ url('/admin/three-d-winners-history') }}">
        <span class="sidenav-mini-icon"> 3D </span>
        <span class="sidenav-normal  ms-2  ps-1">  ပေါက်သူများ </span>
+       {{-- route - three-d-winner --}}
       </a>
      </li>
     </ul>
