@@ -438,6 +438,13 @@
        {{-- route - three-d-winner --}}
       </a>
      </li>
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('/admin/three-d-permutation-winners-history') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1">  ပတ်လယ်ပေါက်သူများ </span>
+       {{-- route - three-d-winner --}}
+      </a>
+     </li>
     </ul>
    </div>
   </li>

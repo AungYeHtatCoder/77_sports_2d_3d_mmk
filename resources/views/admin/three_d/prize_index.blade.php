@@ -166,21 +166,21 @@
                         @endphp
 
                          <td colspan="4">
-                            @php $res = []; @endphp
+                            {{-- @php $res = []; @endphp --}}
                             @foreach($permutations as $permutation)
                                 <span>{{ $permutation }} | </span>
-                                @php $res[] = $permutation; @endphp
+                                {{-- @php $res[] = $permutation; @endphp --}}
                             @endforeach
 
                             
                         </td>
-                        <td>
+                        {{-- <td>
                             @php 
 
                             $res = implode(" | ", $res);
                             echo $res;
                             @endphp
-                        </td>
+                        </td> --}}
                     </tr>
                     @else
                     <tr>
