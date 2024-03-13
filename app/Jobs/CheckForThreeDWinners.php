@@ -37,6 +37,7 @@ class CheckForThreeDWinners implements ShouldQueue
 
     // Convert prize_no to three_digit_id
     $three_digit_id = $this->threedWinner->prize_no === '00' ? 1 : intval($this->threedWinner->prize_no, 10) + 1;
+    //Log::info('Three digit id: ' . gettype($three_digit_id) . ' - ' . $three_digit_id);
 
     $winningEntries = DB::table('lotto_three_digit_copy')
         ->join('lottos', 'lotto_three_digit_copy.lotto_id', '=', 'lottos.id')

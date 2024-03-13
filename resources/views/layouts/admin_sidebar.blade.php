@@ -401,6 +401,12 @@
        <span class="sidenav-normal  ms-2  ps-1"> ထွက်ဂဏန်းထဲ့ရန် </span>
       </a>
      </li>
+     <li class="nav-item">
+      <a class="nav-link text-white " href="{{ route('admin.winner-prize.index') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1"> သွပ်ဂဏန်းထဲ့ရန် </span>
+      </a>
+     </li>
       <li class="nav-item">
       <a class="nav-link text-white " href="{{ route('admin.three-digit-limit.index') }}">
        <span class="sidenav-mini-icon"> 3D </span>
@@ -439,9 +445,16 @@
       </a>
      </li>
      <li class="nav-item">
-      <a class="nav-link text-white " href="{{ url('/admin/three-d-permutation-winners-history') }}">
+      <a class="nav-link text-white " href="{{ url('/admin/permutation-winners-history') }}">
        <span class="sidenav-mini-icon"> 3D </span>
        <span class="sidenav-normal  ms-2  ps-1">  ပတ်လယ်ပေါက်သူများ </span>
+       {{-- route - three-d-winner --}}
+      </a>
+     </li>
+      <li class="nav-item">
+      <a class="nav-link text-white " href="{{ url('/admin/prize-winners') }}">
+       <span class="sidenav-mini-icon"> 3D </span>
+       <span class="sidenav-normal  ms-2  ps-1">  သွပ်ရရှိသူများ </span>
        {{-- route - three-d-winner --}}
       </a>
      </li>
