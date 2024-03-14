@@ -17,20 +17,20 @@ class UsersTableSeeder extends Seeder
             [
                 'name'           => 'Super Admin',
                 'country_code' => "+95",
-                'phone'          => '09123456789',
+                'phone'          => '09777710146',
                 'password'       => '$2y$10$qyxYm.2dlaXROvs0OrGHseo4qbeissRMqNWdhlcr/vUqE62vN94Fi', // password
                 'remember_token' => null,
-                'created_at'     => '2019-09-10 14:00:26',
-                'updated_at'     => '2019-09-10 14:00:26',
+                'created_at'     => now(),
+                'updated_at'     => now(),
             ],
             [
                 'name'           => 'Admin',
                 'country_code' => "+95",
-                'phone'          => '09223456789',
+                'phone'          => '09690990215',
                 'password'       => '$2y$10$qyxYm.2dlaXROvs0OrGHseo4qbeissRMqNWdhlcr/vUqE62vN94Fi', // password
                 'remember_token' => null,
-                'created_at'     => '2023-08-14 14:00:26',
-                'updated_at'     => '2023-08-14 14:00:26',
+                'created_at'     => now(),
+                'updated_at'     => now(),
             ],
             
             [
@@ -39,8 +39,8 @@ class UsersTableSeeder extends Seeder
                 'phone'          => '09334567899',
                 'password'       => '$2y$10$qyxYm.2dlaXROvs0OrGHseo4qbeissRMqNWdhlcr/vUqE62vN94Fi', // password
                 'remember_token' => null,
-                'created_at'     => '2023-08-14 14:00:26',
-                'updated_at'     => '2023-08-14 14:00:26',
+                'created_at'     => now(),
+                'updated_at'     => now(),
             ],
             [
                 'name'           => 'Player 3',
@@ -48,8 +48,8 @@ class UsersTableSeeder extends Seeder
                 'phone'          => '09445647889',
                 'password'       => '$2y$10$qyxYm.2dlaXROvs0OrGHseo4qbeissRMqNWdhlcr/vUqE62vN94Fi', // password
                 'remember_token' => null,
-                'created_at'     => '2023-08-14 14:00:26',
-                'updated_at'     => '2023-08-14 14:00:26',
+                'created_at'     => now(),
+                'updated_at'     => now(),
             ]
         ];
 
