@@ -93,7 +93,7 @@ class ThreeDPermutationUpdatePrizeSent implements ShouldQueue
                 $user->balance += $entry->sub_amount * 0; 
                 $user->save();
 
-                $lottery->threedDigits()->updateExistingPivot($entry->three_digit_id, ['prize_sent' => 2]);
+                $lottery->Prizes()->updateExistingPivot($entry->three_digit_id, ['prize_sent' => 2]);
             });
         }
     }

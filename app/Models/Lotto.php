@@ -43,6 +43,9 @@ class Lotto extends Model
      public function threedDigits() {
         return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_copy')->withPivot('sub_amount', 'prize_sent')->withTimestamps();
     }
+    public function Prizes() {
+        return $this->belongsToMany(ThreeDigit::class, 'lotto_three_digit_pivot')->withPivot('sub_amount', 'prize_sent')->withTimestamps();
+    }
 
     public function DisplayThreeDigits()
     { 
