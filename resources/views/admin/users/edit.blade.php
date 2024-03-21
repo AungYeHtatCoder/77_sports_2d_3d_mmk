@@ -80,15 +80,16 @@
      </div>
     </div>
     <div class="card-body">
-     <form role="form" class="text-start" action="">
+     <form role="form" class="text-start" action="{{ route('admin.users.update', $user_edit->id) }}" method="POST">
       @csrf
+      @method('PUT')
       <div class="custom-form-group">
        <label for="title">User Name</label>
-       <input type="text" id="name" name="name" class="form-control">
+       <input type="text" id="name" name="name" class="form-control" value="{{ $user_edit->name }}">
       </div>
       <div class="custom-form-group">
        <label for="title">Email</label>
-       <input type="email" id="email" name="email" class="form-control">
+       <input type="email" id="email" name="email" class="form-control" value="{{ $user_edit->email }}">
       </div>
       <div class="custom-form-group">
        <label for="title">Password</label>
@@ -107,7 +108,7 @@
       </div>
 
       <div class="custom-form-group">
-       <button class="btn btn-primary" type="button">Edit</button>
+       <button class="btn btn-primary" type="submit">Update User</button>
       </div>
      </form>
     </div>
