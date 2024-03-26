@@ -131,56 +131,34 @@
                 <h5>3D Prize Digit Create</h5>
             </div>
             <div class="table-responsive">
-                <table class="table table-flush" id="twod-search">
-                    <thead class="thead-light">
-                        
-                        {{-- <th>Lottery ID</th> --}}
-                        <th>ပတ်လယ်ထွက်ဂဏန်းများ</th>
-                       
-                    </thead>
-                   <tbody>
+            @php
+            use App\Helpers\PermutationDigit;
+
+            // Create an instance of the PermutationDigit class
+            $permutationDigit = new PermutationDigit();
+            if($three_digits_prize) {
+            $prize_num = $three_digits_prize->prize_no;
+            $permutations = $permutationDigit->PerDigit($prize_num, $prize_num);
+            } else {
+                $three_digits_prize = null;
+            }
+            
+            @endphp
+            <form method="POST" action="{{ route('admin.storePermutations') }}">
+            @csrf
+            <table class="table table-flush" id="twod-search">
+                <thead class="thead-light">
+                    <th>ပတ်လယ်ထွက်ဂဏန်းများ</th>
+                </thead>
+                <tbody>
                     @if($three_digits_prize)
                     <tr>
-                        @php
-                        function permutation($str, $original) {
-                            if (strlen($str) == 1) {
-                                return $str === $original ? [] : [$str];
-                            } else {
-                                $perms = [];
-                                for ($i = 0; $i < strlen($str); $i++) {
-                                    $char = $str[$i];
-                                    $remainingChars = substr($str, 0, $i) . substr($str, $i + 1);
-                                    foreach (permutation($remainingChars, $original) as $subPerm) {
-                                        $perm = $char . $subPerm;
-                                        if ($perm !== $original) { // Check if permutation is not the original string
-                                            $perms[] = $perm;
-                                        }
-                                    }
-                                }
-                                return array_values(array_unique($perms));
-                            }
-                        }
-
-                        $prize_num = $three_digits_prize->prize_no;
-                        $permutations = permutation($prize_num, $prize_num); // Pass $prize_num as both the string to permute and the original string to omit
-                        @endphp
-
-                         <td colspan="4">
-                            {{-- @php $res = []; @endphp --}}
+                        <td colspan="4">
                             @foreach($permutations as $permutation)
                                 <span>{{ $permutation }} | </span>
-                                {{-- @php $res[] = $permutation; @endphp --}}
+                                <input type="hidden" name="permutations[]" value="{{ $permutation }}">
                             @endforeach
-
-                            
                         </td>
-                        {{-- <td>
-                            @php 
-
-                            $res = implode(" | ", $res);
-                            echo $res;
-                            @endphp
-                        </td> --}}
                     </tr>
                     @else
                     <tr>
@@ -188,22 +166,24 @@
                     </tr>
                     @endif
                 </tbody>
-
-                </table>
+            </table>
+            <button type="submit" class="btn btn-primary">ပတ်လယ်ထွက်ဂဏန်းများသိမ်းပါ</button>
+            </form>
             </div>
 
-        </div>
+        </div> 
+        {{-- card end --}}
 
-        {{-- <div class="card mt-3">
-           
+         <div class="card mt-3">
+            <!-- Card header -->
             <div class="card-header pb-0">
                 <div>
-                    <h5 class="mb-0">3D Prize Digit Create Dashboards</h5>
+                    <h5 class="mb-0">3D ပတ်လယ်ထွက်ဂဏန်းများ</h5>
                 </div>
                 <div class="d-lg-flex mt-2">
                     <div class="ms-auto my-auto mt-lg-0">
                         <div class="ms-auto my-auto">
-                            
+                            {{-- <a href="#" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; Create New</a> --}}
                             <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button>
                         </div>
                     </div>
@@ -212,50 +192,43 @@
             <div class="table-responsive">
                 <table class="table table-flush" id="twod-search">
                     <thead class="thead-light">
-                        
-                        
-                        <th>ပတ်လယ်ထွက်ဂဏန်းများ</th>
-                       
+                        <th>#</th>
+                        {{-- <th>Lottery ID</th> --}}
+                        <th>ပတ်လယ်ထွက်ဂဏန်း</th>
+                        <th>Date</th>
+                        <th>Action</th>
                     </thead>
-                   <tbody>
-                    @if($three_digits_prize)
-                    <tr>
-                        @php
-                        function permutations($str) {
-                            if (strlen($str) == 1) {
-                                return [$str];
-                            } else {
-                                $perms = [];
-                                for ($i = 0; $i < strlen($str); $i++) {
-                                    $char = $str[$i];
-                                    $remainingChars = substr($str, 0, $i) . substr($str, $i + 1);
-                                    foreach (permutations($remainingChars) as $subPerm) {
-                                        $perms[] = $char . $subPerm;
-                                    }
-                                }
-                                return array_values(array_unique($perms));
-                            }
-                        }
+                    <tbody>
+                        @if($permutation_digits)
+                        @foreach($permutation_digits as $permutation_digit)
+                        <tr>
+                            <td>{{ $permutation_digit->id }}</td>
+                            <td>{{ $permutation_digit->digit }}</td>
+                            <td>{{ $permutation_digit->created_at }}</td>
+                            {{-- delete form --}}
+                            <td>
+                                <form action="{{ route('admin.deletePermutation', $permutation_digit->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="transparent-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                        <i class="fas fa-trash text-danger"></i>
+                                    </button>
+                                </form>
+                        </tr>
+                        @endforeach
+                        @else
+                        <tr>
+                            <td colspan="4" class="text-center">No Data Found</td>
+                        </tr>
+                        @endif
 
-                        $prize_num = $three_digits_prize->prize_no;
-                        $permutations = permutations($prize_num);
-                        @endphp
-                        <td colspan="4">
-                            @foreach($permutations as $permutation)
-                                <span>{{ $permutation }} | </span>
-                            @endforeach
-                        </td>
-                    </tr>
-                    @else
-                    <tr>
-                        <td colspan="4" class="text-center">No Data Found</td>
-                    </tr>
-                    @endif
-                </tbody>
 
+                    </tbody>
                 </table>
             </div>
-        </div> --}}
+        </div>
+
+        
     </div>
 </div>
 @endsection

@@ -78,4 +78,6 @@ Route::group(["middleware" => ['auth:sanctum']], function(){
      // commission balance update 
     Route::post('/balance-update', [ProfileController::class, 'balanceUpdateApi']);
     Route::get('/two-d-remaining-amount', [TwoDRemainingAmountController::class, 'index'])->name('twod.play.remaining.amount');
+    // auth winner history 
+    Route::get('/auth-winner-history', [App\Http\Controllers\Api\V1\ThreeD\AuthWinnerHistoryController::class, 'getWinnersHistoryForAuthUserOnly'])->name('authWinnerHistory');
 });
