@@ -76,7 +76,7 @@
             <p>{{ ucfirst($winner->session) }}</p>
      </td> --}}
      <td><span>ပေါက်ဂဏန်း</span>
-      <p class="text-primary">{{ $winner->prize_no }}</p>
+      <p class="text-primary">{{ $winner->digit }}</p>
      </td>
      <td><span>ထိုးငွေ</span>
       <p>{{ $winner->sub_amount }}</p>
