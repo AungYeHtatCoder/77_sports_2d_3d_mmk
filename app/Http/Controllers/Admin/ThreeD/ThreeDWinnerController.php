@@ -61,7 +61,8 @@ class ThreeDWinnerController extends Controller
         ->get();
     // Update the prize_sent date for each winner
      foreach ($winners as $winner) {
-        $this->updatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        //$this->updatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        $winner->user_id;
     }
 
         return view('admin.three_d.three_d_winner_history', compact('winners'));
@@ -103,7 +104,8 @@ class ThreeDWinnerController extends Controller
         ->get();
     // Update the prize_sent date for each winner
      foreach ($winners as $winner) {
-        $this->updatePermutationPrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        //$this->updatePermutationPrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        $winner->user_id;
     }
 
         return view('admin.three_d.three_d_permutation_winner_history', compact('winners'));
@@ -223,7 +225,8 @@ class ThreeDWinnerController extends Controller
         ->get();
     // Update the prize_sent date for each winner
      foreach ($winners as $winner) {
-        $this->updatePrizeSentDateApi($winner->user_id); // Make sure user_id is the ID of the winner
+       // $this->updatePrizeSentDateApi($winner->user_id); // Make sure user_id is the ID of the winner
+       $winner->user_id;
     }
 
          return response()->json(['winners' => $winners], 200);
@@ -291,7 +294,8 @@ class ThreeDWinnerController extends Controller
 
     // Update the prize_sent date for each winner
     foreach ($winners as $winner) {
-        $this->updateGreatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        //$this->updateGreatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        $winner->user_id;
     }
 
     return view('admin.three_d.prize_winner_history', compact('winners'));

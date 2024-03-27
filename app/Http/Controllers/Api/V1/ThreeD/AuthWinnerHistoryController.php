@@ -50,7 +50,8 @@ class AuthWinnerHistoryController extends Controller
 
     // Update the prize_sent date for each winner
     foreach ($winners as $winner) {
-        $this->updatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        //$this->updatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        $winner->user_id;
     }
 
 
@@ -89,7 +90,8 @@ class AuthWinnerHistoryController extends Controller
         ->get();
     // Update the prize_sent date for each winner
      foreach ($permutation_winners as $permutation) {
-        $this->updatePermutationPrizeSentDate($permutation->user_id); // Make sure user_id is the ID of the winner
+        //$this->updatePermutationPrizeSentDate($permutation->user_id); // Make sure user_id is the ID of the winner
+        $permutation->user_id;
     }
 
     // greaters winners
@@ -134,7 +136,8 @@ class AuthWinnerHistoryController extends Controller
 
     // Update the prize_sent date for each winner
     foreach ($prize_winners as $winner) {
-        $this->updateGreatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        //$this->updateGreatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+        $winner->user_id;
     }
 
      return response()->json([
