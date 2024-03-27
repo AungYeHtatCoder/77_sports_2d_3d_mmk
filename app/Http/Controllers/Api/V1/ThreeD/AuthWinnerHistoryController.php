@@ -12,7 +12,7 @@ class AuthWinnerHistoryController extends Controller
     public function getWinnersHistoryForAuthUserOnly()
 {
     try{
-    $oneMonthAgo = Carbon::now()->subMonth();
+    $oneMonthAgo = Carbon::now()->subMonths(5);
     $userId = auth()->id(); // Get the authenticated user's ID
 
     $winners = DB::table('lotto_three_digit_pivot')
@@ -54,7 +54,7 @@ class AuthWinnerHistoryController extends Controller
     }
 
 
-    $MonthAgo = Carbon::now()->subMonth();
+    $MonthAgo = Carbon::now()->subMonths(5);
         $permutation_winners = DB::table('lotto_three_digit_pivot')
         ->join('three_digits', 'lotto_three_digit_pivot.three_digit_id', '=', 'three_digits.id')
         ->join('lottos', 'lotto_three_digit_pivot.lotto_id', '=', 'lottos.id')
@@ -93,7 +93,7 @@ class AuthWinnerHistoryController extends Controller
     }
 
     // greaters winners
-    $oneMAgo = Carbon::now()->subMonth();
+    $oneMAgo = Carbon::now()->subMonths(5);
     $prize_winners = DB::table('lotto_three_digit_copy')
         ->join('three_digits', 'lotto_three_digit_copy.three_digit_id', '=', 'three_digits.id')
         ->join('lottos', 'lotto_three_digit_copy.lotto_id', '=', 'lottos.id')
