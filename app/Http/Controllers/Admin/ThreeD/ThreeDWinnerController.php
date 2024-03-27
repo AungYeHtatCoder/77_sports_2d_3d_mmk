@@ -27,7 +27,7 @@ class ThreeDWinnerController extends Controller
 
     public function getWinnersHistoryForAdmin()
     {
-        $oneMonthAgo = Carbon::now()->subMonth();
+        $oneMonthAgo = Carbon::now()->subMonths(5);
         $winners = DB::table('lotto_three_digit_pivot')
         ->join('three_digits', 'lotto_three_digit_pivot.three_digit_id', '=', 'three_digits.id')
         ->join('lottos', 'lotto_three_digit_pivot.lotto_id', '=', 'lottos.id')
