@@ -80,4 +80,7 @@ Route::group(["middleware" => ['auth:sanctum']], function(){
     Route::get('/two-d-remaining-amount', [TwoDRemainingAmountController::class, 'index'])->name('twod.play.remaining.amount');
     // auth winner history 
     Route::get('/auth-winner-history', [App\Http\Controllers\Api\V1\ThreeD\AuthWinnerHistoryController::class, 'getWinnersHistoryForAuthUserOnly'])->name('authWinnerHistory');
+    // auth two digit winner history
+    Route::get('/auth-two-d-winner-history', [App\Http\Controllers\Api\V1\ThreeD\AuthWinnerHistoryController::class, 'TwoDigitWinnerHistory'])->name('authTwoDigitWinnerHistory');
+    
 });

@@ -152,9 +152,6 @@ class AuthWinnerHistoryController extends Controller
     }
 }
     
-
-
-
     public function updatePrizeSentDate($winnerId)
     {
         // Find the lottery_two_digit_pivot record
@@ -208,6 +205,83 @@ class AuthWinnerHistoryController extends Controller
 
         return redirect()->back()->with('success', 'Prize sent date updated successfully!');
     }
+
+    // tow digit winners
+    public function TwoDigitWinnerHistory()
+    {
+        try{
+    $oneMonthAgo = Carbon::now()->subMonth();
+    $userId = auth()->id(); // Get the authenticated user's ID
+
+    $tow_d_winners = DB::table('lottery_two_digit_pivot')
+        ->join('two_digits', 'lottery_two_digit_pivot.two_digit_id', '=', 'two_digits.id')
+        ->join('lotteries', 'lottery_two_digit_pivot.lottery_id', '=', 'lotteries.id')
+        ->join('users', 'lotteries.user_id', '=', 'users.id')
+        ->join('twod_winers', 'two_digits.two_digit', '=', 'twod_winers.prize_no')
+        ->where('lotteries.user_id', $userId) // Add this line to filter by the authenticated user's ID
+        ->whereDate('twod_winers.created_at', '>=', $oneMonthAgo)
+        ->groupBy(
+            'lotteries.user_id', 
+            'users.name',
+            'users.profile',
+            'users.phone',
+            'lottery_two_digit_pivot.sub_amount', 
+            'lottery_two_digit_pivot.prize_sent',
+            'lotteries.total_amount', 
+            'twod_winers.prize_no', 
+            'twod_winers.created_at'
+        )
+        ->select(
+            'lotteries.user_id', 
+            'users.name',
+            'users.profile',
+            'users.phone',
+            'lottery_two_digit_pivot.sub_amount',
+            'lottery_two_digit_pivot.prize_sent',
+            'lotteries.total_amount',
+            'twod_winers.prize_no', 
+            'twod_winers.created_at', 
+            DB::raw('lottery_two_digit_pivot.sub_amount * 85 as prize_amount')
+        )
+        ->orderBy('prize_amount', 'desc')
+        ->get();
+
+    // Update the prize_sent date for each winner
+    foreach ($tow_d_winners as $winner) {
+        $this->TwoDupdatePrizeSentDate($winner->user_id); // Make sure user_id is the ID of the winner
+    }return response()->json([
+            'success' => true,
+            'message' => 'Data fetched successfully',
+            'tow_d_winners' => $tow_d_winners,
+            
+        ], 200);
+    }catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'An error occurred while fetching data: ' . $e->getMessage(),
+        ], 500);
+    }
+
+    }
+
+    public function TwoDupdatePrizeSentDate($winnerId)
+    {
+        // Find the lottery_two_digit_pivot record
+        $lotteryTwoDigitPivot = DB::table('lottery_two_digit_pivot')->where('lottery_id', $winnerId)->first();
+
+        // Check if the record exists
+        if (!$lotteryTwoDigitPivot) {
+            return redirect()->back()->with('error', 'Record not found!');
+        }
+
+        // Update the prize_sent field to true
+        DB::table('lottery_two_digit_pivot')
+            ->where('lottery_id', $winnerId)
+            ->update(['prize_sent' => true]);
+
+        return redirect()->back()->with('success', 'Prize sent date updated successfully!');
+    }
+
 
 
 
