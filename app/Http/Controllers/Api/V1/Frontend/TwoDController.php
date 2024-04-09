@@ -111,7 +111,7 @@ class TwoDController extends Controller
         } elseif (is_array($result)) {
             // Process exceeding limit message
             $digitStrings = collect($result)->map(function ($r) {
-                return TwoDigit::find($r)->two_digit ?? 'Unknown';
+                return TwoDigit::find($r)->two_digit + 1 ?? 'Unknown';
             })->implode(",");
             
             $message = "{$digitStrings} ဂဏန်းမှာ သတ်မှတ် Limit ထက်ကျော်လွန်နေပါသည်။";
