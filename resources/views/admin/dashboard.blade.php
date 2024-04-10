@@ -297,24 +297,19 @@
             <div class="col-lg-6 col-md-6 col-sm-6 mb-5">
               <div class="card  mb-2 p-3">
                  <div class="d-flex mt-n2">
-                            <div class="avatar avatar-xl bg-{{ $lottery_matches->is_active ? 'success' : 'danger' }} border-radius-xl p-2 mt-n4">
-                              <i class="fas fa-door-{{ $lottery_matches->is_active ? 'open' : 'closed' }} fa-2x"></i>
+                            <div class="avatar avatar-xl bg-{{ $three_d_lottery_matches->is_active ? 'success' : 'danger' }} border-radius-xl p-2 mt-n4">
+                              <i class="fas fa-door-{{ $three_d_lottery_matches->is_active ? 'open' : 'closed' }} fa-2x"></i>
                             </div>
                             <div class="ms-3 my-auto">
                                 <h6 class="mb-0">3D Open / Close
-                                  <span>
-                                    <p>
-                                      {{ $three_d_lottery_matches->id }}
-                                    </p>
-                                  </span>
                                 </h6>
                                 <div class="avatar-group mt-2">
                                   
                                         <form action="{{ route('admin.OpenCloseThreeD' , $three_d_lottery_matches->id) }}" method="post">
                                             @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="is_active" value="{{ $three_d_lottery_matches->id }}">
-                                            <div class="form-check form-switch ps-0">
+                                            
+                                            {{-- <input type="hidden" name="is_active" value="{{ $three_d_lottery_matches->id }}"> --}}
+                                            {{-- <div class="form-check form-switch ps-0">
                                               <div class="d-flex">
                                                 <input class="form-check-input ms-auto d-block" type="checkbox"
                                                     id="flexSwitchCheckDefault" name="flexSwitchCheckDefault"
@@ -322,15 +317,18 @@
                                                 <label class="form-check-label text-body ms-3 d-block text-truncate w-80 mb-0"
                                                     for="flexSwitchCheckDefault">Close For 3D </label>
                                               </div>
-                                            </div>
-                                            <button class="btn btn-primary mt-2" type="submit">Open / Close</button>
+                                            </div> --}}
+                                            
+                                              <button class="btn mt-2" type="submit">
+                                                <i class="fas fa-toggle-{{ $three_d_lottery_matches->is_active ? 'on' : 'off' }} fa-2x text-{{ $three_d_lottery_matches->is_active ? 'success' : 'danger' }}"></i>
+                                              </button>
                                         </form>
                                 </div>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
                         <div class="card-footer p-3">
-                          <p class="mb-0"><span class="text-success text-sm font-weight-bolder">ပွဲချိန်ပြီး တခုပြီးတိုင်း  </span>၁၅ မိနစ်အတွင်း လုပ်ပေးရပါမည်။</p>
+                          <p class="mb-0"><span class="text-success text-sm font-weight-bolder">3D အဖွင့်အပိတ်ကို ဤနေရာတွင် လုပ်ဆောင်ရန်</p>
                         </div>
                     </div>
             </div>
@@ -342,13 +340,13 @@
                               <i class="fas fa-door-{{ $lottery_matches->is_active ? 'open' : 'closed' }} fa-2x"></i>
                             </div>
                             <div class="ms-3 my-auto">
-                                <h6 class="mb-0">Morning Session</h6>
+                                <h6 class="mb-0">2D Open / Close</h6>
                                 <div class="avatar-group mt-2">
                                         <form action="{{ route('admin.OpenCloseTwoD' , $lottery_matches->id) }}" method="post">
                                             @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="is_active" value="{{ $lottery_matches->id }}">
-                                            <div class="form-check form-switch ps-0">
+                                            {{-- @method('PUT') --}}
+                                            {{-- <input type="hidden" name="is_active" value="{{ $lottery_matches->id }}"> --}}
+                                            {{-- <div class="form-check form-switch ps-0">
                                               <div class="d-flex">
                                                 <input class="form-check-input ms-auto d-block" type="checkbox"
                                                     id="flexSwitchCheckDefault" name="flexSwitchCheckDefault"
@@ -356,15 +354,17 @@
                                                 <label class="form-check-label text-body ms-3 d-block text-truncate w-80 mb-0"
                                                     for="flexSwitchCheckDefault">Close For 2D Session</label>
                                               </div>
-                                            </div>
-                                            <button class="btn btn-primary mt-2" type="submit">Open / Close</button>
+                                            </div> --}}
+                                            <button class="btn mt-2" type="submit">
+                                              <i class="fas fa-toggle-{{ $lottery_matches->is_active ? 'on' : 'off' }} fa-2x text-{{ $lottery_matches->is_active ? 'success' : 'danger' }}"></i>
+                                            </button>
                                         </form>
                                 </div>
                             </div>
                         </div>
                 <hr class="horizontal my-0 dark">
                 <div class="card-footer p-3">
-                  <p class="mb-0 "><span class="text-success text-sm font-weight-bolder">2D Session </span>အဖွင့်အပိတ်ကို ဤနေရာမှ လုပ်ပေးရပါမည်။</p>
+                  <p class="mb-0 "><span class="text-success text-sm font-weight-bolder">2D အဖွင့်အပိတ်ကို ဤနေရာတွင်လုပ်ဆောင်ရန်</p>
                 </div>
               </div>
             </div>

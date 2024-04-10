@@ -143,9 +143,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/get-two-d-session-reset', [App\Http\Controllers\Admin\SessionResetControlller::class, 'index'])->name('SessionResetIndex');
     Route::post('/two-d-session-reset', [App\Http\Controllers\Admin\SessionResetControlller::class, 'SessionReset'])->name('SessionReset');
     Route::get('/close-two-d', [App\Http\Controllers\Admin\CloseTwodController::class, 'index'])->name('CloseTwoD');
-    Route::put('/update-open-close-two-d', [App\Http\Controllers\Admin\CloseTwodController::class, 'update'])->name('OpenCloseTwoD');
-    Route::put('/update-open-close-three-d', [App\Http\Controllers\Admin\ThreeD\ThreeDOpenCloseController::class, 'update'])->name('OpenCloseThreeD');
-    Route::put('/update-open-close-three-d', [App\Http\Controllers\Admin\CloseTwodController::class, 'update'])->name('OpenCloseThreeD');
+
+    Route::post('/update-open-close-two-d/{id}', [App\Http\Controllers\Admin\CloseTwodController::class, 'closeTwoD'])->name('OpenCloseTwoD');
+    Route::post('/update-open-close-three-d/{id}', [App\Http\Controllers\Admin\ThreeD\ThreeDOpenCloseController::class, 'closeThreeD'])->name('OpenCloseThreeD');
+
     Route::resource('twod-records', TwoDLotteryController::class);
     Route::resource('tow-d-win-number', TwoDWinnerController::class);
     Route::resource('tow-d-morning-number', TwoDMorningController::class);
@@ -215,7 +216,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/get-two-d-session-reset', [App\Http\Controllers\Admin\SessionResetControlller::class, 'index'])->name('SessionResetIndex');
     Route::post('/two-d-session-reset', [App\Http\Controllers\Admin\SessionResetControlller::class, 'SessionReset'])->name('SessionReset');
     Route::get('/close-two-d', [App\Http\Controllers\Admin\CloseTwodController::class, 'index'])->name('CloseTwoD');
-    Route::put('/update-open-close-two-d', [App\Http\Controllers\Admin\CloseTwodController::class, 'update'])->name('OpenCloseTwoD');
+
     Route::resource('twod-records', TwoDLotteryController::class);
     Route::resource('tow-d-win-number', TwoDWinnerController::class);
     Route::resource('tow-d-morning-number', TwoDMorningController::class);
