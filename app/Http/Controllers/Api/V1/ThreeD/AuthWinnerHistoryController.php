@@ -133,7 +133,8 @@ class AuthWinnerHistoryController extends Controller
     //     )
     //     ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
     //     ->get();
-    $prize_winners = DB::table('lotto_three_digit_copy')
+        
+        $prize_winners = DB::table('lotto_three_digit_copy')
     ->join('three_digits', 'lotto_three_digit_copy.three_digit_id', '=', 'three_digits.id')
     ->join('lottos', 'lotto_three_digit_copy.lotto_id', '=', 'lottos.id')
     ->join('users', 'lottos.user_id', '=', 'users.id')
@@ -153,7 +154,8 @@ class AuthWinnerHistoryController extends Controller
         'lottos.total_amount', 
         'prizes.prize_one', 
         'prizes.prize_two', 
-        'prizes.created_at',  
+        'prizes.created_at',
+        'three_digits.three_digit' // Add this line to include three_digits.three_digit in the GROUP BY clause
     )
     ->select(
         'lottos.user_id', 
