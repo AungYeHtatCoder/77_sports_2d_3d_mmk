@@ -24,7 +24,7 @@ class ThreedPlayRequest extends FormRequest
             return [
                 'totalAmount' => 'required|numeric|min:1',
                 'amounts' => 'required|array',
-                'amounts.*.num' => 'required|string',
+                'amounts.*.num' => 'required|integer',
                 'amounts.*.amount' => 'required|integer|min:1',
             ];
         }
