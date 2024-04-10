@@ -96,43 +96,81 @@ class AuthWinnerHistoryController extends Controller
 
     // greaters winners
     $oneMAgo = Carbon::now()->subMonths(5);
+    // $prize_winners = DB::table('lotto_three_digit_copy')
+    //     ->join('three_digits', 'lotto_three_digit_copy.three_digit_id', '=', 'three_digits.id')
+    //     ->join('lottos', 'lotto_three_digit_copy.lotto_id', '=', 'lottos.id')
+    //     ->join('users', 'lottos.user_id', '=', 'users.id')
+    //     ->where('lottos.user_id', $userId)
+    //     ->join('prizes', function($join) {
+    //         $join->on('three_digits.three_digit', '=', 'prizes.prize_one')
+    //              ->orOn('three_digits.three_digit', '=', 'prizes.prize_two');
+    //     })
+    //     ->whereDate('prizes.created_at', '>=', $oneMAgo)
+    //     ->groupBy(
+    //         'lottos.user_id', 
+    //         'users.name',
+    //         'users.profile',
+    //         'users.phone',
+    //         'lotto_three_digit_copy.sub_amount', 
+    //         'lotto_three_digit_copy.prize_sent',
+    //         'lottos.total_amount', 
+    //         'prizes.prize_one', 
+    //         'prizes.prize_two', 
+    //         'prizes.created_at',  
+    //     )
+    //     ->select(
+    //         'lottos.user_id', 
+    //         'users.name',
+    //         'users.profile',
+    //         'users.phone',
+    //         'lotto_three_digit_copy.sub_amount',
+    //         'lotto_three_digit_copy.prize_sent',
+    //         'lottos.total_amount',
+    //         'prizes.prize_one', 
+    //         'prizes.prize_two', 
+    //         'prizes.created_at', 
+    //         DB::raw('lotto_three_digit_copy.sub_amount * 10 as prize_amount')
+    //     )
+    //     ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
+    //     ->get();
     $prize_winners = DB::table('lotto_three_digit_copy')
-        ->join('three_digits', 'lotto_three_digit_copy.three_digit_id', '=', 'three_digits.id')
-        ->join('lottos', 'lotto_three_digit_copy.lotto_id', '=', 'lottos.id')
-        ->join('users', 'lottos.user_id', '=', 'users.id')
-        ->where('lottos.user_id', $userId)
-        ->join('prizes', function($join) {
-            $join->on('three_digits.three_digit', '=', 'prizes.prize_one')
-                 ->orOn('three_digits.three_digit', '=', 'prizes.prize_two');
-        })
-        ->whereDate('prizes.created_at', '>=', $oneMAgo)
-        ->groupBy(
-            'lottos.user_id', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lotto_three_digit_copy.sub_amount', 
-            'lotto_three_digit_copy.prize_sent',
-            'lottos.total_amount', 
-            'prizes.prize_one', 
-            'prizes.prize_two', 
-            'prizes.created_at',  
-        )
-        ->select(
-            'lottos.user_id', 
-            'users.name',
-            'users.profile',
-            'users.phone',
-            'lotto_three_digit_copy.sub_amount',
-            'lotto_three_digit_copy.prize_sent',
-            'lottos.total_amount',
-            'prizes.prize_one', 
-            'prizes.prize_two', 
-            'prizes.created_at', 
-            DB::raw('lotto_three_digit_copy.sub_amount * 10 as prize_amount')
-        )
-        ->orderBy('prize_amount', 'desc') // Add this line to sort by prize_amount in descending order
-        ->get();
+    ->join('three_digits', 'lotto_three_digit_copy.three_digit_id', '=', 'three_digits.id')
+    ->join('lottos', 'lotto_three_digit_copy.lotto_id', '=', 'lottos.id')
+    ->join('users', 'lottos.user_id', '=', 'users.id')
+    ->leftJoin('prizes', function($join) {
+        $join->on('three_digits.three_digit', '=', 'prizes.prize_one')
+             ->orOn('three_digits.three_digit', '=', 'prizes.prize_two');
+    })
+    ->where('lottos.user_id', $userId)
+    ->whereDate('prizes.created_at', '>=', $oneMAgo)
+    ->groupBy(
+        'lottos.user_id', 
+        'users.name',
+        'users.profile',
+        'users.phone',
+        'lotto_three_digit_copy.sub_amount', 
+        'lotto_three_digit_copy.prize_sent',
+        'lottos.total_amount', 
+        'prizes.prize_one', 
+        'prizes.prize_two', 
+        'prizes.created_at',  
+    )
+    ->select(
+        'lottos.user_id', 
+        'users.name',
+        'users.profile',
+        'users.phone',
+        'lotto_three_digit_copy.sub_amount',
+        'lotto_three_digit_copy.prize_sent',
+        'lottos.total_amount',
+        DB::raw('IF(three_digits.three_digit = prizes.prize_one, prizes.prize_one, null) as prize_one'),
+        DB::raw('IF(three_digits.three_digit = prizes.prize_two, prizes.prize_two, null) as prize_two'),
+        'prizes.created_at', 
+        DB::raw('lotto_three_digit_copy.sub_amount * 10 as prize_amount')
+    )
+    ->orderBy('prize_amount', 'desc') 
+    ->get();
+
 
     // Update the prize_sent date for each winner
     foreach ($prize_winners as $winner) {
