@@ -13,11 +13,6 @@ use App\Http\Controllers\Api\V1\Frontend\WalletController;
 use App\Http\Controllers\Api\V1\Frontend\PromotionController;
 use App\Http\Controllers\Api\Jackpot\JackpotOneWeekGetDataController;
 use App\Http\Controllers\Api\V1\Frontend\TwoDRemainingAmountController;
-
-
-
-
-
 //publish routes
 Route::get('/login', [AuthController::class, 'loginData']);
 Route::post('/login', [AuthController::class, 'login']);

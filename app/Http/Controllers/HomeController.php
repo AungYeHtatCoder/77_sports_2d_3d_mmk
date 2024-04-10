@@ -81,6 +81,7 @@ class HomeController extends Controller
 
 
             $lottery_matches = LotteryMatch::where('id', 1)->whereNotNull('is_active')->first();
+            $three_d_lottery_matches = LotteryMatch::where('id', 2)->whereNotNull('is_active')->first();
             // Return the totals, you can adjust this part as per your needs
             return view('admin.dashboard', [
                 'dailyTotal'   => $dailyTotal,
@@ -96,6 +97,7 @@ class HomeController extends Controller
                 'jackpot_monthlyTotal' => $jackpot_monthlyTotal,
                 'jackpot_yearlyTotal'  => $jackpot_yearlyTotal,
                 'lottery_matches' => $lottery_matches,
+                'three_d_lottery_matches' => $three_d_lottery_matches
             ]);
         } else {
             $userId = auth()->id(); // Get logged in user's ID

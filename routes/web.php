@@ -144,6 +144,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::post('/two-d-session-reset', [App\Http\Controllers\Admin\SessionResetControlller::class, 'SessionReset'])->name('SessionReset');
     Route::get('/close-two-d', [App\Http\Controllers\Admin\CloseTwodController::class, 'index'])->name('CloseTwoD');
     Route::put('/update-open-close-two-d', [App\Http\Controllers\Admin\CloseTwodController::class, 'update'])->name('OpenCloseTwoD');
+    Route::put('/update-open-close-three-d', [App\Http\Controllers\Admin\ThreeD\ThreeDOpenCloseController::class, 'update'])->name('OpenCloseThreeD');
+    Route::put('/update-open-close-three-d', [App\Http\Controllers\Admin\CloseTwodController::class, 'update'])->name('OpenCloseThreeD');
     Route::resource('twod-records', TwoDLotteryController::class);
     Route::resource('tow-d-win-number', TwoDWinnerController::class);
     Route::resource('tow-d-morning-number', TwoDMorningController::class);
