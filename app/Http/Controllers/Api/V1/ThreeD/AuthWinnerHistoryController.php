@@ -43,7 +43,7 @@ class AuthWinnerHistoryController extends Controller
             'lottos.total_amount',
             'three_winners.prize_no', 
             'three_winners.created_at', 
-            DB::raw('lotto_three_digit_pivot.sub_amount * 700 as prize_amount')
+            DB::raw('lotto_three_digit_pivot.sub_amount * 600 as prize_amount')
         )
         ->orderBy('prize_amount', 'desc')
         ->get();
