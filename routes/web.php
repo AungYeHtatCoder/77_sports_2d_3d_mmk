@@ -264,7 +264,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     
     Route::post('/two-d-session-over-amount-limit-reset', [App\Http\Controllers\Admin\SessionResetControlller::class, 'OverAmountLimitSessionReset'])->name('OverAmountLimitSessionReset');
         // three d reset
-        Route::post('/three-d-reset', [App\Http\Controllers\Admin\ThreeD\ThreeDResetController::class, 'ThreeDReset'])->name('ThreeDReset');
+    Route::post('/three-d-reset', [App\Http\Controllers\Admin\ThreeD\ThreeDResetController::class, 'ThreeDReset'])->name('ThreeDReset');
+
+    Route::post('/permutation-reset', [App\Http\Controllers\Admin\ThreeD\PermutationResetController::class, 'PermutationReset'])->name('PermutationReset');
 
     // jack pot
     Route::get('/once-week-jackpot-list', [App\Http\Controllers\Admin\Jackpot\JackpotController::class, 'index'])->name('displayjackpot');

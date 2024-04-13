@@ -183,8 +183,10 @@
                 <div class="d-lg-flex mt-2">
                     <div class="ms-auto my-auto mt-lg-0">
                         <div class="ms-auto my-auto">
-                            {{-- <a href="#" class="btn bg-gradient-primary btn-sm mb-0">+&nbsp; Create New</a> --}}
-                            <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" data-type="csv" type="button" name="button">Export</button>
+                        <form action="{{ route('admin.PermutationReset') }}" method="POST">
+                            @csrf
+                            <button class="btn btn-outline-primary btn-sm export mb-0 mt-sm-0 mt-1" type="submit" name="button">All Delete</button>
+                        </form>
                         </div>
                     </div>
                 </div>
