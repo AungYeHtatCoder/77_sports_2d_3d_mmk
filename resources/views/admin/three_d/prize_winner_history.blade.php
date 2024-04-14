@@ -21,18 +21,8 @@
                 <div class="card-header pb-0">
                     <div class="d-lg-flex">
                         <div>
-                            <h5 class="mb-0">3D သွပ်ရရှိသူများသူများစာရင်း
-                                <span>
-                                    {{-- <button type="button" class="btn btn-primary mt-2 ms-2">
-                                        @if ($prize_no_morning)
-                                            <span>{{ $prize_no->created_at->format('d-m-Y (l) (h:i a)') }}</span>
-                                            <span class="badge badge-warning"
-                                                style="font-size: 15px; color:white">{{ $prize_no->prize_no }}</span>
-                                        @else
-                                            <span>No Prize Number Yet</span>
-                                        @endif
-                                    </button> --}}
-                                </span>
+                            <h5 class="mb-0">3D သွပ်ရရှိသူများစာရင်း
+                                
                             </h5>
 
                         </div>
@@ -63,38 +53,27 @@
       {{ $index + 1 }}
      </td>
      <td>
-      @if($winner->profile)
-      <img src="{{ $winner->profile }}" width="50px" height="50px" style="border-radius: 50%" alt="" />
+      @if($winner->user->profile)
+     <img src="{{ asset('assets/img/profile/' . $winner->user->profile) }}" width="50px" height="50px" style="border-radius: 50%" alt="" />
       @else
       <i class="fa-regular fa-circle-user" style="font-size: 50px;"></i>
       @endif
      </td>
-     <td><span style="font-size: 10px">{{ $winner->name }}</span>
+     <td><span style="font-size: 10px">{{ $winner->user_name }}</span>
       <p style="font-size: 10px">{{ $winner->phone }}</p>
      </td>
      {{-- <td><span>Session</span>
             <p>{{ ucfirst($winner->session) }}</p>
      </td> --}}
      <td><span>ပေါက်ဂဏန်း</span>
-      <p class="text-primary">{{ $winner->prize_one }}</p>
+      <p class="text-primary">{{ $winner->bet_digit }}</p>
      </td>
-     
      <td><span>ထိုးငွေ</span>
       <p>{{ $winner->sub_amount }}</p>
      </td>
      <td><span>ထီပေါက်ငွေ</span>
       <p class="text-primary">{{ $winner->prize_amount }}</p>
      </td>
-     <td><span>ပေါက်ဂဏန်း</span>
-      <p class="text-primary">{{ $winner->prize_two }}</p>
-     </td>
-      <td><span>ထိုးငွေ</span>
-      <p>{{ $winner->sub_amount }}</p>
-     </td>
-     <td><span>ထီပေါက်ငွေ</span>
-      <p class="text-primary">{{ $winner->prize_amount }}</p>
-     </td>
-     
     
      <td>
       <span>ရက်စွဲ</span>
@@ -103,8 +82,8 @@
        {{ \Carbon\Carbon::parse($winner->created_at)->format('d-m-Y (l) (h:i a)') }}
       </p>
      </td>
-     {{-- <td>
-        @if($winner->prize_sent == 1)
+     <td>
+        @if($winner->status == 3)
             <span>
                 <p class="text-primary">
                     လျော်ပြီး
@@ -118,7 +97,7 @@
             </span> 
         @endif
 
-     </td> --}}
+     </td>
     </tr>
     @php 
     $totalPrizeAmount += $winner->prize_amount;

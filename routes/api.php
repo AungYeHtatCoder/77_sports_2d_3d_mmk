@@ -77,5 +77,16 @@ Route::group(["middleware" => ['auth:sanctum']], function(){
     Route::get('/auth-winner-history', [App\Http\Controllers\Api\V1\ThreeD\AuthWinnerHistoryController::class, 'getWinnersHistoryForAuthUserOnly'])->name('authWinnerHistory');
     // auth two digit winner history
     Route::get('/auth-two-d-winner-history', [App\Http\Controllers\Api\V1\ThreeD\AuthWinnerHistoryController::class, 'TwoDigitWinnerHistory'])->name('authTwoDigitWinnerHistory');
+
+    // auth first prize winner 
+    Route::get('/auth-td-first-win-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'firstPrizeWinnerForApk'])->name('TdfirstPrizeWinner');
+    //second 
+    Route::get('/auth-td-second-win-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'secondPrizeWinnerForApk'])->name('TdsecondPrizeWinner');
+    Route::get('/auth-td-third-win-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'thirdPrizeWinnerForApk'])->name('TdthirdPrizeWinner');
     
 });
+
+    // first prize winner 
+    Route::get('/threed-first-winner-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'firstPrizeWinner'])->name('ThreedfirstPrizeWinner');
+    Route::get('/threed-second-winner-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'secondPrizeWinner'])->name('secondthreedPrizeWinner');
+     Route::get('/threed-third-winner-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'thirdPrizeWinner'])->name('thirdthreedPrizeWinner');

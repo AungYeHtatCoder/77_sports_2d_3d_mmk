@@ -63,20 +63,20 @@
       {{ $index + 1 }}
      </td>
      <td>
-      @if($winner->profile)
-      <img src="{{ $winner->profile }}" width="50px" height="50px" style="border-radius: 50%" alt="" />
+      @if($winner->user->profile)
+     <img src="{{ asset('assets/img/profile/' . $winner->user->profile) }}" width="50px" height="50px" style="border-radius: 50%" alt="" />
       @else
       <i class="fa-regular fa-circle-user" style="font-size: 50px;"></i>
       @endif
      </td>
-     <td><span style="font-size: 10px">{{ $winner->name }}</span>
+     <td><span style="font-size: 10px">{{ $winner->user_name }}</span>
       <p style="font-size: 10px">{{ $winner->phone }}</p>
      </td>
      {{-- <td><span>Session</span>
             <p>{{ ucfirst($winner->session) }}</p>
      </td> --}}
      <td><span>ပေါက်ဂဏန်း</span>
-      <p class="text-primary">{{ $winner->prize_no }}</p>
+      <p class="text-primary">{{ $winner->bet_digit }}</p>
      </td>
      <td><span>ထိုးငွေ</span>
       <p>{{ $winner->sub_amount }}</p>
@@ -92,8 +92,8 @@
        {{ \Carbon\Carbon::parse($winner->created_at)->format('d-m-Y (l) (h:i a)') }}
       </p>
      </td>
-     {{-- <td>
-        @if($winner->prize_sent == 1)
+     <td>
+        @if($winner->status == 1)
             <span>
                 <p class="text-primary">
                     လျော်ပြီး
@@ -107,7 +107,7 @@
             </span> 
         @endif
 
-     </td> --}}
+     </td>
     </tr>
     @php 
     $totalPrizeAmount += $winner->prize_amount;

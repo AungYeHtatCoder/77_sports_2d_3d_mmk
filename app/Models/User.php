@@ -18,6 +18,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin\LotteryTwoDigit;
 use Illuminate\Notifications\Notifiable;
+use App\Models\ThreeDigit\FirstPrizeWinner;
+use App\Models\ThreeDigit\ThirdPrizeWinner;
+use App\Models\ThreeDigit\SecondPrizeWinner;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -115,10 +118,19 @@ class User extends Authenticatable
         return $this->belongsToMany(Permission::class);
     }
 
-    // public function event()
-    // {
-    //     return $this->hasOne(Event::class);
-    // }
+     public function firstPrizeWinners()
+    {
+        return $this->hasMany(FirstPrizeWinner::class);
+    }
+    public function secondPrizeWinners()
+    {
+        return $this->hasMany(SecondPrizeWinner::class);
+    }
+
+    public function thirdPrizeWinners()
+    {
+        return $this->hasMany(ThirdPrizeWinner::class);
+    }
 
 
     public function hasRole($role)
