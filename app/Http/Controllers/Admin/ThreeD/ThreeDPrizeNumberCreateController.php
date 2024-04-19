@@ -91,8 +91,9 @@ class ThreeDPrizeNumberCreateController extends Controller
         )
         ->get();
         $prizes = FirstPrizeWinner::orderBy('id', 'desc')->get();
+        $totalPrizeAmount = FirstPrizeWinner::sum('prize_amount');
         
-    return view('admin.three_d.first_prize_winner', compact('winners', 'prizes'));
+    return view('admin.three_d.first_prize_winner', compact('winners', 'prizes', 'totalPrizeAmount'));
 }
 
     public function getSecondPrizeWinnersWithUserInfo()
@@ -116,8 +117,9 @@ class ThreeDPrizeNumberCreateController extends Controller
         )
         ->get();
         $prizes = SecondPrizeWinner::orderBy('id', 'desc')->get();
+        $totalPrizeAmount = SecondPrizeWinner::sum('prize_amount');
         
-    return view('admin.three_d.second_prize_winner', compact('winners', 'prizes'));
+    return view('admin.three_d.second_prize_winner', compact('winners', 'prizes', 'totalPrizeAmount'));
 }
 
     public function getThirdPrizeWinnersWithUserInfo()
@@ -141,8 +143,9 @@ class ThreeDPrizeNumberCreateController extends Controller
         )
         ->get();
         $prizes = ThirdPrizeWinner::orderBy('id', 'desc')->get();
+        $totalPrizeAmount = ThirdPrizeWinner::sum('prize_amount');
         
-    return view('admin.three_d.third_prize_winner', compact('winners', 'prizes'));
+    return view('admin.three_d.third_prize_winner', compact('winners', 'prizes', 'totalPrizeAmount'));
 }
 
     public function storeFirstPrizeWinners(Request $request)

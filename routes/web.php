@@ -42,6 +42,7 @@ use App\Http\Controllers\Admin\ThreeD\ThreeDCloseController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDLegarController;
 use App\Http\Controllers\Admin\TwoD\CloseTwoDigitController;
 use App\Http\Controllers\Admin\TwoD\HeadDigitCloseController;
+use App\Http\Controllers\Admin\TwoD\TwoDWinnersPrizeController;
 use App\Http\Controllers\Admin\ThreeD\ThreeDPrizeNumberCreateController;
 
 Auth::routes();
@@ -76,6 +77,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
     Route::get('/third-prize', [ThreeDPrizeNumberCreateController::class, 'getThirdPrizeWinnersWithUserInfo'])->name('GetThirdPrizeWinner');
     Route::post('/third-prize-store', [ThreeDPrizeNumberCreateController::class, 'storeThirdPrizeWinners'])->name('PostThirdPrizeWinners');
     Route::post('/update-third-prize', [ThreeDPrizeNumberCreateController::class, 'updateThirdPrizeWinners'])->name('updateThirdwinners');
+
+    // two d morning 
+    Route::get('/morning-prize', [TwoDWinnersPrizeController::class, 'getMorningPrizeWinnersWithUserInfo'])->name('TwoDMorningPrize');
+    Route::post('/morning-prize-store', [TwoDWinnersPrizeController::class, 'storeMorningPrizeWinners'])->name('PostMorningPrizeWinners');
+    Route::post('/update-morning-prize', [TwoDWinnersPrizeController::class, 'updateMorningPrizeWinners'])->name('updateMorningwinners');
+
+    // two d evening 
+    Route::get('/evening-prize', [TwoDWinnersPrizeController::class, 'getEveningPrizeWinnersWithUserInfo'])->name('TwoDEveningPrize');
+    Route::post('/evening-prize-store', [TwoDWinnersPrizeController::class, 'storeEveningPrizeWinners'])->name('PostEveningPrizeWinners');
+    Route::post('/update-evening-prize', [TwoDWinnersPrizeController::class, 'updateEveningPrizeWinners'])->name('updateEveningwinners');
+
+
     //Banners
     Route::resource('banners', BannerController::class);
     Route::resource('text', BannerTextController::class);
@@ -320,8 +333,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'App\Http\Co
         // three d permutation winner prize
         Route::get('/prize-winners', [App\Http\Controllers\Admin\ThreeD\ThreeDWinnerController::class, 'ThirdPrizeWinner'])->name('getPrizeWinnersHistory'); 
         // two d winner history
-     Route::get('/admin-two-d-winners-history', [App\Http\Controllers\Admin\TwoDWinnerHistoryController::class, 'getWinnersHistoryForAdmin'])->name('winnerHistoryForAdmin');
-    Route::get('/admin-two-d-winners-history-group-by-session', [App\Http\Controllers\Admin\TwoDWinnerHistoryController::class, 'getWinnersHistoryForAdminGroupBySession'])->name('winnerHistoryForAdminSession');
+        Route::get('/admin-two-d-winners-history', [App\Http\Controllers\Admin\TwoDWinnerHistoryController::class, 'getWinnersHistoryForAdmin'])->name('winnerHistoryForAdmin');
+        Route::get('/admin-two-d-winners-history-group-by-session', [App\Http\Controllers\Admin\TwoDWinnerHistoryController::class, 'getWinnersHistoryForAdminGroupBySession'])->name('winnerHistoryForAdminSession');
 
     // two d commission route
     Route::get('/two-d-commission', [App\Http\Controllers\Admin\Commission\TwoDCommissionController::class, 'getTwoDTotalAmountPerUser'])->name('two-d-commission'); 

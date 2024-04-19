@@ -181,6 +181,11 @@
                     </tbody>
                 </table>
             </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="text-center">Total Prize Amount {{ $totalPrizeAmount }}</h5>
+                </div>
+            </div>
         </div>
 
         

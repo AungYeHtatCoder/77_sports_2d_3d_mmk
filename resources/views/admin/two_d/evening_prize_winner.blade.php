@@ -65,22 +65,22 @@
             <!-- Card header -->
             <div class="card-header pb-0">
                 <div>
-                    <h5 class="mb-0">3D ဒဲ့ပေါက်သူများ
+                    <h5 class="mb-0">2D ညနေပိုင်း ပေါက်သူများ
                     
                     </h5>
                 </div>
                 <div class="card-header pb-0">
-                 <form action="{{ route('admin.PostFirstPrizeWinners') }}" method="POST">
+                 <form action="{{ route('admin.PostMorningPrizeWinners') }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-primary">3D ဒဲ့ပေါက်သူများသိမ်းရန်</button>
+                        <button type="submit" class="btn btn-primary">2D ညနေပိုင်း ပေါက်သူများသိမ်းရန်</button>
                     </form>
                 </div>
                 <div class="d-lg-flex mt-2">
                     <div class="ms-auto my-auto mt-lg-0">
                         <div class="ms-auto my-auto">
-                        <form action="{{ route('admin.updateFirstwinners') }}" method="POST">
+                        <form action="{{ route('admin.updateMorningwinners') }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-primary">3D Winner Update</button>
+                        <button type="submit" class="btn btn-primary">2D Winner Update</button>
                     </form>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                             </td>
                             <td>{{ $winner->bet_digit }}</td>
                             <td>{{ $winner->sub_amount }}</td>
-                            <td>{{ $winner->sub_amount * 600 }}</td>
+                            <td>{{ $winner->sub_amount * 85 }}</td>
                             <td>
                             @if($winner->prize_sent == 1)
                                 <span class="badge badge-primary">Winner</span>
@@ -136,7 +136,7 @@
 
         <div class="card mt-2">
          <div class="card-header">
-          <h5>3D First Prize Winner History</h5>
+          <h5>2D ညနေပိုင်း ပေါက်သူများ</h5>
          </div>
           <div class="table-responsive">
                 <table class="table table-flush" id="twod-search">

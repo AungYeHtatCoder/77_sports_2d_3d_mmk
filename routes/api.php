@@ -83,6 +83,9 @@ Route::group(["middleware" => ['auth:sanctum']], function(){
     //second 
     Route::get('/auth-td-second-win-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'secondPrizeWinnerForApk'])->name('TdsecondPrizeWinner');
     Route::get('/auth-td-third-win-history', [App\Http\Controllers\Api\V1\ThreeD\WinnerHistoryController::class, 'thirdPrizeWinnerForApk'])->name('TdthirdPrizeWinner');
+    // twod morning prize winner history confirm 
+     Route::get('/morning-two-win-history', [App\Http\Controllers\Api\V1\TwoD\TwoDPrizeController::class, 'MorningPrizeWinnerForApk'])->name('TwoMorningPrizeWinner');
+     Route::get('/evening-two-win-history', [App\Http\Controllers\Api\V1\TwoD\TwoDPrizeController::class, 'EveningPrizeWinnerForApk'])->name('TwoEveningPrizeWinner');
     
 });
 
